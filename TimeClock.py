@@ -13,7 +13,6 @@ root.focus_force()
 screenWidth = root.winfo_screenwidth()
 screenHeight = root.winfo_screenheight()
 
-
 def setWidth(percent):
     return((screenWidth / 100) * percent)
 
@@ -25,6 +24,7 @@ tLabel = TimeLabel(root , height = setHeight(45) , width = setWidth(50))
 mainLog = Tk.Frame(root , height = setHeight(90) , width = setWidth(50))
 scanLabel = MyLabel(root , height = setHeight(45) , width = setWidth(50))
 
+#configure Widgets
 scanLabel.label.config(text = 'Please Scan Card')
 
 # place Widgets
@@ -41,9 +41,9 @@ scanLabel.label.bind('<2>' , lambda x : adminWin())
 
 #########garbage########
 #employee.newEmployee('Frank The Tank')
-x = employee(1)
+#x = employee(1)
 #for x in dbi('SELECT overtime FROM employees WHERE id = 1;').fetchall():
-print(datetime.timedelta(0,x.overtime))
+#print(datetime.timedelta(0,x.overtime))
 
 
 # Bring up Clock in Screen
@@ -64,16 +64,15 @@ def clockInWin(id) :
     todayHours = HoursLabel(t , width = setWidth(50), height = setHeight(10))
     overTitle = MyLabel(t, width = setWidth(50) , height = setHeight(10))
     overHours = OverHoursLabel(t, width = setWidth(50), height = setHeight(10))
-    placeHolder1 = OverHoursLabel(t, width = setWidth(50), height = setHeight(10))
-    placeHolder2 = OverHoursLabel(t, width = setWidth(50), height = setHeight(10))
-
+    placeHolder1 = MyLabel(t, width = setWidth(50), height = setHeight(10))
+    placeHolder2 = MyLabel(t, width = setWidth(50), height = setHeight(10))
 
     clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(10))
-    clockOutButton = ClockOutButton(t  , width = setWidth(50) , height = setHeight(10))
-    tenMinOutButton = Tk.Button(t , text = 'Take 10 Minute Break' , width = 40, command = lambda: confirmWin('Take A 10' , emp.startTen))
-    tenMinInButton = Tk.Button(t , text = 'Return From 10 Minute Break' , width = 40, command = lambda: confirmWin('Return From 10' , emp.endTen))
-    lunchOutButton = Tk.Button(t , text = 'Take Lunch Break' , width = 40, command = lambda: confirmWin('Leave For Lunch' , emp.startLunch))
-    lunchInButton = Tk.Button(t , text = 'Return From Lunch Break' , width = 40, command = lambda: confirmWin('Return From Lunch' , emp.endLunch))
+    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(10))
+    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(10))
+    tenMinInButton = EndTenButton(t , width = setWidth(50), height = setHeight(10))
+    lunchOutButton = TakeLunchButton(t , width = setWidth(50), height = setHeight(10))
+    lunchInButton = EndLunchButton(t , width = setWidth(50), height = setHeight(10))
     sendMessageButton = Tk.Button(t , text = 'Send Message To Management' , width = 40 , command = sendMessageWin)
     backButton = Tk.Button(t , text = 'Done' , command = t.destroy , width = 40)
 
@@ -96,6 +95,19 @@ def clockInWin(id) :
     clockOutButton.label.configure(text = 'Clock Out')
     clockOutButton.emp = emp
     clockOutButton.tick()
+    tenMinOutButton.label.configure(text = 'Take 10 Minute Break')
+    tenMinOutButton.emp = emp
+    tenMinOutButton.tick()
+    tenMinInButton.label.configure(text = 'Return From 10 Minute Break')
+    tenMinInButton.emp = emp
+    tenMinInButton.tick()
+    lunchOutButton.label.configure(text = 'Take Lunch Break')
+    lunchOutButton.emp = emp
+    lunchOutButton.tick()
+    lunchInButton.label.configure(text = 'Return Lunch Break')
+    lunchInButton.emp = emp
+    lunchInButton.tick()
+
 
 
 
@@ -109,7 +121,7 @@ def clockInWin(id) :
     overTitle.grid(column = 0 , row = 5)
     overHours.grid(column = 0 , row = 6)
     placeHolder1.grid(column = 0 , row = 7)
-    placeHolder2.grid(column = 0 , row = 8)
+    sendMessageButton.grid(column = 0 , row = 8)
 
     clockInButton.grid(column = 1 , row = 1)
     clockOutButton.grid(column = 1 , row = 2)
@@ -117,7 +129,7 @@ def clockInWin(id) :
     tenMinInButton.grid(column = 1 , row = 4)
     lunchOutButton.grid(column = 1 , row = 5)
     lunchInButton.grid(column = 1 , row = 6)
-    sendMessageButton.grid(column = 1 , row = 7)
+    placeHolder2.grid(column = 0 , row = 7)
     backButton.grid(column = 1 , row = 8)
 
     # bind widgets

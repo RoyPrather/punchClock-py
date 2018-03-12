@@ -48,11 +48,12 @@ class employee:
     def clockIn(self):
         if not self.clockedIn:
             self.lastTime = datetime.datetime.now()
-            self.hours = 0
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
             self.updateDB()
+            if datetime.datetime.now().day != self.lastTime.day:
+                self.hours = 0
 
     def startTen(self):
         if (not self.onTen) and self.clockedIn and (not self.onLunch):
@@ -102,7 +103,5 @@ class employee:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
                 self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
-
             self.clockedIn = 0
-            self.hours = 0
             self.updateDB()
