@@ -2,7 +2,6 @@ from Database import *
 from Gui import *
 
 
-
 # create main window
 root = Tk.Tk()
 root.attributes('-fullscreen' , True)
@@ -16,8 +15,10 @@ screenHeight = root.winfo_screenheight()
 def setWidth(percent):
     return((screenWidth / 100) * percent)
 
+
 def setHeight(percent):
     return((screenHeight / 100) * percent)
+
 
 # create widgets
 tLabel = TimeLabel(root , height = setHeight(45) , width = setWidth(50))
@@ -25,14 +26,13 @@ mainLog = Tk.Frame(root , height = setHeight(90) , width = setWidth(50))
 scanLabel = MyLabel(root , height = setHeight(45) , width = setWidth(50))
 
 #configure Widgets
-scanLabel.label.config(text = 'Please Scan Card')
+scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
+tLabel.label.configure(font = 'verdana 30 bold')
 
 # place Widgets
 tLabel.grid(column = 1 , row = 0)
 mainLog.grid(column = 0 , row = 0, rowspan = 2)
 scanLabel.grid(column = 1 , row = 1)
-scanLabel.label.configure(bg="red")
-
 
 # bind widgets
 
@@ -40,8 +40,11 @@ scanLabel.label.bind('<1>' , lambda x : clockInWin(1))
 scanLabel.label.bind('<2>' , lambda x : adminWin())
 
 #########garbage########
-#employee.newEmployee('Frank The Tank')
-#x = employee(1)
+#
+try:
+    x = employee(1)
+except:
+    employee.newEmployee('Frank The Tank')
 #for x in dbi('SELECT overtime FROM employees WHERE id = 1;').fetchall():
 #print(datetime.timedelta(0,x.overtime))
 
@@ -73,8 +76,8 @@ def clockInWin(id) :
     tenMinInButton = EndTenButton(t , width = setWidth(50), height = setHeight(10))
     lunchOutButton = TakeLunchButton(t , width = setWidth(50), height = setHeight(10))
     lunchInButton = EndLunchButton(t , width = setWidth(50), height = setHeight(10))
-    sendMessageButton = Tk.Button(t , text = 'Send Message To Management' , width = 40 , command = sendMessageWin)
-    backButton = Tk.Button(t , text = 'Done' , command = t.destroy , width = 40)
+    sendMessageButton = BlueButton(t , width = setWidth(50) , height = setHeight(10))
+    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(10))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
@@ -107,7 +110,8 @@ def clockInWin(id) :
     lunchInButton.label.configure(text = 'Return Lunch Break')
     lunchInButton.emp = emp
     lunchInButton.tick()
-
+    sendMessageButton.label.configure(text = 'Message Management')
+    backButton.label.configure(text = 'Done')
 
 
 
@@ -124,15 +128,17 @@ def clockInWin(id) :
     sendMessageButton.grid(column = 0 , row = 8)
 
     clockInButton.grid(column = 1 , row = 1)
-    clockOutButton.grid(column = 1 , row = 2)
-    tenMinOutButton.grid(column = 1 , row = 3)
-    tenMinInButton.grid(column = 1 , row = 4)
-    lunchOutButton.grid(column = 1 , row = 5)
-    lunchInButton.grid(column = 1 , row = 6)
-    placeHolder2.grid(column = 0 , row = 7)
+    tenMinOutButton.grid(column = 1 , row = 2)
+    tenMinInButton.grid(column = 1 , row = 3)
+    lunchOutButton.grid(column = 1 , row = 4)
+    lunchInButton.grid(column = 1 , row = 5)
+    clockOutButton.grid(column = 1 , row = 6)
+    placeHolder2.grid(column = 1 , row = 7)
     backButton.grid(column = 1 , row = 8)
 
     # bind widgets
+    sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 # Bring up  admin screen
 def adminWin() :
@@ -141,23 +147,36 @@ def adminWin() :
     t.attributes('-fullscreen' , True)
     t.lift()
     # create widgets
-    veiwMessageButton = Tk.Button(t , text = 'Veiw Messages' , width = 80 , command = readMessageWin)
-    veiwLogButton = Tk.Button(t , text = 'Veiw/Edit Hours' , width = 80 , command = showLog)
-    newEmployeeButton = Tk.Button(t , text = 'Create a New Employee Card' , width = 80 , command = newEmployeeWin)
-    createReportButton = Tk.Button(t , text = 'Create a Roport for the Current Period' , width = 80 , command = reportWin)
-    newAdminButton = Tk.Button(t , text = 'Create New Admin Card' , width = 80 , command = programingWin)
-    backButton = Tk.Button(t , text = 'Done' , command = t.destroy , width = 80)
+    viewMessageButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
+    viewLogButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
+    newEmployeeButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
+    createReportButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
+    newAdminButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
+    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
+    
+    #configure Widgets
+    viewMessageButton.label.configure(text = 'View Messages')
+    viewLogButton.label.configure(text = 'View Employee Hours')
+    newEmployeeButton.label.configure(text = 'Create New Employee')
+    createReportButton.label.configure(text = 'End Pay Period')
+    newAdminButton.label.configure(text = 'Create New Admin Card')
+    backButton.label.configure(text ='Back')
 
     # place widgets in window
-    veiwMessageButton.grid()
-    veiwLogButton.grid()
-    newEmployeeButton.grid()
-    createReportButton.grid()
-    newAdminButton.grid()
-    backButton.grid()
+    viewMessageButton.grid(column = 0 , row = 0)
+    viewLogButton.grid(column = 0 , row = 1)
+    newEmployeeButton.grid(column = 0 , row = 2)
+    createReportButton.grid(column = 1 , row = 0)
+    newAdminButton.grid(column = 1 , row = 1)
+    backButton.grid(column = 1 , row = 2)
 
     # bind widgets
-
+    viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
+    viewLogButton.label.bind('<1>' , lambda x: showLog())
+    newEmployeeButton.label.bind('<1>' , lambda x: newEmployeeWin())
+    createReportButton.label.bind('<1>' , lambda x: reportWin())
+    newAdminButton.label.bind('<1>' , lambda x: programingWin())
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 # Bring up new employee screen
 def newEmployeeWin() :
@@ -187,7 +206,7 @@ def newEmployeeWin() :
 def programingWin() :
     # create window
     t = Tk.Toplevel(root)
-    t.configure("-fullscreen",)
+    t.attributes('-fullscreen' , True)
     t.lift()
 
     # create widgets
@@ -253,8 +272,8 @@ def readMessageWin() :
     # bind widgets
 
 
-# Bring up Message board to veiw messages
-def sendMessageWin() :
+# Bring up Message board to view messages
+def sendMessageWin(name) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
