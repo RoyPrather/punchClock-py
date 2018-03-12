@@ -81,7 +81,7 @@ def clockInWin(id) :
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
-    hoursTitle.label.config(text = 'Total Numbers Of Hours This Period')
+    hoursTitle.label.config(text = 'Total Hours This Period')
     hoursTotal.label.config(text = datetime.timedelta(0 , emp.totalHours))
     hoursTotal.emp = emp
     hoursTotal.tick()
