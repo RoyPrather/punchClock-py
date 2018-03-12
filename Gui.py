@@ -3,7 +3,7 @@ import time
 import datetime
 
 # style args
-font = 'verdana 20 bold'
+font = 'verdana 15 bold'
 
 
 # custom widgets
