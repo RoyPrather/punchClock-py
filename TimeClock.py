@@ -21,9 +21,10 @@ def setHeight(percent):
 
 
 # create widgets
-tLabel = TimeLabel(root , height = setHeight(45) , width = setWidth(50))
-mainLog = Tk.Frame(root , height = setHeight(90) , width = setWidth(50))
-scanLabel = MyLabel(root , height = setHeight(45) , width = setWidth(50))
+closeButton = BlueButton(root, height = setHeight(5) , width = setWidth(50))
+tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
+mainLog = Tk.Frame(root , height = setHeight(95) , width = setWidth(50))
+scanLabel = MyLabel(root , height = setHeight(50) , width = setWidth(50))
 
 #configure Widgets
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
@@ -33,6 +34,7 @@ tLabel.label.configure(font = 'verdana 30 bold')
 tLabel.grid(column = 1 , row = 0)
 mainLog.grid(column = 0 , row = 0, rowspan = 2)
 scanLabel.grid(column = 1 , row = 1)
+closeButton.grid(column = 0 , row = 3)
 
 # bind widgets
 
@@ -60,24 +62,24 @@ def clockInWin(id) :
     emp = employee(id)
 
     # create widgets
-    nameLabel = MyLabel(t ,  width = setWidth(50) , height = setHeight(10))
-    hoursTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
-    hoursTotal = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(10))
-    todayTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
-    todayHours = HoursLabel(t , width = setWidth(50), height = setHeight(10))
-    overTitle = MyLabel(t, width = setWidth(50) , height = setHeight(10))
-    overHours = OverHoursLabel(t, width = setWidth(50), height = setHeight(10))
-    placeHolder1 = MyLabel(t, width = setWidth(50), height = setHeight(10))
-    placeHolder2 = MyLabel(t, width = setWidth(50), height = setHeight(10))
+    nameLabel = MyLabel(t ,  width = setWidth(50) , height = setHeight(18))
+    hoursTitle = MyLabel(t , width = setWidth(50) , height = setHeight(12))
+    hoursTotal = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(12))
+    todayTitle = MyLabel(t , width = setWidth(50) , height = setHeight(12))
+    todayHours = HoursLabel(t , width = setWidth(50), height = setHeight(12))
+    overTitle = MyLabel(t, width = setWidth(50) , height = setHeight(12))
+    overHours = OverHoursLabel(t, width = setWidth(50), height = setHeight(12))
+    placeHolder1 = MyLabel(t, width = setWidth(50), height = setHeight(12))
+    placeHolder2 = MyLabel(t, width = setWidth(50), height = setHeight(12))
 
-    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(10))
-    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(10))
-    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(10))
-    tenMinInButton = EndTenButton(t , width = setWidth(50), height = setHeight(10))
-    lunchOutButton = TakeLunchButton(t , width = setWidth(50), height = setHeight(10))
-    lunchInButton = EndLunchButton(t , width = setWidth(50), height = setHeight(10))
-    sendMessageButton = BlueButton(t , width = setWidth(50) , height = setHeight(10))
-    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(10))
+    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(12))
+    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(12))
+    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(12))
+    tenMinInButton = EndTenButton(t , width = setWidth(50), height = setHeight(12))
+    lunchOutButton = TakeLunchButton(t , width = setWidth(50), height = setHeight(12))
+    lunchInButton = EndLunchButton(t , width = setWidth(50), height = setHeight(12))
+    sendMessageButton = BlueButton(t , width = setWidth(50) , height = setHeight(12))
+    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(12))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
