@@ -19,27 +19,6 @@ def setHeight(percent):
     return((screenHeight / 100) * percent)
 
 
-# create widgets
-tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
-mainLog = Tk.Frame(root , height = setHeight(95) , width = setWidth(50))
-scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
-closeButton = BlueButton(root, height = setHeight(15) , width = setWidth(25))
-
-#configure Widgets
-scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
-scanLabel.function = clockInWin
-scanLabel.tick()
-tLabel.label.configure(font = 'verdana 30 bold')
-closeButton.label.configure(text = 'Close Program')
-
-# place Widgets
-tLabel.grid(column = 1 , row = 0)
-mainLog.grid(column = 0 , row = 0, rowspan = 2)
-scanLabel.grid(column = 1 , row = 1)
-closeButton.grid(column = 0 , row = 3)
-
-# bind widgets
-closeButton.label.bind('<1>' , lambda x : root.destroy())
 
 #########garbage########
 Reader = MFRC522.MFRC522()
@@ -70,7 +49,6 @@ except:
 #for x in dbi('SELECT overtime FROM employees WHERE id = 1;').fetchall():
 #print(datetime.timedelta(0,x.overtime))
 # print(datetime.datetime.now())
-
 
 # Bring up Clock in Screen
 def clockInWin(id) :
@@ -162,6 +140,7 @@ def clockInWin(id) :
     # bind widgets
     sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
     backButton.label.bind('<1>' , lambda x: t.destroy())
+
 
 # Bring up  admin screen
 def adminWin() :
@@ -386,6 +365,34 @@ def alertWin(text):
     #place widgets in window
     titleLabel.grid()
     backButton.grid()
+
+
+##################################
+######## Root Window design #####
+#################################
+
+# create widgets
+tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
+mainLog = Tk.Frame(root , height = setHeight(95) , width = setWidth(50))
+scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
+closeButton = BlueButton(root, height = setHeight(15) , width = setWidth(25))
+
+#configure Widgets
+scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
+scanLabel.function = clockInWin
+scanLabel.adminfunc = adminWin
+scanLabel.tick()
+tLabel.label.configure(font = 'verdana 30 bold')
+closeButton.label.configure(text = 'Close Program')
+
+# place Widgets
+tLabel.grid(column = 1 , row = 0)
+mainLog.grid(column = 0 , row = 0, rowspan = 2)
+scanLabel.grid(column = 1 , row = 1)
+closeButton.grid(column = 0 , row = 3)
+
+# bind widgets
+closeButton.label.bind('<1>' , lambda x : root.destroy())
 
 
 # start program

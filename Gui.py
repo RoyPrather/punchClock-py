@@ -26,6 +26,7 @@ class ScanLabel(MyLabel) :
         self.cardRead = 0
         self.reader = MFRC522.MFRC522()
         self.function = None
+        self.adminfunc = None
 
     def tick(self) :
         # Scan for cards
@@ -38,13 +39,20 @@ class ScanLabel(MyLabel) :
             # If we have the UID, continue
             if status == self.reader.MI_OK :
                 self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
-                self.label.config(text = "Card Read")
-                self.label.bind('<1>' , lambda x: self.function(self.uid))
-                GPIO.cleanup()
-                self.after(5000, self.tick)
+                try:
+                    emp = employee(self.uid)
+                    if emp.name == 'admin':
+                        self.label.config(text = "Admin Card Read" , bg = 'green')
+                        self.label.bind('<1>' , lambda x : self.adminfunc())
+                        self.after(5000 , self.tick)
+                    else:
+                        self.label.config(text = emp.name , bg = 'green')
+                        self.label.bind('<1>' , lambda x: self.function(self.uid))
+                        self.after(5000, self.tick)
         else:
             self.after(300 , self.tick)
-            self.unbind('<1>')
+            self.label.unbind('<1>')
+            self.label.configure(text = 'Please Scan Card' , bg = 'red')
 
 
 class TimeLabel(MyLabel) :
