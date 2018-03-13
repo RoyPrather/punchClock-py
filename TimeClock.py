@@ -20,26 +20,8 @@ def setHeight(percent):
 
 
 
-#########garbage########
-Reader = MFRC522.MFRC522()
-def createAdmin():
-    # Scan for cards
-    (status , TagType) = Reader.MFRC522_Request(Reader.PICC_REQIDL)
-    # If a card is found
-    if status == Reader.MI_OK :
-        # Get the UID of the card
-        (status , uid) = Reader.MFRC522_Anticoll()
-        # If we have the UID, continue
-        if status == Reader.MI_OK :
-            uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
-            employee.newEmployee('admin' , uid)
-            GPIO.cleanup()
-        else:
-            createAdmin()
-            time.sleep(1)
-    else:
-        createAdmin()
-        time.sleep(1)
+
+
 
 temp = temp = dbi('SELECT id FROM employees WHERE name = "admin"')
 try:

@@ -27,6 +27,29 @@ class ScanLabel(MyLabel) :
         self.reader = MFRC522.MFRC522()
         self.function = None
         self.adminfunc = None
+        self.createAdmin()
+
+    def createAdmin() :
+        temp = dbi('SELECT id FROM employees WHERE name = "admin"')
+        try :
+            temp.fetchall()[0][0]
+        except :
+            # Scan for cards
+            (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+            # If a card is found
+            if status == self.reader.MI_OK :
+                # Get the UID of the card
+                (status , uid) = self.reader.MFRC522_Anticoll()
+                # If we have the UID, continue
+                if status == self.reader.MI_OK :
+                    uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
+                    employee.newEmployee('admin' , uid)
+                else :
+                    createAdmin()
+                    time.sleep(1)
+            else :
+                createAdmin()
+                time.sleep(1)
 
     def tick(self) :
         # Scan for cards
