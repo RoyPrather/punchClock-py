@@ -47,10 +47,12 @@ closeButton.label.bind('<1>' , lambda x : root.destroy())
 #
 try:
     x = employee(1)
+    #print(x.lastTime.day)
 except:
     employee.newEmployee('Frank The Tank')
 #for x in dbi('SELECT overtime FROM employees WHERE id = 1;').fetchall():
 #print(datetime.timedelta(0,x.overtime))
+# print(datetime.datetime.now())
 
 
 # Bring up Clock in Screen

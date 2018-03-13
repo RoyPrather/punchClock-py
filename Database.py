@@ -47,13 +47,14 @@ class employee:
 
     def clockIn(self):
         if not self.clockedIn:
+            if datetime.datetime.now().day != self.lastTime.day:
+                self.hours = 0
             self.lastTime = datetime.datetime.now()
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
             self.updateDB()
-            if datetime.datetime.now().day != self.lastTime.day:
-                self.hours = 0
+
 
     def startTen(self):
         if (not self.onTen) and self.clockedIn and (not self.onLunch):
