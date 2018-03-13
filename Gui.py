@@ -42,7 +42,7 @@ class ScanLabel(MyLabel) :
             if status == self.reader.MI_OK :
                 self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
                 self.label.config(text = "Card Read")
-                self.label.bind('<1>' , lambda x: clockinWin(self.uid))
+                self.label.bind('<1>' , lambda x: clockInWin(self.uid))
                 GPIO.cleanup()
                 self.after(10000, self.tick)
         else:
