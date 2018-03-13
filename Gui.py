@@ -44,6 +44,7 @@ class ScanLabel(MyLabel) :
                 if status == self.reader.MI_OK :
                     uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
                     employee.newEmployee('admin' , uid)
+                    GPIO.cleanup()
                 else :
                     self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
                     createAdmin()
@@ -68,13 +69,16 @@ class ScanLabel(MyLabel) :
                     emp = employee(self.uid)
                     if emp.name == 'admin':
                         self.label.config(text = "Admin Card Read" , bg = 'green')
+                        GPIO.cleanup()
                         self.label.bind('<1>' , lambda x : self.adminfunc())
                         self.after(5000 , self.tick)
                     else:
                         self.label.config(text = emp.name , bg = 'green')
+                        GPIO.cleanup()
                         self.label.bind('<1>' , lambda x: self.function(self.uid))
                         self.after(5000, self.tick)
                 except:
+                    GPIO.cleanup()
                     self.tick()
         else:
             self.after(300 , self.tick)
