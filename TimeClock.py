@@ -27,6 +27,8 @@ closeButton = BlueButton(root, height = setHeight(15) , width = setWidth(25))
 
 #configure Widgets
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
+scanLabel.function = clockInWin
+scanLabel.tick()
 tLabel.label.configure(font = 'verdana 30 bold')
 closeButton.label.configure(text = 'Close Program')
 
