@@ -1,4 +1,3 @@
-from Database import *
 from Gui import *
 
 
@@ -44,12 +43,29 @@ scanLabel.label.bind('<2>' , lambda x : adminWin())
 closeButton.label.bind('<1>' , lambda x : root.destroy())
 
 #########garbage########
-#
+temp = temp = dbi('SELECT id FROM employees WHERE name = "admin"')
+def createAdmin():
+    # Scan for cards
+    (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+    # If a card is found
+    if status == self.reader.MI_OK :
+        # Get the UID of the card
+        (status , uid) = self.reader.MFRC522_Anticoll()
+        # If we have the UID, continue
+        if status == self.reader.MI_OK :
+            uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
+            employee.newEmployee('admin' , uid)
+            GPIO.cleanup()
+        else:
+            createAdmin()
+            time.sleep(1)
+    else:
+        createAdmin()
+        time.sleep(1)
 try:
-    x = employee(1)
-    #print(x.lastTime.day)
+    print(temp.fetchall()[0][0])
 except:
-    employee.newEmployee('Frank The Tank')
+    createAdmin()
 #for x in dbi('SELECT overtime FROM employees WHERE id = 1;').fetchall():
 #print(datetime.timedelta(0,x.overtime))
 # print(datetime.datetime.now())
@@ -192,41 +208,52 @@ def newEmployeeWin() :
     t.lift()
 
     # create widgets
-    titleLabel = Tk.Label(t , text = 'Enter New Employee Name' , width = 80)
-    name = ""
-    nameEntry = Tk.Entry(t , textvariable = name , width = 80)
-    submitButton = Tk.Button(t , text = 'Program Card' , width = 80 , command = programingWin)
-    backButton = Tk.Button(t , text = 'Cancel' , command = t.destroy , width = 80)
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(25))
+    nameEntry = Tk.Entry(t , width = 80)
+    submitButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
+    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
 
+    #configure widgets
+    submitButton.label.configure( text = 'Create Employee')
+    titleLabel.label.configure(text = 'Enter New Employee Name')
+    backButton.label.configure(text = 'Cancel')
 
     # place widgets in window
-    titleLabel.grid()
-    nameEntry.grid()
+    titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
+    nameEntry.grid(row = 1 , column = 0 , columnspan = 2)
     nameEntry.focus()
-    submitButton.grid()
-    backButton.grid()
+    submitButton.grid(row = 2 , column = 1)
+    backButton.grid(row = 2 , column = 0)
+
     # bind widgets
+    submitButton.label.bind('<1>' , lambda x: programingWin(nameEntry.get()))
 
 
 # Bring up new admin screen
-def programingWin() :
+def programingWin(name) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
 
     # create widgets
-    dLabel = Tk.Label(t , text = 'Please wait until Programing is Completed' , width = 80)
-    kButton = Tk.Button(t , text = 'Complete' , state = 'disabled' , width = 80)
-    backButton = Tk.Button(t , text = 'Cancel' , command = t.destroy , width = 80)
+    dLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
+    kButton = ProgramingButton(t , width = setWidth(50) , height = setHeight(25))
+    backButton = BlueButton(t , width = setWidth(50) , height = setWidth(25))
+
+    #configure widgets
+    dLabel.label.configure(text = 'Programing Card')
+    kButton.name = name
+    kButton.tick()
+    backButton.label.configure(text = 'Cancel')
 
     # place widgets in window
-    dLabel.grid()
-    kButton.grid()
-    backButton.grid()
+    dLabel.grid(row = 0 , column = 0)
+    kButton.grid(row = 1 , column = 1)
+    backButton.grid(row = 1 , column = 0)
 
     # bind widgets
-
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 # Bring up hours report
 def reportWin() :

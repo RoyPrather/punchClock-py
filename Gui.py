@@ -1,6 +1,11 @@
 import Tkinter as Tk
 import time
-import datetime
+import RPi.GPIO as GPIO
+import MFRC522
+from Database import *
+
+
+
 
 # style args
 font = 'verdana 15 bold'
@@ -15,6 +20,34 @@ class MyLabel(Tk.Frame) :
         self.label = Tk.Label(self , borderwidth = 4 , font = font)
         self.pack_propagate(0)
         self.label.pack(fill = 'both' , expand = 1)
+
+
+class ScanLabel(MyLabel) :
+
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.uid = None
+        self.cardRead = 0
+        self.reader = MFRC522.MFRC522()
+        self.tick()
+
+    def tick(self) :
+        # Scan for cards
+        (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+            # If a card is found
+        if status == self.reader.MI_OK :
+            # Get the UID of the card
+            (status , uid) = self.reader.MFRC522_Anticoll()
+            # If we have the UID, continue
+            if status == self.reader.MI_OK :
+                self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
+                self.label.config(text = "Card Read")
+                self.label.bind('<1>' , lambda x: clockinWin(self.uid))
+                GPIO.cleanup()
+                self.after(10000, self.tick)
+        else:
+            self.after(300 , self.tick)
+            self.unbind('<1>')
 
 
 class TimeLabel(MyLabel) :
@@ -207,3 +240,33 @@ class BlueButton(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.label.configure(bg = 'blue' , relief = "groove")
+
+class ProgramingButton(MyLabel):
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.name = None
+        self.uid = None
+        self.reader = MFRC522.MFRC522()
+
+    def tick(self) :
+        # Scan for cards
+        (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+        # If a card is found
+        if status == self.reader.MI_OK :
+            # Get the UID of the card
+            (status , uid) = self.reader.MFRC522_Anticoll()
+            # If we have the UID, continue
+            if status == self.reader.MI_OK :
+                self.uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
+                employee.newEmployee(self.name , self.uid)
+                GPIO.cleanup()
+                self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
+                self.label.bind('<1>' , lambda x : t.destroy)
+            else:
+                self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
+                self.label.unbind('<1>')
+                self.after(300 , self.tick)
+        else:
+            self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
+            self.label.unbind('<1>')
+            self.after(300 , self.tick)
