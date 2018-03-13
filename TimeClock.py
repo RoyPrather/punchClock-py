@@ -43,16 +43,16 @@ scanLabel.label.bind('<2>' , lambda x : adminWin())
 closeButton.label.bind('<1>' , lambda x : root.destroy())
 
 #########garbage########
-temp = temp = dbi('SELECT id FROM employees WHERE name = "admin"')
+Reader = MFRC522.MFRC522()
 def createAdmin():
     # Scan for cards
-    (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+    (status , TagType) = Reader.MFRC522_Request(Reader.PICC_REQIDL)
     # If a card is found
-    if status == self.reader.MI_OK :
+    if status == Reader.MI_OK :
         # Get the UID of the card
-        (status , uid) = self.reader.MFRC522_Anticoll()
+        (status , uid) = Reader.MFRC522_Anticoll()
         # If we have the UID, continue
-        if status == self.reader.MI_OK :
+        if status == Reader.MI_OK :
             uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
             employee.newEmployee('admin' , uid)
             GPIO.cleanup()
@@ -62,6 +62,8 @@ def createAdmin():
     else:
         createAdmin()
         time.sleep(1)
+
+temp = temp = dbi('SELECT id FROM employees WHERE name = "admin"')
 try:
     print(temp.fetchall()[0][0])
 except:
