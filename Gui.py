@@ -4,13 +4,8 @@ import RPi.GPIO as GPIO
 import MFRC522
 from Database import *
 
-
-#bug fix
-def clockInWin(temp):
-    temp2 = None
 # style args
 font = 'verdana 15 bold'
-
 
 # custom widgets
 
