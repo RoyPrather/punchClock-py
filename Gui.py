@@ -5,8 +5,9 @@ import MFRC522
 from Database import *
 
 
-
-
+#bug fix
+def clockInWin(temp):
+    temp2 = None
 # style args
 font = 'verdana 15 bold'
 
@@ -33,6 +34,7 @@ class ScanLabel(MyLabel) :
 
     def tick(self) :
         # Scan for cards
+        status = None
         (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
             # If a card is found
         if status == self.reader.MI_OK :
@@ -44,7 +46,7 @@ class ScanLabel(MyLabel) :
                 self.label.config(text = "Card Read")
                 self.label.bind('<1>' , lambda x: clockInWin(self.uid))
                 GPIO.cleanup()
-                self.after(10000, self.tick)
+                self.after(5000, self.tick)
         else:
             self.after(300 , self.tick)
             self.unbind('<1>')
