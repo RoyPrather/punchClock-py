@@ -49,6 +49,8 @@ class ScanLabel(MyLabel) :
                         self.label.config(text = emp.name , bg = 'green')
                         self.label.bind('<1>' , lambda x: self.function(self.uid))
                         self.after(5000, self.tick)
+                except:
+                    self.tick()
         else:
             self.after(300 , self.tick)
             self.label.unbind('<1>')
