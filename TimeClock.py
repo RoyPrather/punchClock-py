@@ -22,7 +22,7 @@ def setHeight(percent):
 # create widgets
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
 mainLog = Tk.Frame(root , height = setHeight(95) , width = setWidth(50))
-scanLabel = MyLabel(root , height = setHeight(50) , width = setWidth(50))
+scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
 closeButton = BlueButton(root, height = setHeight(15) , width = setWidth(25))
 
 #configure Widgets
@@ -37,9 +37,6 @@ scanLabel.grid(column = 1 , row = 1)
 closeButton.grid(column = 0 , row = 3)
 
 # bind widgets
-
-scanLabel.label.bind('<1>' , lambda x : clockInWin(1))
-scanLabel.label.bind('<2>' , lambda x : adminWin())
 closeButton.label.bind('<1>' , lambda x : root.destroy())
 
 #########garbage########
@@ -199,7 +196,7 @@ def adminWin() :
     viewLogButton.label.bind('<1>' , lambda x: showLog())
     newEmployeeButton.label.bind('<1>' , lambda x: newEmployeeWin())
     createReportButton.label.bind('<1>' , lambda x: reportWin())
-    newAdminButton.label.bind('<1>' , lambda x: programingWin())
+    newAdminButton.label.bind('<1>' , lambda x: programingWin('admin'))
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 # Bring up new employee screen
@@ -228,7 +225,8 @@ def newEmployeeWin() :
     backButton.grid(row = 2 , column = 0)
 
     # bind widgets
-    submitButton.label.bind('<1>' , lambda x: programingWin(nameEntry.get()))
+    submitButton.label.bind('<1>' , lambda x: (programingWin(nameEntry.get()), t.destroy()))
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 # Bring up new admin screen
@@ -250,7 +248,7 @@ def programingWin(name) :
     backButton.label.configure(text = 'Cancel')
 
     # place widgets in window
-    dLabel.grid(row = 0 , column = 0)
+    dLabel.grid(row = 0 , column = 0,  columnspan = 2)
     kButton.grid(row = 1 , column = 1)
     backButton.grid(row = 1 , column = 0)
 
