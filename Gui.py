@@ -29,7 +29,7 @@ class ScanLabel(MyLabel) :
         self.adminfunc = None
         self.createAdmin()
 
-    def createAdmin() :
+    def createAdmin(self) :
         temp = dbi('SELECT id FROM employees WHERE name = "admin"')
         try :
             temp.fetchall()[0][0]
@@ -45,9 +45,11 @@ class ScanLabel(MyLabel) :
                     uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
                     employee.newEmployee('admin' , uid)
                 else :
+                    self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
                     createAdmin()
                     time.sleep(1)
             else :
+                self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
                 createAdmin()
                 time.sleep(1)
 
