@@ -34,7 +34,7 @@ class log:
     @classmethod
     def getDay(cls , month , day , uid):
         temp = dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
-        print(temp.fetchall()[0]['name'])
+        print(temp.fetchall()[0][1])
 
 
     @classmethod
