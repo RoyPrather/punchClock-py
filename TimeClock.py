@@ -1,5 +1,4 @@
 from Gui import *
-#this is a test
 
 # create main window
 root = Tk.Tk()
