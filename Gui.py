@@ -63,26 +63,24 @@ class ScanLabel(MyLabel) :
         (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
             # If a card is found
         if status == self.reader.MI_OK :
-            print(TagType)
             # Get the UID of the card
             (status , uid) = self.reader.MFRC522_Anticoll()
             # If we have the UID, continue
             if status == self.reader.MI_OK :
-                print(uid)
                 self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
-                try:
-                    emp = employee(self.uid)
-                    print(emp.neme)
-                    if emp.name == 'admin':
-                        self.label.config(text = "Admin Card Read" , bg = 'green')
-                        self.label.bind('<1>' , lambda x : self.adminfunc())
-                        self.after(5000 , self.tick)
-                    else:
-                        self.label.config(text = emp.name , bg = 'green')
-                        self.label.bind('<1>' , lambda x: self.function(self.uid))
-                        self.after(5000, self.tick)
-                except:
-                    self.tick()
+                #try:
+                emp = employee(self.uid)
+                print(emp.name)
+                if emp.name == 'admin':
+                    self.label.config(text = "Admin Card Read" , bg = 'green')
+                    self.label.bind('<1>' , lambda x : self.adminfunc())
+                    self.after(5000 , self.tick)
+                else:
+                    self.label.config(text = emp.name , bg = 'green')
+                    self.label.bind('<1>' , lambda x: self.function(self.uid))
+                    self.after(5000, self.tick)
+                #except:
+                 #   self.tick()
         else:
             self.after(300 , self.tick)
             self.label.unbind('<1>')
