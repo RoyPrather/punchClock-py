@@ -24,8 +24,8 @@ try:
 
 except:
     dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY ,'
-         'day smallint NOT NULL , hour smallint NOT NULL , minute smallint NOT NULL ,'
-         'second smallint NOT NULL , inout boolean NOT NULL , month smallint NOT NULL ,'
+         'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '
+         'minute smallint NOT NULL ,second smallint NOT NULL , inout boolean NOT NULL , '
          'action varchar NOT NULL , uid varchar NOT NULL DEFAULT 0);')
 
 
@@ -35,7 +35,7 @@ class log:
     def getDay(cls , month , day , uid):
         temp = dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
         print(temp.fetchall())
-        print(temp.fetchall()['name'])
+        print(temp.fetchall()[0]['name'])
 
 
     @classmethod
