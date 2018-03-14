@@ -298,7 +298,7 @@ class ProgramingButton(MyLabel):
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = 'Card alredy in Use')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!!!CLEAR OLD WORKER!!!')
-                    self.label.bind('<1>' , lambda x : emp.destroy())
+                    self.label.bind('<1>' , lambda x : (emp.destroy(), raise ValueError()))
 
                 except:
                     employee.newEmployee(self.name , self.uid)
