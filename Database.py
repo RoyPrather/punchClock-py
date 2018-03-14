@@ -38,9 +38,9 @@ class log:
 
     @classmethod
     def addEntry(self , action , inout , uid , dtime):
-        dbi('INSERT INTO log (month , day , hour , minute , second , inout , action , uid) values (' + dtime.month +
-            ' , ' + dtime.day + ' , ' + dtime.hour + ' , ' + dtime.minute + ' , ' + dtime.second + ' , ' + inout +
-            ' , "' + action + '" , "' + uid + '");')
+        dbi('INSERT INTO log (month , day , hour , minute , second , inout , action , uid) values (' + str(dtime.month) +
+            ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(inout) +
+            ' , "' + str(action) + '" , "' + str(uid) + '");')
         db.commit()
 
 
