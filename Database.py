@@ -82,6 +82,7 @@ class employee:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
             log.addEntry('Clocked In' , 1 , self.id , self.lastTime)
+            log.getDay(self.lastTime.month , self.lastTime.day , self.id)
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
