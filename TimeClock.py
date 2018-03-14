@@ -124,7 +124,7 @@ def adminWin() :
     createReportButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
     newAdminButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
     backButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    closeButton = BlueButton(root , height = setHeight(15) , width = setWidth(25))
+    closeButton = BlueButton(t , height = setHeight(15) , width = setWidth(25))
 
     #configure Widgets
     viewMessageButton.label.configure(text = 'View Messages')
