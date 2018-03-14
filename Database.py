@@ -31,13 +31,14 @@ except:
 
 #handles log table in database
 class log:
-    def getDay(self , month , day , uid):
+    @classmethod
+    def getDay(cls , month , day , uid):
         temp = dbi('SELECT * FROM log WHERE uid = "' + uid + '" AND day = ' + day + ' AND month = ' + month + ';')
         print(temp)
         print(temp['name'])
 
     @classmethod
-    def addEntry(self , action , inout , uid , dtime):
+    def addEntry(cls , action , inout , uid , dtime):
         dbi('INSERT INTO log (month , day , hour , minute , second , inout , action , uid) values (' + str(dtime.month) +
             ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(inout) +
             ' , "' + str(action) + '" , "' + str(uid) + '");')
