@@ -345,11 +345,13 @@ def alertWin(text):
 #################################
 
 # create widgets
+bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
-mainLog = Tk.Frame(root , height = setHeight(95) , width = setWidth(50))
+mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(50))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
 
 #configure Widgets
+bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
 scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
@@ -357,13 +359,12 @@ scanLabel.tick()
 tLabel.label.configure(font = 'verdana 30 bold')
 
 # place Widgets
-tLabel.grid(column = 1 , row = 0)
-mainLog.grid(column = 0 , row = 0, rowspan = 2)
-scanLabel.grid(column = 1 , row = 1)
+bName.grid(column = 0 , row = 0 , columnspan = 2)
+tLabel.grid(column = 1 , row = 1)
+mainLog.grid(column = 0 , row = 1, rowspan = 2)
+scanLabel.grid(column = 1 , row = 2)
 
 # bind widgets
-
-
 
 # start program
 root.mainloop()
