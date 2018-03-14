@@ -281,7 +281,7 @@ class ProgramingButton(MyLabel):
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.name = None
         self.uid = None
-        self.mLabel
+        self.mLabel = None
         self.reader = MFRC522.MFRC522()
 
     def tick(self) :
