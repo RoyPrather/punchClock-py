@@ -69,7 +69,6 @@ class ScanLabel(MyLabel) :
                 self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
                 try:
                     emp = employee(self.uid)
-                    print(emp.name)
                     if emp.name == 'admin':
                         self.label.config(text = "Admin Card Read" , bg = 'green')
                         self.label.bind('<1>' , lambda x : self.adminfunc())
