@@ -19,19 +19,6 @@ def setHeight(percent):
     return((screenHeight / 100) * percent)
 
 
-
-
-
-
-temp = temp = dbi('SELECT id FROM employees WHERE name = "admin"')
-try:
-    print(temp.fetchall()[0][0])
-except:
-    createAdmin()
-#for x in dbi('SELECT overtime FROM employees WHERE id = 1;').fetchall():
-#print(datetime.timedelta(0,x.overtime))
-# print(datetime.datetime.now())
-
 # Bring up Clock in Screen
 def clockInWin(id) :
     # create window
