@@ -106,3 +106,6 @@ class employee:
                 self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
             self.clockedIn = 0
             self.updateDB()
+
+    def destroy(self):
+        dbi('DELETE * FROM employees WHERE uid = "' + self.uid + ''")

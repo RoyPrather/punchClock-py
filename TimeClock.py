@@ -196,8 +196,9 @@ def programingWin(name) :
     backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
 
     #configure widgets
-    dLabel.label.configure(text = 'Programing Card')
+    dLabel.label.configure(text = 'Scan New Card')
     kButton.name = name
+    kButton.mLabel = dLabel
     kButton.tick()
     backButton.label.configure(text = 'Cancel')
 

@@ -281,6 +281,7 @@ class ProgramingButton(MyLabel):
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.name = None
         self.uid = None
+        self.mLabel
         self.reader = MFRC522.MFRC522()
 
     def tick(self) :
@@ -293,10 +294,17 @@ class ProgramingButton(MyLabel):
             # If we have the UID, continue
             if status == self.reader.MI_OK :
                 self.uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
-                employee.newEmployee(self.name , self.uid)
-                GPIO.cleanup()
-                self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
-                self.label.bind('<1>' , lambda x : self.master.destroy())
+                try:
+                    emp = employee(self.uid)
+                    self.mLabel.label.configure(text = 'Card alredy in Use')
+                    self.label.configure(bg = 'green' , relief = "groove" , text = '!!!CLEAR OLD WORKER!!!')
+                    self.label.bind('<1>' , lambda x : emp.destroy())
+
+                except:
+                    employee.newEmployee(self.name , self.uid)
+                    GPIO.cleanup()
+                    self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
+                    self.label.bind('<1>' , lambda x : self.master.destroy())
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
                 self.label.unbind('<1>')
