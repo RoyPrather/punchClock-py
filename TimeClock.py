@@ -210,6 +210,7 @@ def programingWin(name) :
     # bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
+
 # Bring up hours report
 def reportWin() :
     # create window
@@ -235,8 +236,7 @@ def reportWin() :
     overLabel.grid(column = 3 , row = 1)
     reportFrame.grid(column = 0 , row =2 , columnspan = 4)
     backButton.grid(column = 0 , row = 3 , columnspan = 4)
-
-    # bind widgets
+   # bind widgets
 
 
 # Bring up Messge sending window
@@ -250,8 +250,6 @@ def readMessageWin() :
     titleLabel = Tk.Label(t , text = 'Message Log' , width = 80)
     messageFrame = Tk.Frame(t , width = 800 , height = 100)
     backButton = Tk.Button(t , text = 'Back' , command = t.destroy , width = 80)
-
-
 
     # place widgets in window
     titleLabel.grid(row = 0)
@@ -273,13 +271,13 @@ def sendMessageWin(name) :
     sendButton = Tk.Button(t , text = 'Send', width = 80)
     backButton = Tk.Button(t , text = 'Cancel' , command = t.destroy, width = 80)
 
-
     # place widgets in window
     titleLabel.grid(row = 0)
     messageEntry.grid(row = 1)
     sendButton.grid(row = 2)
     backButton.grid(row = 3)
     # bind widgets
+
 
 #Show log for editing .... by name?
 def showLog() :
@@ -291,9 +289,9 @@ def showLog() :
     # create widgets
     backButton = Tk.Button(t , text = 'Back' , command = t.destroy, width = 80)
 
-
     #place widgets in window
     backButton.grid()
+
 
 #confirmation win
 def confirmWin(title , action) :
@@ -312,6 +310,7 @@ def confirmWin(title , action) :
     confirmButton.grid()
     backButton.grid()
 
+
 def doneWin(text):
     # create window
     t = Tk.Toplevel(root)
@@ -325,6 +324,7 @@ def doneWin(text):
     #place widgets in window
     titleLabel.grid()
     backButton.grid()
+
 
 def alertWin(text):
     # create window
@@ -344,7 +344,6 @@ def alertWin(text):
 ##################################
 ######## Root Window design #####
 #################################
-
 # create widgets
 bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
@@ -366,6 +365,7 @@ mainLog.grid(column = 0 , row = 1, rowspan = 2)
 scanLabel.grid(column = 1 , row = 2)
 
 # bind widgets
+
 
 # start program
 root.mainloop()

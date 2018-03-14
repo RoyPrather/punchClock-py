@@ -8,13 +8,16 @@ db = sqlite3.connect('TimeClock.sqlite')
 dbi = db.execute
 
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="employees"')
+
 try:
     temp.fetchall()[0][0]
+
 except:
     dbi('CREATE TABLE employees (id integer NOT NULL PRIMARY KEY ,name varchar NOT NULL,'
          'totalHours smallint NOT NULL DEFAULT 0,overtime smallint NOT NULL DEFAULT 0,hours smallint NOT NULL DEFAULT 0,'
          'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
          'lastTime varchar NOT NULL DEFAULT 0,uid varchar NOT NULL DEFAULT 0);')
+
 
 #hadles employee information
 class employee:
@@ -38,12 +41,14 @@ class employee:
         dbi('INSERT INTO employees (name , lastTime , uid) values ("' + name + '" , "' + temp.strftime('%Y-%m-%d %H:%M:%S') + '" , "' + uid + '");')
         db.commit()
 
+
     def updateDB(self):
         dbi('UPDATE employees SET name = "' +str(self.name) + '" ,  totalHours = "' + str(self.totalHours) +
             '" , overtime = "' + str(self.overtime) + '" , hours = "' + str(self.hours) + '" , onTen  = ' + str(self.onTen) +
             ', onLunch = ' + str(self.onLunch) + ', clockedIn = ' + str(self.clockedIn) + ' , lastTime = "' +
              self.lastTime.strftime(self.format) + '" WHERE uid = ' + str(self.id) + ';')
         db.commit()
+
 
     def clockIn(self):
         if not self.clockedIn:
@@ -75,6 +80,7 @@ class employee:
             self.lastTime = datetime.datetime.now()
             self.updateDB()
 
+
     def endTen(self):
         if self.onTen:
             temp = datetime.timedelta(0,600)
@@ -89,11 +95,13 @@ class employee:
             self.onTen = 0
             self.updateDB()
 
+
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
             self.onLunch = 0
             self.updateDB()
+
 
     def clockOut(self):
         if self.clockedIn and (not self.onLunch) and (not self.onTen):
@@ -106,6 +114,7 @@ class employee:
                 self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
             self.clockedIn = 0
             self.updateDB()
+
 
     def destroy(self):
         dbi('DELETE FROM employees WHERE uid = "' + self.id + '";')
