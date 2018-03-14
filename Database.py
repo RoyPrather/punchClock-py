@@ -108,4 +108,4 @@ class employee:
             self.updateDB()
 
     def destroy(self):
-        dbi('DELETE * FROM employees WHERE uid = "' + self.uid + '";')
+        dbi('DELETE * FROM employees WHERE uid = "' + self.id + '";')
