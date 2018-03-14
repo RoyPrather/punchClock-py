@@ -33,9 +33,9 @@ class ScanLabel(MyLabel) :
         self.createAdmin()
 
     def createAdmin(self) :
-        temp = dbi('SELECT id FROM employees WHERE name = "admin"')
+        temp = dbi('SELECT uid FROM employees WHERE name = "admin"')
         try :
-            temp.fetchall()[0][0]
+            print(temp.fetchall()[0][0])
         except :
             # Scan for cards
             (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
@@ -59,6 +59,7 @@ class ScanLabel(MyLabel) :
 
     def tick(self) :
         # Scan for cards
+        print('tick')
         status = None
         (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
             # If a card is found
