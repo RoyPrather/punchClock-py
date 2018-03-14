@@ -8,7 +8,6 @@ db = sqlite3.connect('TimeClock.sqlite')
 dbi = db.execute
 
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="employees"')
-
 try:
     temp.fetchall()[0][0]
 
@@ -19,7 +18,34 @@ except:
          'lastTime varchar NOT NULL DEFAULT 0,uid varchar NOT NULL DEFAULT 0);')
 
 
-#hadles employee information
+temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log"')
+try:
+    temp.fetchall()[0][0]
+
+except:
+    dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY ,'
+         'day smallint NOT NULL , hour smallint NOT NULL , minute smallint NOT NULL ,'
+         'second smallint NOT NULL , inout boolean NOT NULL , month smallint NOT NULL ,'
+         'action varchar NOT NULL , uid varchar NOT NULL DEFAULT 0);')
+
+
+#handles log table in database
+class log:
+    def getDay(self , month , day , uid):
+        temp = dbi('SELECT * FROM log WHERE uid = "' + uid + '" AND day = ' + day + ' AND month = ' + month + ';')
+        print(temp)
+        print(temp['name'])
+
+    @classmethod
+    def addEntry(self , action , inout , uid , dtime):
+        dbi('INSERT INTO log (month , day , hour , minute , second , inout , action , uid) values (' + dtime.month +
+            ' , ' + dtime.day + ' , ' + dtime.hour + ' , ' + dtime.minute + ' , ' + dtime.second + ' , ' + inout +
+            ' , "' + action + '" , "' + uid + '");')
+        db.commit()
+
+
+
+#hadles employee database
 class employee:
     def __init__(self, uid):
         self.id = uid
@@ -55,6 +81,7 @@ class employee:
             if datetime.datetime.now().day != self.lastTime.day:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
+            log.addEntry('Clocked In' , 1 , self.id , self.lastTime)
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
@@ -68,6 +95,7 @@ class employee:
             self.totalHours += temp
             self.onTen = 1
             self.lastTime = datetime.datetime.now()
+            log.addEntry('Left For Ten' , 0 , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -78,6 +106,7 @@ class employee:
             self.totalHours += temp
             self.onLunch = 1
             self.lastTime = datetime.datetime.now()
+            log.addEntry('Left For Lunch' , 0 , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -86,6 +115,7 @@ class employee:
             temp = datetime.timedelta(0,600)
             temp2 = datetime.datetime.now() - self.lastTime
             self.lastTime = datetime.datetime.now()
+            log.addEntry('Returned From Ten' , 1 , self.id , self.lastTime)
             if temp2 <= temp:
                 self.hours += temp2.seconds
                 self.totalHours += temp2.seconds
@@ -99,6 +129,7 @@ class employee:
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
+            log.addEntry('Returned From Lunch' , 1 , self.id , self.lastTime)
             self.onLunch = 0
             self.updateDB()
 
@@ -108,6 +139,8 @@ class employee:
             temp = datetime.datetime.now() - self.lastTime
             self.hours += temp.seconds
             self.totalHours += temp.seconds
+            self.lastTime = datetime.datetime.now()
+            log.addEntry('Clocked Out' , 0 , self.id , self.lastTime)
             if self.hours > self.over.seconds:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
