@@ -124,7 +124,8 @@ def adminWin() :
     createReportButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
     newAdminButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
     backButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    
+    closeButton = BlueButton(root , height = setHeight(15) , width = setWidth(25))
+
     #configure Widgets
     viewMessageButton.label.configure(text = 'View Messages')
     viewLogButton.label.configure(text = 'View Employee Hours')
@@ -132,6 +133,7 @@ def adminWin() :
     createReportButton.label.configure(text = 'End Pay Period')
     newAdminButton.label.configure(text = 'Create New Admin Card')
     backButton.label.configure(text ='Back')
+    closeButton.label.configure(text = 'Close Program')
 
     # place widgets in window
     viewMessageButton.grid(column = 0 , row = 0)
@@ -140,6 +142,7 @@ def adminWin() :
     createReportButton.grid(column = 1 , row = 0)
     newAdminButton.grid(column = 1 , row = 1)
     backButton.grid(column = 1 , row = 2)
+    closeButton.grid(column = 0 , row = 3 , columnspan = 2)
 
     # bind widgets
     viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
@@ -148,7 +151,7 @@ def adminWin() :
     createReportButton.label.bind('<1>' , lambda x: reportWin())
     newAdminButton.label.bind('<1>' , lambda x: programingWin('admin'))
     backButton.label.bind('<1>' , lambda x: t.destroy())
-
+    closeButton.label.bind('<1>' , lambda x : root.destroy())
 # Bring up new employee screen
 def newEmployeeWin() :
     # create window
@@ -345,7 +348,6 @@ def alertWin(text):
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
 mainLog = Tk.Frame(root , height = setHeight(95) , width = setWidth(50))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
-closeButton = BlueButton(root, height = setHeight(15) , width = setWidth(25))
 
 #configure Widgets
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
@@ -353,16 +355,14 @@ scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
 scanLabel.tick()
 tLabel.label.configure(font = 'verdana 30 bold')
-closeButton.label.configure(text = 'Close Program')
 
 # place Widgets
 tLabel.grid(column = 1 , row = 0)
 mainLog.grid(column = 0 , row = 0, rowspan = 2)
 scanLabel.grid(column = 1 , row = 1)
-closeButton.grid(column = 0 , row = 3)
 
 # bind widgets
-closeButton.label.bind('<1>' , lambda x : root.destroy())
+
 
 
 # start program
