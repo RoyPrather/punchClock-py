@@ -33,8 +33,8 @@ except:
 class log:
     @classmethod
     def getDay(cls , month , day , uid):
-        temp = dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
-        print(temp.fetchall()[0][1])
+        return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
+
 
 
     @classmethod
@@ -83,7 +83,8 @@ class employee:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
             log.addEntry('Clocked In' , 1 , self.id , self.lastTime)
-            log.getDay(self.lastTime.month , self.lastTime.day , self.id)
+            temp = log.getDay(self.lastTime.month , self.lastTime.day , self.id)
+            print temp.fetchall()[0][1]
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
