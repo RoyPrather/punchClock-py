@@ -161,7 +161,7 @@ def newEmployeeWin() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(25))
-    nameEntry = Tk.Entry(t , width = 60)
+    nameEntry = Tk.Entry(t , width = 30)
     submitButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
     backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
 
