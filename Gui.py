@@ -50,12 +50,11 @@ class ScanLabel(MyLabel) :
                     GPIO.cleanup()
                 else :
                     self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
-                    createAdmin()
-                    time.sleep(1)
+                    self.after(300,self.createAdmin)
+
             else :
                 self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
-                createAdmin()
-                time.sleep(1)
+                self.after(300 , self.createAdmin)
 
     def tick(self) :
         # Scan for cards
@@ -298,7 +297,7 @@ class ProgramingButton(MyLabel):
                 employee.newEmployee(self.name , self.uid)
                 GPIO.cleanup()
                 self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
-                self.label.bind('<1>' , lambda x : t.destroy)
+                self.label.bind('<1>' , lambda x : self.parent.destroy())
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
                 self.label.unbind('<1>')
