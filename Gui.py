@@ -68,7 +68,7 @@ class ScanLabel(MyLabel) :
             # If we have the UID, continue
             if status == self.reader.MI_OK :
                 self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
-                #try:
+                try:
                 emp = employee(self.uid)
                 print(emp.name)
                 if emp.name == 'admin':
@@ -79,8 +79,8 @@ class ScanLabel(MyLabel) :
                     self.label.config(text = emp.name , bg = 'green')
                     self.label.bind('<1>' , lambda x: self.function(self.uid))
                     self.after(5000, self.tick)
-                #except:
-                 #   self.tick()
+                except:
+                    self.tick()
         else:
             self.after(300 , self.tick)
             self.label.unbind('<1>')
