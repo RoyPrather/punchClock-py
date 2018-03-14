@@ -158,12 +158,13 @@ def newEmployeeWin() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(25))
-    nameEntry = Tk.Entry(t , width = 80)
+    nameEntry = Tk.Entry(t , width = 60)
     submitButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
     backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
 
     #configure widgets
     submitButton.label.configure( text = 'Create Employee')
+    nameEntry.configure(font = font)
     titleLabel.label.configure(text = 'Enter New Employee Name')
     backButton.label.configure(text = 'Cancel')
 
@@ -189,7 +190,7 @@ def programingWin(name) :
     # create widgets
     dLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
     kButton = ProgramingButton(t , width = setWidth(50) , height = setHeight(25))
-    backButton = BlueButton(t , width = setWidth(50) , height = setWidth(25))
+    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
 
     #configure widgets
     dLabel.label.configure(text = 'Programing Card')
