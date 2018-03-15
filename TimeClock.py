@@ -307,16 +307,18 @@ def showLog() :
         nameLable.label.configure(text = emp.name)
         nameLable.grid(column = 0 , row = rown)
         rown += 1
-        nameLable.label.bind('<1>' , lambda x: timeCard(emp))
+        nameLable.label.bind('<1>' , lambda x: timeCard(emp.id))
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
-def timeCard(emp) :
+def timeCard(empl) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
+
+    emp= employee(empl)
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
     labelFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(60))
