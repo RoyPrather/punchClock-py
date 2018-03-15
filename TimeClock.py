@@ -289,12 +289,14 @@ def showLog() :
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
+    submitButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
     scrollBar = MyScrollBar(canvasBox , width = setWidth(10) , height = setHeight(70))
     nameFrame = Tk.Listbox(canvasBox , width = setWidth(75) , height = setHeight(70) ,
                            yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = 'verdana 25 bold')
 
     #configure widgets
-    titleLabel.label.configure(text = 'Choose and Employee to Veiw')
+    titleLabel.label.configure(text = 'Choose an Employee to Veiw')
+    submitButton.label.configure(text = 'View Log')
     backButton.label.configure(text = 'Back')
     canvasBox.pack_propagate(0)
     scrollBar.scrollBar.config(command = nameFrame.yview)
@@ -304,6 +306,7 @@ def showLog() :
     canvasBox.grid(column = 0 , row = 1 )
     scrollBar.pack(fill = 'y' , side = 'right')
     nameFrame.pack(fill = 'both' , side = 'left')
+    submitButton.grid(column = 1 , row = 2)
     backButton.grid(column = 0 , row = 2)
 
     #TODO: place list of employees into nameFrame
@@ -314,6 +317,7 @@ def showLog() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
+    submitButton.label.bind('<1>' , lambda x: print(nameFrame.curselection()))
 
 def timeCard(emp) :
     # create window
