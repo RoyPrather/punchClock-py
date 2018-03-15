@@ -306,7 +306,7 @@ def showLog() :
         emp = employee(uid[0])
         nameLable = MyLabel(nameFrame , width = setWidth(100) , height = setHeight(15))
         nameLable.label.configure(text = emp.name)
-        nameLable.label.gird(column = 0 , row = rown)
+        nameLable.label.grid(column = 0 , row = rown)
         rown += 1
         nameLable.label.bind('<1>' , lambda x: timeCard(emp))
 
