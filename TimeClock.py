@@ -297,14 +297,14 @@ def showLog() :
     backButton.grid()
 
     #bind widgets
-    tempButton.bind('<1>' , lambda x: (timeCard(employee.newEmployee(Roy, 5).clockIn())))
+    tempButton.label.bind('<1>' , lambda x: timeCard(employee.newEmployee(Roy, 5)))
 
 def timeCard(emp) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
-
+    emp.clockIn()
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
     labelFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(60))
