@@ -286,7 +286,7 @@ def showLog() :
     t.lift()
 
     # create widgets
-    titleLabel = MyLabel(t , witdh = setWidth(100) , height = setHeight(15))
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     nameFrame = Tk.Frame(t , width = setWidth(100) , height = setHeight(85))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
 
