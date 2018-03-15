@@ -25,7 +25,7 @@ try:
 except:
     dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY ,'
          'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '
-         'minute smallint NOT NULL ,second smallint NOT NULL , inout boolean NOT NULL , '
+         'minute smallint NOT NULL ,second smallint NOT NULL , hours smallint NOT NULL , '
          'action varchar NOT NULL , uid varchar NOT NULL DEFAULT 0);')
 
 
@@ -41,9 +41,9 @@ class log:
 
 
     @classmethod
-    def addEntry(cls , action , inout , uid , dtime):
-        dbi('INSERT INTO log (month , day , hour , minute , second , inout , action , uid) values (' + str(dtime.month) +
-            ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(inout) +
+    def addEntry(cls , action , hours , uid , dtime):
+        dbi('INSERT INTO log (month , day , hour , minute , second , hours , action , uid) values (' + str(dtime.month) +
+            ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(hours) +
             ' , "' + str(action) + '" , "' + str(uid) + '");')
         db.commit()
 
@@ -65,10 +65,14 @@ class employee:
         self.lastTime = datetime.datetime.strptime((dbi('SELECT lastTime FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0], self.format)
 
     @classmethod
-    def newEmployee(self , name , uid):
+    def newEmployee(cls , name , uid):
         temp = datetime.datetime.now()
         dbi('INSERT INTO employees (name , lastTime , uid) values ("' + name + '" , "' + temp.strftime('%Y-%m-%d %H:%M:%S') + '" , "' + uid + '");')
         db.commit()
+
+    @classmethod
+    def listEmployees(cls):
+        return dbi('SELECT uid FROM employees WHERE id = * ;')
 
 
     def updateDB(self):
@@ -84,7 +88,7 @@ class employee:
             if datetime.datetime.now().day != self.lastTime.day:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Clocked In' , 1 , self.id , self.lastTime)
+            log.addEntry('Clocked In' , 0 , self.id , self.lastTime)
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
@@ -98,7 +102,7 @@ class employee:
             self.totalHours += temp
             self.onTen = 1
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Left For Ten' , 0 , self.id , self.lastTime)
+            log.addEntry('Left For Ten' , temp , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -109,7 +113,7 @@ class employee:
             self.totalHours += temp
             self.onLunch = 1
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Left For Lunch' , 0 , self.id , self.lastTime)
+            log.addEntry('Left For Lunch' , temp , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -118,13 +122,14 @@ class employee:
             temp = datetime.timedelta(0,600)
             temp2 = datetime.datetime.now() - self.lastTime
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Returned From Ten' , 1 , self.id , self.lastTime)
             if temp2 <= temp:
                 self.hours += temp2.seconds
                 self.totalHours += temp2.seconds
+                log.addEntry('Returned From Ten' , temp2.seconds , self.id , self.lastTime)
             else:
                 self.hours += temp.seconds
                 self.totalHours += temp.seconds
+                log.addEntry('Returned From Ten' , temp.seconds , self.id , self.lastTime)
             self.onTen = 0
             self.updateDB()
 
@@ -132,7 +137,7 @@ class employee:
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Returned From Lunch' , 1 , self.id , self.lastTime)
+            log.addEntry('Returned From Lunch' , 0 , self.id , self.lastTime)
             self.onLunch = 0
             self.updateDB()
 
@@ -143,7 +148,7 @@ class employee:
             self.hours += temp.seconds
             self.totalHours += temp.seconds
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Clocked Out' , 0 , self.id , self.lastTime)
+            log.addEntry('Clocked Out' , temp.seconds , self.id , self.lastTime)
             if self.hours > self.over.seconds:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):

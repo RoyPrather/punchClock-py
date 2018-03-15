@@ -286,25 +286,38 @@ def showLog() :
     t.lift()
 
     # create widgets
-    tempButton = BlueButton(t , width = 20 , height = 20)
-    backButton = Tk.Button(t , text = 'Back' , command = t.destroy, width = 80)
+    titleLabel = MyLabel(t , witdh = setWidth(100) , height = setHeight(15))
+    nameFrame = Tk.Frame(t , width = setWidth(100) , height = setHeight(85))
+    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
 
     #configure widgets
-    tempButton.label.configure(text = 'show time card')
+    titleLabel.label.configure(text = 'Choose and Employee to Veiw')
+    backButton.label.configure(text = 'Back')
 
     #place widgets in window
-    tempButton.grid()
-    backButton.grid()
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    nameFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    backButton.grid(column = 0 , row = 2)
+
+    #TODO: place list of employees into nameFrame
+    rown = 0
+    for uid in employee.listEmployees():
+        print(uid)
+        emp = employee(uid)
+        nameLable = MyLabel(nameFrame , width = setWidth(100) , height = setHeight(15))
+        nameLable.label.configure(text = emp.name)
+        nameLable.label.gird(column = 0 , row = rown)
+        rown += 1
+        nameLable.label.bind('<1>' , lambda x: timeCard(emp))
 
     #bind widgets
-    tempButton.label.bind('<1>' , lambda x: (employee.newEmployee('Roy', '5') , timeCard(employee('5'))))
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 def timeCard(emp) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
-    emp.clockIn()
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
     labelFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(60))
@@ -323,15 +336,16 @@ def timeCard(emp) :
     for entry in log.getDay(now.month , now.day, emp.id):
         label = MyLabel(labelFrame , width = setWidth(100) , height = setHeight(10))
         if entry[5] == 0:
-                    label.label.configure(text = 'Out At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+            label.label.configure(text = 'In At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
 
         else:
-            label.label.configure(text = 'In At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+            label.label.configure(text = 'Out At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' +
+                                         str(entry[4]) +'.   Added ' + datetime.time.strftime(datetime.timedelta(0,entry[5])) + ' Hours')
 
         label.grid(row = rownum, column = 0)
         rownum += 1
 
-    #bind widgets
+   #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
