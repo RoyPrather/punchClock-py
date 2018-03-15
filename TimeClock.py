@@ -315,7 +315,7 @@ def showLog() :
         emps = []
         count = 0
         if emp.name != 'admin':
-            emps.insert('end' , emp)
+            emps.append(emp)
             nameFrame.insert('end' , emp.name)
 
     #bind widgets
