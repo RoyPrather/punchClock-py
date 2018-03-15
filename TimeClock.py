@@ -288,7 +288,7 @@ def showLog() :
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
-    nameFrame = Tk.Canvas(canvasBox , width = setWidth(85) , height = setHeight(70))
+    nameFrame = Tk.Canvas(canvasBox)
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
     scrollBar = MyScrollBar(t , width = setWidth(15) , height = setHeight(70))
 
@@ -301,8 +301,8 @@ def showLog() :
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    canvasBox.grid(column = 0 , row = 1 )
-    nameFrame.grid(column = 0 , row = 0 )
+    canvasBox.grid(column = 0 , row = 0 )
+    nameFrame.pack(fill = 'both' , expand = 1)
     scrollBar.grid(column = 1 , row = 1)
     backButton.grid(column = 0 , row = 2)
 
