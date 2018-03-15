@@ -297,7 +297,7 @@ def showLog() :
     backButton.grid()
 
     #bind widgets
-    tempButton.label.bind('<1>' , lambda x: timeCard(employee.newEmployee('Roy', '5')))
+    tempButton.label.bind('<1>' , lambda x: (employee.newEmployee('Roy', '5') , timeCard(employee('5'))))
 
 def timeCard(emp) :
     # create window
@@ -329,6 +329,9 @@ def timeCard(emp) :
         entry.label.configure(text = inout +' At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
         entry.grid(row = rownum, column = 0)
         rownum += 1
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 #confirmation win
