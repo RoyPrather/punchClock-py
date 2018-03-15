@@ -303,7 +303,7 @@ def showLog() :
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
     canvasBox.grid(column = 0 , row = 1 )
     scrollBar.pack(fill = 'y' , side = 'right')
-    nameFrame.pack(fill = 'Both' , side = 'left')
+    nameFrame.pack(fill = 'both' , side = 'left')
     backButton.grid(column = 0 , row = 2)
 
     #TODO: place list of employees into nameFrame
