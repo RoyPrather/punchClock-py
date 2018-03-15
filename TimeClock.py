@@ -320,7 +320,7 @@ def showLog() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: timeCard(emps[nameFrame.curselection()]))
+    submitButton.label.bind('<1>' , lambda x: timeCard(emps[nameFrame.curselection()[0]]))
 
 def timeCard(emp) :
     # create window
