@@ -301,7 +301,7 @@ def showLog() :
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    canvasBox.grid(column = 0 , row = 0 )
+    canvasBox.grid(column = 0 , row = 1 )
     nameFrame.pack(fill = 'both' , expand = 1)
     scrollBar.grid(column = 1 , row = 1)
     backButton.grid(column = 0 , row = 2)
