@@ -311,9 +311,9 @@ def showLog() :
 
     #TODO: place list of employees into nameFrame
     count = 0
+    emps = []
     for uid in employee.listEmployees():
         emp = employee(uid[0])
-        emps = []
         if emp.name != 'admin':
             emps.insert(count , emp)
             nameFrame.insert(count , emp.name)
