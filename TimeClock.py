@@ -288,16 +288,16 @@ def showLog() :
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
-    nameFrame = Tk.Canvas(canvasBox , yscrollcommand = scrollBar.scrollBar.set)
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
     scrollBar = MyScrollBar(t , width = setWidth(15) , height = setHeight(70))
+    nameFrame = Tk.Canvas(canvasBox , width = setWidth(85) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
     backButton.label.configure(text = 'Back')
     canvasBox.pack_propagate(0)
     nameFrame.pack_propagate(0)
-    scrollBar.scrollBar.configure(command = nameFrame.yview)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
