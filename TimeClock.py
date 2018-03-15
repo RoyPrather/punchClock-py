@@ -302,11 +302,10 @@ def showLog() :
     #TODO: place list of employees into nameFrame
     rown = 0
     for uid in employee.listEmployees():
-        print(uid[0])
         emp = employee(uid[0])
         nameLable = MyLabel(nameFrame , width = setWidth(100) , height = setHeight(15))
         nameLable.label.configure(text = emp.name)
-        nameLable.label.grid(column = 0 , row = rown)
+        nameLable.grid(column = 0 , row = rown)
         rown += 1
         nameLable.label.bind('<1>' , lambda x: timeCard(emp))
 
