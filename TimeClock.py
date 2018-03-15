@@ -346,8 +346,8 @@ def timeCard(emp) :
     rownum = 0
     for entry in log.getDay(now.month , now.day, emp.id):
         label = MyLabel(labelFrame , width = setWidth(100) , height = setHeight(10))
-        if entry[5] == 0:
-            label.label.configure(text = 'In At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+        if entry[6] == 0:
+            label.label.configure(text = entry[7] +' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]))
 
         else:
             label.label.configure(text = 'Out At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' +
