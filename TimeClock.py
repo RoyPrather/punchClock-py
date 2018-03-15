@@ -321,12 +321,13 @@ def timeCard(emp) :
     backButton.grid(row = 3 , column = 0)
     rownum = 0
     for entry in log.getDay(now.month , now.day, emp.id):
+        entry = MyLabel(labelFrame , width = setWidth(100) , height = setHeight(10))
         if entry[5] == 0:
-            inout = 'Out'
+                    entry.label.configure(text = 'Out At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+
         else:
-            inout = 'In'
-        entry = MyLabel(labelFrame, width = setWidth(100) , height = setHeight(10))
-        entry.label.configure(text = inout +' At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+            entry.label.configure(text = 'In At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+
         entry.grid(row = rownum, column = 0)
         rownum += 1
 
