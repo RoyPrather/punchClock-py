@@ -290,13 +290,12 @@ def showLog() :
     canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
     scrollBar = MyScrollBar(canvasBox , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Canvas(canvasBox , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , scrollregion=(0,0, setWidth(75),setHeight(70)))
+    nameFrame = Tk.Listbox(canvasBox , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
     backButton.label.configure(text = 'Back')
     canvasBox.pack_propagate(0)
-    nameFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = nameFrame.yview)
 
     #place widgets in window
@@ -307,17 +306,10 @@ def showLog() :
     backButton.grid(column = 0 , row = 2)
 
     #TODO: place list of employees into nameFrame
-    rown = 0
     for uid in employee.listEmployees():
         emp = employee(uid[0])
         if emp.name != 'admin':
-            nameLable = LabelButton(nameFrame , width = setWidth(75) , height = setHeight(15))
-            nameLable.label.configure(text = emp.name)
-            nameLable.function = timeCard
-            nameLable.setBind(emp)
-            nameLable.pack()
-            rown += 1
-
+            nameFrame.insert('END' , emp.name)
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
