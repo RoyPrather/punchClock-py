@@ -296,6 +296,7 @@ def showLog() :
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
     backButton.label.configure(text = 'Back')
     canvasBox.pack_propagate(0)
+    nameFrame.pack_propagate(0)
     nameFrame.configure(yscrollcommand = scrollBar.scrollBar.set)
     scrollBar.scrollBar.config(command = nameFrame.yview)
 
@@ -315,7 +316,7 @@ def showLog() :
             nameLable.label.configure(text = emp.name)
             nameLable.function = timeCard
             nameLable.setBind(emp)
-            nameLable.grid(column = 0 , row = rown)
+            nameLable.pack()
             rown += 1
 
 
