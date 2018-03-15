@@ -290,7 +290,7 @@ def showLog() :
     canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
     scrollBar = MyScrollBar(canvasBox , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Canvas(canvasBox , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , scrollregion=(0,0, setWidth(75),setHeight(70))
+    nameFrame = Tk.Canvas(canvasBox , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , scrollregion=(0,0, setWidth(75),setHeight(70)))
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
