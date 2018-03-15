@@ -302,8 +302,8 @@ def showLog() :
     #TODO: place list of employees into nameFrame
     rown = 0
     for uid in employee.listEmployees():
-        print(uid)
-        emp = employee(uid)
+        print(uid[0])
+        emp = employee(uid[0])
         nameLable = MyLabel(nameFrame , width = setWidth(100) , height = setHeight(15))
         nameLable.label.configure(text = emp.name)
         nameLable.label.gird(column = 0 , row = rown)
