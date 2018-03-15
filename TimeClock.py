@@ -310,15 +310,12 @@ def showLog() :
     backButton.grid(column = 0 , row = 2)
 
     #TODO: place list of employees into nameFrame
+    count = 0
     for uid in employee.listEmployees():
         emp = employee(uid[0])
         emps = []
-        count = 0
         if emp.name != 'admin':
             emps.insert(count , emp)
-            print(count)
-            print(emps)
-            print(emps[count])
             nameFrame.insert(count , emp.name)
             count += 1
 
