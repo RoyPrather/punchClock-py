@@ -286,7 +286,7 @@ def showLog() :
     t.lift()
 
     # create widgets
-    tempButton = BlueButton(t )
+    tempButton = BlueButton(t , width = 20 , height = 20)
     backButton = Tk.Button(t , text = 'Back' , command = t.destroy, width = 80)
 
     #configure widgets
