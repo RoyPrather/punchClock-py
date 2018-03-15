@@ -320,7 +320,7 @@ def timeCard(emp) :
     labelFrame.grid(row = 1 , column = 0 , columnspan = 2)
     backButton.grid(row = 3 , column = 0)
     rownum = 0
-    for entry in log.getDay(now.month , now.day, emp.uid):
+    for entry in log.getDay(now.month , now.day, emp.ui):
         if entry[5] == 0:
             inout = 'Out'
         else:
