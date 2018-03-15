@@ -315,7 +315,7 @@ def showLog() :
         emps = []
         count = 0
         if emp.name != 'admin':
-            emps.insert( count , employee(uid[0]))
+            emps.append(employee(uid[0]))
             print(emps)
             print(emps[count])
             nameFrame.insert(count , emp.name)
