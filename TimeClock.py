@@ -289,8 +289,8 @@ def showLog() :
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
-    scrollBar = MyScrollBar(t , width = setWidth(15) , height = setHeight(70))
-    nameFrame = Tk.Canvas(canvasBox , width = setWidth(85) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set)
+    scrollBar = MyScrollBar(canvasBox , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Canvas(canvasBox , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
@@ -302,8 +302,8 @@ def showLog() :
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
     canvasBox.grid(column = 0 , row = 1 )
-    nameFrame.pack(fill = 'both' , expand = 1)
-    scrollBar.grid(column = 1 , row = 1)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    nameFrame.pack(fill = 'Both' , side = 'left')
     backButton.grid(column = 0 , row = 2)
 
     #TODO: place list of employees into nameFrame
