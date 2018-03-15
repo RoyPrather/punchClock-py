@@ -296,7 +296,7 @@ def showLog() :
     backButton.label.configure(text = 'Back')
     nameFrame.pack_propagate(0)
     nameFrame.configure(yscrollcommand = scrollBar.scrollBar.set)
-    scrollBar.scrollBar.config(command=listbox.yview)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
