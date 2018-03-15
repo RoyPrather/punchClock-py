@@ -286,10 +286,49 @@ def showLog() :
     t.lift()
 
     # create widgets
+    tempButton = BlueButton(t )
     backButton = Tk.Button(t , text = 'Back' , command = t.destroy, width = 80)
 
+    #configure widgets
+    tempButton.label.configure(text = 'show time card')
+
     #place widgets in window
+    tempButton.grid()
     backButton.grid()
+
+    #bind widgets
+    tempButton.bind('<1>' , lambda x: (timeCard(employee.newEmployee(Roy, 5).clockIn())))
+
+def timeCard(emp) :
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    #create widgets
+    titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
+    labelFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(60))
+    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+
+    #configure widgets
+    titleLabel.label.configure(text = emp.name)
+    backButton.label.configure(text = 'Back')
+    now = datetime.datetime.now()
+
+    #place widgets
+    titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
+    labelFrame.grid(row = 1 , column = 0 , columnspan = 2)
+    backButton.grid(row = 3 , column = 0)
+    rownum = 0
+    for entry in log.getDay(now.month , now.day, emp.uid):
+        if entry[5] = 0:
+            inout = 'Out'
+        else:
+            inout = 'In'
+        entry = MyLabel(labelFrame, width = setWidth(100) , height = setHeight(10))
+        entry.label.configure(text = inout +' At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]))
+        entry.grid(row = rownum, column = 0)
+        rownum += 1
 
 
 #confirmation win

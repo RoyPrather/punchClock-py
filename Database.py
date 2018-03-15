@@ -33,8 +33,11 @@ except:
 class log:
     @classmethod
     def getDay(cls , month , day , uid):
-        return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
+        try:
+            return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
 
+        except:
+            print('error in getDay function, mabey empty table')
 
 
     @classmethod
@@ -43,7 +46,6 @@ class log:
             ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(inout) +
             ' , "' + str(action) + '" , "' + str(uid) + '");')
         db.commit()
-
 
 
 #hadles employee database
@@ -83,8 +85,6 @@ class employee:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
             log.addEntry('Clocked In' , 1 , self.id , self.lastTime)
-            temp = log.getDay(self.lastTime.month , self.lastTime.day , self.id)
-            print temp.fetchall()[0][1]
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
