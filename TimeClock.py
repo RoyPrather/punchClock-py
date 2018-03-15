@@ -321,7 +321,7 @@ def timeCard(emp) :
     backButton.grid(row = 3 , column = 0)
     rownum = 0
     for entry in log.getDay(now.month , now.day, emp.uid):
-        if entry[5] = 0:
+        if entry[5] == 0:
             inout = 'Out'
         else:
             inout = 'In'
