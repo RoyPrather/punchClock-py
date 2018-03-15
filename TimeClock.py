@@ -312,12 +312,15 @@ def showLog() :
     #TODO: place list of employees into nameFrame
     for uid in employee.listEmployees():
         emp = employee(uid[0])
+        emps = []
+        count = 0
         if emp.name != 'admin':
+            emps.insert('end' , emp)
             nameFrame.insert('end' , emp.name)
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: nameFrame.insert('end' , str(nameFrame.curselection())))
+    submitButton.label.bind('<1>' , lambda x: timeCard(emps[nameFrame.curselection()]))
 
 def timeCard(emp) :
     # create window
