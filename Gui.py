@@ -18,6 +18,13 @@ class MyLabel(Tk.Frame) :
         self.pack_propagate(0)
         self.label.pack(fill = 'both' , expand = 1)
 
+class MyScrollBar(Tk.Frame) :
+    def __init__(self , parent , *args , **kwargs) :
+        Tk.Frame.__init__(self , parent , *args , **kwargs)
+        self.scrollBar = Tk.Scrollbar(self )
+        self.pack_propagate(0)
+        self.scrollBar.pack(fill = 'both' , expand = 1)
+
 
 class ScanLabel(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
@@ -351,6 +358,8 @@ class LabelButton(MyLabel):
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.function = None
+        self.label.config( relief = "groove")
+
 
     def setBind(self, args = None):
         self.label.bind('<1>' , lambda x: self.function(args))

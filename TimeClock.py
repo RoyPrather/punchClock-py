@@ -287,29 +287,35 @@ def showLog() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    nameFrame = Tk.Frame(t , width = setWidth(100) , height = setHeight(85))
+    nameFrame = Tk.Canvas(t , width = setWidth(85) , height = setHeight(85))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
+    scrollBar = MyScrollBar(t , width = setWidth(15) , height = setHeight(85))
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
     backButton.label.configure(text = 'Back')
+    nameFrame.pack_propagate(0)
+    nameFrame.configure(yscrollcommand = scrollBar.scrollBar.set)
+    scrollBar.scrollBar.config(command=listbox.yview)
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    nameFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    nameFrame.grid(column = 0 , row = 1 )
+    scrollBar.grid(column = 1 , row = 1)
     backButton.grid(column = 0 , row = 2)
 
     #TODO: place list of employees into nameFrame
     rown = 0
     for uid in employee.listEmployees():
         emp = employee(uid[0])
-        nameLable = LabelButton(nameFrame , width = setWidth(100) , height = setHeight(15))
-        nameLable.label.configure(text = emp.name)
-        nameLable.function = timeCard
-        nameLable.setBind(emp)
-        nameLable.grid(column = 0 , row = rown)
-        rown += 1
-  
+        if emp.name != 'admin':
+            nameLable = LabelButton(nameFrame , width = setWidth(75) , height = setHeight(15))
+            nameLable.label.configure(text = emp.name)
+            nameLable.function = timeCard
+            nameLable.setBind(emp)
+            nameLable.grid(column = 0 , row = rown)
+            rown += 1
+
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
