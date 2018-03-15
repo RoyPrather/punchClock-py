@@ -309,7 +309,7 @@ def showLog() :
     for uid in employee.listEmployees():
         emp = employee(uid[0])
         if emp.name != 'admin':
-            nameFrame.insert('END' , emp.name)
+            nameFrame.insert('end' , emp.name)
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
