@@ -315,8 +315,9 @@ def showLog() :
         emps = []
         count = 0
         if emp.name != 'admin':
-            emps.append(emp)
-            nameFrame.insert('end' , emp.name)
+            emps.insert( count ,emp)
+            nameFrame.insert(count , emp.name)
+            count += 1
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
