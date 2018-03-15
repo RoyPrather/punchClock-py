@@ -303,22 +303,23 @@ def showLog() :
     rown = 0
     for uid in employee.listEmployees():
         emp = employee(uid[0])
-        nameLable = MyLabel(nameFrame , width = setWidth(100) , height = setHeight(15))
+        nameLable = LabelButton(nameFrame , width = setWidth(100) , height = setHeight(15))
         nameLable.label.configure(text = emp.name)
+        nameLable.function = timeCard
+        nameLable.setBind(emp)
         nameLable.grid(column = 0 , row = rown)
         rown += 1
-        nameLable.label.bind('<1>' , lambda x: timeCard(emp.id))
+  
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
-def timeCard(empl) :
+def timeCard(emp) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
 
-    emp= employee(empl)
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
     labelFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(60))

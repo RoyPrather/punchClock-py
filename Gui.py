@@ -346,3 +346,11 @@ class ProgramingButton(MyLabel):
             self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
             self.label.unbind('<1>')
             self.after(300 , self.tick)
+
+class LabelButton(MyLabel):
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.function = None
+
+    def setBind(self, args = None):
+        self.label.bind('<1>' , lambda x: self.function(args))
