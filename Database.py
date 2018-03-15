@@ -72,7 +72,7 @@ class employee:
 
     @classmethod
     def listEmployees(cls):
-        return dbi('FROM * IN employees SELECT uid ;')
+        return dbi('SELECT uid FROM employees;')
 
 
     def updateDB(self):
