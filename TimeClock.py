@@ -287,9 +287,9 @@ def showLog() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    nameFrame = Tk.Canvas(t , width = setWidth(85) , height = setHeight(85))
+    nameFrame = Tk.Canvas(t , width = setWidth(85) , height = setHeight(70))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
-    scrollBar = MyScrollBar(t , width = setWidth(15) , height = setHeight(85))
+    scrollBar = MyScrollBar(t , width = setWidth(15) , height = setHeight(70))
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose and Employee to Veiw')
