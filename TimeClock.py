@@ -351,7 +351,7 @@ def timeCard(emp) :
 
         else:
             label.label.configure(text = 'Out At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' +
-                                         str(entry[4]) +'.   Added ' + datetime.time.strftime(datetime.timedelta(0,entry[5])) + ' Hours')
+                                         str(entry[4]) +'.   Added ' str(datetime.timedelta(0,entry[5])) + ' Hours')
 
         label.grid(row = rownum, column = 0)
         rownum += 1
