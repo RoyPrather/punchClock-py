@@ -31,6 +31,33 @@ except:
 
 #handles log table in database
 class log:
+    def __init__(self, entry):
+        self. id = entry[0]
+        self.month = entry[1]
+        self.day = entry[2]
+        self.hour = entry[3]
+        self.minute = entry[4]
+        self.second = entry[5]
+        self.hours = entry[6]
+        self.action = entry[7]
+        self.uid = entry[8]
+
+    def update(self):
+        dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
+            ' , minute = ' + str(self.minute) + ' , second = ' + str(self.second) + ' , hours = ' + str(self.hours) +
+            ' , action = "' + self.action + '" WHERE id = ' +  str(self. id) + ';')
+
+
+    def subTime(self , seconds):
+        emp = employee(self.uid)
+        emp.hours -= seconds
+
+
+    def addTime(self , seconds):
+        emp = employee(self.uid)
+        emp.hours += seconds
+
+
     @classmethod
     def getDay(cls , month , day , uid):
         try:

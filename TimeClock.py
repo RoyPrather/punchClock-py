@@ -287,23 +287,22 @@ def showLog() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    canvasBox = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
     submitButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
-    scrollBar = MyScrollBar(canvasBox , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(canvasBox , width = setWidth(75) , height = setHeight(70) ,
-                           yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = 'verdana 25 bold')
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = 'verdana 25 bold')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
     submitButton.label.configure(text = 'View Log')
     backButton.label.configure(text = 'Back')
-    canvasBox.pack_propagate(0)
+    ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = nameFrame.yview)
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    canvasBox.grid(column = 0 , row = 1 , columnspan = 2)
+    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
     scrollBar.pack(fill = 'y' , side = 'right')
     nameFrame.pack(fill = 'both' , side = 'left')
     submitButton.grid(column = 1 , row = 2)
@@ -331,29 +330,36 @@ def timeCard(emp) :
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    labelFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(60))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = emp.name)
     backButton.label.configure(text = 'Back')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = LogListbox.yview)
     now = datetime.datetime.now()
+
 
     #place widgets
     titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
     labelFrame.grid(row = 1 , column = 0 , columnspan = 2)
     backButton.grid(row = 3 , column = 0)
-    rownum = 0
+    scrollBar.pack(fill = 'y' , side = 'right')
+    LogListbox.pack(fill = 'both' , side = 'left')
+
+    count = 0
+    logs = []
     for entry in log.getDay(now.month , now.day, emp.id):
-        label = MyLabel(labelFrame , width = setWidth(100) , height = setHeight(10))
         if entry[6] == 0:
-            label.label.configure(text = entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) )
+            LogListbox.insert(count , entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) )
 
         else:
-            label.label.configure(text = entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + '.   Added ' + str(datetime.timedelta(0,entry[5])) + ' Hours')
+            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + '.   Added ' + str(datetime.timedelta(0,entry[5])) + ' Hours')
 
-        label.grid(row = rownum, column = 0)
-        rownum += 1
+        count += 1
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
