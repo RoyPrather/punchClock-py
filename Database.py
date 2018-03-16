@@ -31,7 +31,8 @@ except:
 
 #handles log table in database
 class log:
-    def __init__(self, entry):
+    def __init__(self, id):
+        entry = dbi('SELECT * FROM log WHERE id =' + id + '')
         self. id = entry[0]
         self.month = entry[1]
         self.day = entry[2]
