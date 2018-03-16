@@ -332,9 +332,9 @@ def timeCard(emp) :
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     editButton = BlueButton(t, width = setWidth(25) , height = setHeight(25))
-    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = 'verdana 25 bold')
+    LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(90) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = emp.name)
