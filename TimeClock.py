@@ -358,15 +358,49 @@ def timeCard(emp) :
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[6] == 0:
             LogListbox.insert(count , entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) )
+            logs.insert(count , entry[0])
 
         else:
             LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + '.   Added ' + str(datetime.timedelta(0,entry[5])) + ' Hours')
-
+            logs.insert(count , entry[0])
         count += 1
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    editButton.label.bind('<1>' , lambda x: t.destroy())
+    editButton.label.bind('<1>' , lambda x: editLogWin(logs[LogListbox.curselection()[0]]))
+
+
+def editLogWin(entryId):
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    entry = log(entryId)
+
+    #create widgets
+    titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
+    hoursLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
+    minutesLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
+    secondsLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
+    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Choose Hours, Minutes, or Seconds to Edit')
+    hoursLabel.label.configure(text = str(entry.hour) + ':')
+    minutesLabel.label.configure(text = str(entry.minute) + ':')
+    secondsLabel.label.configure(text = str(entry.second))
+    backButton.label.configure(text = 'Cancel')
+
+    #place widgets
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 5)
+    hoursLabel.grid(column = 1 ,row = 1)
+    minutesLabel.grid(column = 2 , row = 1)
+    secondsLabel.grid(column = 3 , row = 1)
+    backButton.grid(column = 0 , row = 2)
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 #confirmation win
