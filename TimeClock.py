@@ -303,13 +303,13 @@ def showLog() :
 
     #place widgets in window
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    canvasBox.grid(column = 0 , row = 1 )
+    canvasBox.grid(column = 0 , row = 1 , columnspan = 2)
     scrollBar.pack(fill = 'y' , side = 'right')
     nameFrame.pack(fill = 'both' , side = 'left')
     submitButton.grid(column = 1 , row = 2)
     backButton.grid(column = 0 , row = 2)
 
-    #TODO: place list of employees into nameFrame
+    #place list of employees into nameFrame
     count = 0
     emps = []
     for uid in employee.listEmployees():
