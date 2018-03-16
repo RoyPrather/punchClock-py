@@ -347,11 +347,10 @@ def timeCard(emp) :
     for entry in log.getDay(now.month , now.day, emp.id):
         label = MyLabel(labelFrame , width = setWidth(100) , height = setHeight(10))
         if entry[6] == 0:
-            label.label.configure(text = entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]))
+            label.label.configure(text = entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) )
 
         else:
-            label.label.configure(text = entry[7] + ' At: ' + str(entry[1]) + ':' + str(entry[2]) + ':' + str(entry[3]) + ':' +
-                                         str(entry[4]) +'.   Added ' + str(datetime.timedelta(0,entry[5])) + ' Hours')
+            label.label.configure(text = entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + '.   Added ' + str(datetime.timedelta(0,entry[5])) + ' Hours')
 
         label.grid(row = rownum, column = 0)
         rownum += 1
