@@ -357,11 +357,11 @@ def timeCard(emp) :
     logs = []
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[6] == 0:
-            LogListbox.insert(count , entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) )
+            LogListbox.insert(count , entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) )
             logs.insert(count , entry[0])
 
         else:
-            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[2]) + ':' + str(entry[3]) + ':' + str(entry[4]) + '.   Added ' + str(datetime.timedelta(0,entry[5])) + ' Hours')
+            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) + '.   Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         count += 1
 
