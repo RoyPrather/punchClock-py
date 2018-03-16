@@ -339,6 +339,7 @@ def timeCard(emp) :
     #configure widgets
     titleLabel.label.configure(text = emp.name)
     backButton.label.configure(text = 'Back')
+    editButton.label.configure(text = 'Edit')
     ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = LogListbox.yview)
     now = datetime.datetime.now()
@@ -348,6 +349,7 @@ def timeCard(emp) :
     titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
     ListboxFrame.grid(row = 1 , column = 0 , columnspan = 2)
     backButton.grid(row = 3 , column = 0)
+    editButton.grid(row = 3 , column = 1)
     scrollBar.pack(fill = 'y' , side = 'right')
     LogListbox.pack(fill = 'both' , side = 'left')
 
@@ -364,6 +366,7 @@ def timeCard(emp) :
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
+    editButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 #confirmation win
