@@ -355,3 +355,17 @@ class ProgramingButton(MyLabel):
             self.after(300 , self.tick)
 
 
+class NumButton(MyLabel) :
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.label.configure(bg = 'blue' , relief = "groove")
+        self.value = None
+
+class NumLabel(MyLabel) :
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.value = None
+
+    def setValue(self, Value):
+        self.value = Value
+

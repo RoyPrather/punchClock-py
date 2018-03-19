@@ -394,9 +394,9 @@ def editLogWin(entryId):
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    hoursLabel = MyLabel(t, width = setWidth(20) , height = setHeight(15))
-    minutesLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
-    secondsLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
+    hoursLabel = NumLabel(t, width = setWidth(20) , height = setHeight(15))
+    minutesLabel = NumLabel(t, width = setWidth(7) , height = setHeight(15))
+    secondsLabel = NumLabel(t, width = setWidth(7) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(60))
@@ -420,17 +420,17 @@ def editLogWin(entryId):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    hour = entry.hour
-    minute = entry.minute
-    second = entry.second
-    hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hoursLabel , hour))
-    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minutesLabel , minute))
-    secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel , second ))
-    confirmButton.label.bind('<1>' , lambda x:(entry.adjustTime(hour , minute , second) ,t.destroy()))
+    hoursLabel.setValue(entry.hour)
+    minutesLabel.setValue(entry.minute)
+    secondsLabel.setValue(entry.second)
+    hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hoursLabel))
+    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minutesLabel))
+    secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel))
+    confirmButton.label.bind('<1>' , lambda x:(entry.adjustTime(hoursLabel.value , minutesLabel.value , secondsLabel.value) ,t.destroy()))
 
 
 #confirmation win
-def timeSelectWin(label , var) :
+def timeSelectWin(label) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -439,16 +439,14 @@ def timeSelectWin(label , var) :
     rows = 3
     columns = 4
     count = 0
-    def setvar(num, var):
-        var = num
 
     for row in range(rows):
         for column in range(columns):
-            button = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+            button = NumButton(t , width = setWidth(25) , height = setHeight(25))
             button.label.configure(text = str((count * 5)).zfill(2))
+            button.value = count * 5
             button.grid(row = row , column = column)
-            temp = count * 5
-            button.label.bind('<1>' , lambda x = temp: (setvar(x,var) , label.label.configure(text = var) , t.destroy()))
+            button.label.bind('<1>' , lambda x: (label.setValue(button.value) , label.label.configure(text = button.value) , t.destroy()))
             count += 1
 
     backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
