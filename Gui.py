@@ -1,11 +1,7 @@
 import Tkinter as Tk
 import time
-import RPi.GPIO as GPIO
 import MFRC522
 from Database import *
-
-#bug fixes
-GPIO.setwarnings(False)
 
 # style args
 font = 'verdana 15 bold'
@@ -55,7 +51,6 @@ class ScanLabel(MyLabel) :
                 if status == self.reader.MI_OK :
                     uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
                     employee.newEmployee('admin' , uid)
-                    GPIO.cleanup()
 
                 else :
                     self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
@@ -340,7 +335,6 @@ class ProgramingButton(MyLabel):
 
                 except:
                     employee.newEmployee(self.name , self.uid)
-                    GPIO.cleanup()
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
                     self.label.bind('<1>' , lambda x : self.master.destroy())
 
