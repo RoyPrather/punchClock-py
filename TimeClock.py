@@ -333,7 +333,7 @@ def timeCard(emp) :
     ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(90) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
-    hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
+    hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(10))
 
     #configure widgets
     titleLabel.label.configure(text = emp.name)
@@ -354,11 +354,11 @@ def timeCard(emp) :
     hours = 0
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[7] == 1:
-            LogListbox.insert('end' , 'Clocked In At:              ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
 
         elif entry[7] == 2 :
-            LogListbox.insert('end' , 'Started a Ten At:         ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Started a Ten At:          ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
 
         elif entry[7] == 3 :
@@ -366,11 +366,11 @@ def timeCard(emp) :
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
 
         elif entry[7] == 4 :
-            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Started A Lunch At:      ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
 
         elif entry[7] == 5 :
-            LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Ended A Lunch At:        ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
 
         elif entry[7] == 6 :
@@ -394,7 +394,7 @@ def timeCard(emp) :
                 0 , entry[6])) + 'Overtime Hours')
 
         hours += entry[6]
-    hoursLabel.label.configure(text = datetime.timedelta(0,hours))
+    hoursLabel.label.configure(text ='Hours This Day  ' datetime.timedelta(0,hours))
 
 
    #bind widgets
