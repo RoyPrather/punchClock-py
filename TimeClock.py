@@ -449,7 +449,7 @@ def timeSelectWin(var) :
         for column in range(columns):
             print(column)
             button = BlueButton(t , width = setWidth(30) , height = setHeight(25))
-            button.label.configure(text = str((count * 5).zfill(2)))
+            button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
             button.label.bind('<1>' , lambda x: (setvar(count * 5) , t.destroy()))
             count += 1
