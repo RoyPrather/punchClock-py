@@ -449,7 +449,7 @@ def timeSelectWin(label , var) :
             button.grid(row = row , column = column)
             temp = count * 5
             x = None
-            button.label.bind('<1>' , lambda x=x: (setvar(temp) , label.label.configure(text = temp) , t.destroy()))
+            button.label.bind('<1>' , lambda x = temp: (setvar(x) , label.label.configure(x) , t.destroy()))
             count += 1
 
     backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
