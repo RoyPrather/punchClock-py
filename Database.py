@@ -46,7 +46,7 @@ class log:
     def update(self):
         dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
             ' , minute = ' + str(self.minute) + ' , second = ' + str(self.second) + ' , hours = ' + str(self.hours) +
-            ' , action = ' + self.action + ' WHERE id = ' +  str(self. id) + ';')
+            ' , action = ' + str(self.action) + ' WHERE id = ' +  str(self. id) + ';')
         db.commit()
 
     def addTime(self, hour , minute , second):
