@@ -142,12 +142,13 @@ def adminWin() :
 
     # bind widgets
     viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
-    viewLogButton.label.bind('<1>' , lambda x: showLog())
+    viewLogButton.label.bind('<1>' , lambda x: timeCardList())
     newEmployeeButton.label.bind('<1>' , lambda x: newEmployeeWin())
     createReportButton.label.bind('<1>' , lambda x: reportWin())
     newAdminButton.label.bind('<1>' , lambda x: programingWin('admin'))
     backButton.label.bind('<1>' , lambda x: t.destroy())
     closeButton.label.bind('<1>' , lambda x : root.destroy())
+    
 # Bring up new employee screen
 def newEmployeeWin() :
     # create window
@@ -275,8 +276,8 @@ def sendMessageWin(name) :
     # bind widgets
 
 
-#Show log for editing .... by name?
-def showLog() :
+#employee list for time cards
+def timeCardList() :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -332,6 +333,7 @@ def timeCard(emp) :
     ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(90) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
+    hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
 
     #configure widgets
     titleLabel.label.configure(text = emp.name)
@@ -339,49 +341,64 @@ def timeCard(emp) :
     editButton.label.configure(text = 'Edit')
     ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = LogListbox.yview)
-    now = datetime.datetime.now()
-
 
     #place widgets
-    titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
-    ListboxFrame.grid(row = 1 , column = 0 , columnspan = 2)
+    titleLabel.grid(row = 0 , column = 0)
+    ListboxFrame.grid(row = 1 , column = 0)
+    hoursLabel.grid(row = 2 , column = 0)
     backButton.grid(row = 3 , column = 0)
-    editButton.grid(row = 3 , column = 1)
     scrollBar.pack(fill = 'y' , side = 'right')
     LogListbox.pack(fill = 'both' , side = 'left')
 
-    count = 0
-    logs = []
+    now = datetime.datetime.now()
+    hours = 0
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[7] == 1:
-            LogListbox.insert(count , 'Clocked In At:           ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Clocked In At:              ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
-            logs.insert(count , entry[0])
+
         elif entry[7] == 2 :
-            LogListbox.insert(count , 'Started a Ten At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Started a Ten At:         ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
-            logs.insert(count , entry[0])
+
         elif entry[7] == 3 :
-            LogListbox.insert(count , 'Returned From Ten At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
-            logs.insert(count , entry[0])
+
         elif entry[7] == 4 :
-            LogListbox.insert(count , 'Started A Lunch At:     ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
-            logs.insert(count , entry[0])
+
         elif entry[7] == 5 :
-            LogListbox.insert(count , 'Ended A Lunch At:        ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
-            logs.insert(count , entry[0])
+
         elif entry[7] == 6 :
-            LogListbox.insert(count , 'Clocked Out At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
-            logs.insert(count , entry[0])
-        count += 1
+
+        elif entry[7] == 7 :
+            LogListbox.insert('end' , 'Manual Change.                     Added ' + str(datetime.timedelta(
+                0 , entry[6])) + ' Hours')
+
+        elif entry[7] == 8 :
+            LogListbox.insert('end' , 'Manual Change.                     Removed ' + str(datetime.timedelta(
+                0 , entry[6])) + ' Hours')
+
+        elif entry[7] == 9 :
+            LogListbox.insert('end' , 'Manual Change.                Added ' + str(datetime.timedelta(
+                0 , entry[6])) + 'Overtime Hours')
+
+        elif entry[7] == 10 :
+            LogListbox.insert('end' , 'Manual Change.                 Removed ' + str(datetime.timedelta(
+                0 , entry[6])) + 'Overtime Hours')
+
+        hours += entry[6]
+    hoursLabel.label.configure(text = datetime.timedelta.(0,hours))
+
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    editButton.label.bind('<1>' , lambda x: editLogWin(logs[LogListbox.curselection()[0]]))
 
 
 def editLogWin(entryId):

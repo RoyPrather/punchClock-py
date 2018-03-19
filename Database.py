@@ -13,9 +13,9 @@ try:
 
 except:
     dbi('CREATE TABLE employees (id integer NOT NULL PRIMARY KEY ,name varchar NOT NULL,'
-         'totalHours smallint NOT NULL DEFAULT 0,overtime smallint NOT NULL DEFAULT 0,hours smallint NOT NULL DEFAULT 0,'
-         'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
-         'lastTime varchar NOT NULL DEFAULT 0,uid varchar NOT NULL DEFAULT 0);')
+        'totalHours smallint NOT NULL DEFAULT 0,overtime smallint NOT NULL DEFAULT 0,hours smallint NOT NULL DEFAULT 0,'
+        'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
+        'lastTime varchar NOT NULL DEFAULT 0,uid varchar NOT NULL DEFAULT 0);')
 
 
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log"')
@@ -24,9 +24,9 @@ try:
 
 except:
     dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY ,'
-         'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '
-         'minute smallint NOT NULL ,second smallint NOT NULL , hours smallint NOT NULL , '
-         'action integer NOT NULL , uid varchar NOT NULL DEFAULT 0);')
+        'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '
+        'minute smallint NOT NULL ,second smallint NOT NULL , hours smallint NOT NULL , '
+        'action smallint NOT NULL , uid varchar NOT NULL DEFAULT 0);')
 
 
 #handles log table in database
@@ -215,3 +215,23 @@ class employee:
     def destroy(self):
         dbi('DELETE FROM employees WHERE uid = "' + self.id + '";')
         db.commit()
+
+    def addTime(self, seconds):
+        self.totalHours += seconds
+        log.addEntry(7 , seconds , self.id , self.lastTime)
+        self.updateDB()
+
+    def subTime(self , seconds):
+        self.totalHours -= seconds
+        log.addEntry(8 , seconds , self.id , self.lastTime)
+        self.updateDB()
+
+    def addOvertime(self, seconds):
+        self.overtime += seconds
+        log.addEntry(9 , seconds , self.id , self.lastTime)
+        self.updateDB()
+
+    def subOvertime(self, seconds):
+        self.overtime -= seconds
+        log.addEntry(10 , seconds , self.id , self.lastTime)
+        self.updateDB()
