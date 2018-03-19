@@ -353,14 +353,31 @@ def timeCard(emp) :
     count = 0
     logs = []
     for entry in log.getDay(now.month , now.day, emp.id):
-        if entry[6] == 0:
-            LogListbox.insert(count , entry[7] + ' At:    ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) )
+        if entry[7] == 1:
+            LogListbox.insert(count , 'Clocked In At:        ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+                entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
             logs.insert(count , entry[0])
-
-        else:
-            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
+        elif entry[7] == 2 :
+            LogListbox.insert(count , 'Started a Ten At:     ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
             logs.insert(count , entry[0])
-        count += 1
+        elif entry[7] == 3 :
+            LogListbox.insert(count , 'Returned From Ten At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+            logs.insert(count , entry[0])
+        elif entry[7] == 4 :
+            LogListbox.insert(count , 'Started A Lunch At:   ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+            logs.insert(count , entry[0])
+        elif entry[7] == 5 :
+            LogListbox.insert(count , 'Ended A Lunch At:     ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+            logs.insert(count , entry[0])
+        elif entry[7] == 6 :
+            LogListbox.insert(count , 'Clocked Out At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+            logs.insert(count , entry[0])
+            count += 1
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
@@ -381,16 +398,19 @@ def editLogWin(entryId):
     minutesLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
     secondsLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
+    confirmButton = EditButton(t , width = setWidth(25) , height = setHeight(25))
+    messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(60))
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Hours, Minutes, or Seconds to Edit')
-    hoursLabel.label.configure(text = str(entry.hour) + ':')
-    minutesLabel.label.configure(text = str(entry.minute) + ':')
-    secondsLabel.label.configure(text = str(entry.second))
+    hoursLabel.label.configure(text = str(entry.hour) + '    :' , font = 'verdana 30 bold')
+    minutesLabel.label.configure(text = str(entry.minute) + '    :' , font = 'verdana 30 bold')
+    secondsLabel.label.configure(text = str(entry.second) , font = 'verdana 30 bold')
     backButton.label.configure(text = 'Cancel')
     confirmButton.label.configure(text = 'Confirm')
+    confirmButton.entry = entry
+    if
+
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 5)
     hoursLabel.grid(column = 1 ,row = 1)
@@ -402,7 +422,11 @@ def editLogWin(entryId):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    confirmButton.label.bind
+    hoursLabel.label.bind('<1>' , lambda x: t.destroy())
+    minutesLabel.label.bind('<1>' , lambda x: t.destroy())
+    secondsLabel.label.bind('<1>' , lambda x: t.destroy())
+    confirmButton.setBind()
+
 
 #confirmation win
 def confirmWin(title , action) :

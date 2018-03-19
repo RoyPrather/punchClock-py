@@ -354,12 +354,21 @@ class ProgramingButton(MyLabel):
             self.label.unbind('<1>')
             self.after(300 , self.tick)
 
-class LabelButton(MyLabel):
+class EditButton(MyLabel):
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
-        self.function = None
         self.label.config( relief = "groove")
+        self.entry = None
+        self.hour = None
+        self.minute = None
+        self.second = None
+        self.add = None
 
+    def setBind(self):
+        self.label.bind('<1>' , lambda x: self.function())
 
-    def setBind(self, args = None):
-        self.label.bind('<1>' , lambda x: self.function(args))
+    def function(self):
+        if self.add == 1:
+            self.entry.addTime(self.hour, self.minute, self.second)
+        elif self.add == 0:
+            self.entry.subTime(self.hour, self.minute, self.second)

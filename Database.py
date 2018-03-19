@@ -125,7 +125,7 @@ class employee:
             if datetime.datetime.now().day != self.lastTime.day:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Clocked In' , 0 , self.id , self.lastTime)
+            log.addEntry(1 , 0 , self.id , self.lastTime)
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
@@ -139,18 +139,7 @@ class employee:
             self.totalHours += temp
             self.onTen = 1
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Left For Ten' , temp , self.id , self.lastTime)
-            self.updateDB()
-
-
-    def startLunch(self):
-        if (not self.onTen) and self.clockedIn  and (not self.onLunch):
-            temp = (datetime.datetime.now() - self.lastTime).seconds
-            self.hours += temp
-            self.totalHours += temp
-            self.onLunch = 1
-            self.lastTime = datetime.datetime.now()
-            log.addEntry('Left For Lunch' , temp , self.id , self.lastTime)
+            log.addEntry(2 , temp , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -162,19 +151,31 @@ class employee:
             if temp2 <= temp:
                 self.hours += temp2.seconds
                 self.totalHours += temp2.seconds
-                log.addEntry('Returned From Ten' , temp2.seconds , self.id , self.lastTime)
+                log.addEntry(3 , temp2.seconds , self.id , self.lastTime)
             else:
                 self.hours += temp.seconds
                 self.totalHours += temp.seconds
-                log.addEntry('Returned From Ten' , temp.seconds , self.id , self.lastTime)
+                log.addEntry(3 , temp.seconds , self.id , self.lastTime)
             self.onTen = 0
             self.updateDB()
+
+
+    def startLunch(self):
+        if (not self.onTen) and self.clockedIn  and (not self.onLunch):
+            temp = (datetime.datetime.now() - self.lastTime).seconds
+            self.hours += temp
+            self.totalHours += temp
+            self.onLunch = 1
+            self.lastTime = datetime.datetime.now()
+            log.addEntry(4 , temp , self.id , self.lastTime)
+            self.updateDB()
+
 
 
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Returned From Lunch' , 0 , self.id , self.lastTime)
+            log.addEntry(5 , 0 , self.id , self.lastTime)
             self.onLunch = 0
             self.updateDB()
 
@@ -185,7 +186,7 @@ class employee:
             self.hours += temp.seconds
             self.totalHours += temp.seconds
             self.lastTime = datetime.datetime.now()
-            log.addEntry('Clocked Out' , temp.seconds , self.id , self.lastTime)
+            log.addEntry(6 , temp.seconds , self.id , self.lastTime)
             if self.hours > self.over.seconds:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
