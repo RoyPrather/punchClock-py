@@ -354,11 +354,11 @@ def timeCard(emp) :
     logs = []
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[7] == 1:
-            LogListbox.insert(count , 'Clocked In At:        ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert(count , 'Clocked In At:           ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         elif entry[7] == 2 :
-            LogListbox.insert(count , 'Started a Ten At:     ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert(count , 'Started a Ten At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         elif entry[7] == 3 :
@@ -366,11 +366,11 @@ def timeCard(emp) :
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         elif entry[7] == 4 :
-            LogListbox.insert(count , 'Started A Lunch At:   ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert(count , 'Started A Lunch At:     ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         elif entry[7] == 5 :
-            LogListbox.insert(count , 'Ended A Lunch At:     ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
+            LogListbox.insert(count , 'Ended A Lunch At:        ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         elif entry[7] == 6 :
@@ -403,9 +403,9 @@ def editLogWin(entryId):
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Hours, Minutes, or Seconds to Edit')
-    hoursLabel.label.configure(text = str(entry.hour) + '    :' , font = 'verdana 30 bold')
-    minutesLabel.label.configure(text = str(entry.minute) + '    :' , font = 'verdana 30 bold')
-    secondsLabel.label.configure(text = str(entry.second) , font = 'verdana 30 bold')
+    hoursLabel.label.configure(text = str(entry.hour) + ':' , font = 'verdana 25 bold')
+    minutesLabel.label.configure(text = str(entry.minute) + ':' , font = 'verdana 25 bold')
+    secondsLabel.label.configure(text = str(entry.second) , font = 'verdana 25 bold')
     backButton.label.configure(text = 'Cancel')
     confirmButton.label.configure(text = 'Confirm')
     confirmButton.entry = entry
