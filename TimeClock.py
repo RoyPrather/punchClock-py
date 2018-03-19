@@ -333,7 +333,7 @@ def timeCard(emp) :
     ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(90) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
-    hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(10))
+    hoursLabel = MyLabel(t , width = setWidth(100) , height = setHeight(10))
 
     #configure widgets
     titleLabel.label.configure(text = emp.name)
