@@ -142,10 +142,10 @@ def adminWin() :
 
     # bind widgets
     viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
-    viewLogButton.label.bind('<1>' , lambda x: timeCardList())
+    viewLogButton.label.bind('<1>' , lambda x: timeCardListWin())
     newEmployeeButton.label.bind('<1>' , lambda x: newEmployeeWin())
     createReportButton.label.bind('<1>' , lambda x: reportWin())
-    newAdminButton.label.bind('<1>' , lambda x: programingWin('admin'))
+    newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
     backButton.label.bind('<1>' , lambda x: t.destroy())
     closeButton.label.bind('<1>' , lambda x : root.destroy())
 
@@ -176,12 +176,12 @@ def newEmployeeWin() :
     backButton.grid(row = 2 , column = 0)
 
     # bind widgets
-    submitButton.label.bind('<1>' , lambda x: (programingWin(nameEntry.get()), t.destroy()))
+    submitButton.label.bind('<1>' , lambda x: (programCardWin(nameEntry.get()), t.destroy()))
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 # Bring up new admin screen
-def programingWin(name) :
+def programCardWin(name) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -233,7 +233,6 @@ def reportWin() :
     overLabel.grid(column = 3 , row = 1)
     reportFrame.grid(column = 0 , row =2 , columnspan = 4)
     backButton.grid(column = 0 , row = 3 , columnspan = 4)
-   # bind widgets
 
 
 # Bring up Messge sending window
@@ -277,7 +276,7 @@ def sendMessageWin(name) :
 
 
 #employee list for time cards
-def timeCardList() :
+def timeCardListWin() :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -318,9 +317,10 @@ def timeCardList() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: timeCard(emps[nameFrame.curselection()[0]]))
+    submitButton.label.bind('<1>' , lambda x: timeCardWin(emps[nameFrame.curselection()[0]]))
 
-def timeCard(emp) :
+
+def timeCardWin(emp) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -355,46 +355,43 @@ def timeCard(emp) :
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[7] == 1:
             LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
+                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 2 :
             LogListbox.insert('end' , 'Started a Ten At:           ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 3 :
             LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 4 :
             LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 5 :
             LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 6 :
             LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
+                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 7 :
-            LogListbox.insert('end' , 'Manual Change.                     Added ' + str(datetime.timedelta(
-                0 , entry[6])) + ' Hours')
+            LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 8 :
-            LogListbox.insert('end' , 'Manual Change.                     Removed ' + str(datetime.timedelta(
-                0 , entry[6])) + ' Hours')
+            LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
 
         elif entry[7] == 9 :
-            LogListbox.insert('end' , 'Manual Change.                Added ' + str(datetime.timedelta(
-                0 , entry[6])) + 'Overtime Hours')
+            LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[6] / 360.0 , 2)) + 'Overtime Hours')
 
         elif entry[7] == 10 :
-            LogListbox.insert('end' , 'Manual Change.                 Removed ' + str(datetime.timedelta(
-                0 , entry[6])) + 'Overtime Hours')
+            LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[6] / 360.0 , 2)) + 'Overtime Hours')
 
         hours += entry[6]
-    hoursLabel.label.configure(text ='Hours This Day  ' + str(datetime.timedelta(0,hours)))
+
+    hoursLabel.label.configure(text ='Hours This Day  ' + str(round(hours / 360.0 , 2)))
 
 
    #bind widgets
