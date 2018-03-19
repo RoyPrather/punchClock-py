@@ -422,27 +422,39 @@ def editLogWin(entryId):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    hoursLabel.label.bind('<1>' , lambda x: t.destroy())
-    minutesLabel.label.bind('<1>' , lambda x: t.destroy())
-    secondsLabel.label.bind('<1>' , lambda x: t.destroy())
-    confirmButton.setBind()
+    hour = entry.hour
+    minute = entry.minute
+    second = entry.second
+    hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hour))
+    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minute))
+    secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(second))
+    confirmButton.setBind('<1>' , lambda x:(entry.adjustTime ,t.destroy()))
 
 
 #confirmation win
-def confirmWin(title , action) :
+def timeSelectWin(var) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
 
-    # create widgets
-    titleLabel = Tk.Label(t , text = 'Are You Sure You Want To ' + title +'?' , width = 80)
-    confirmButton = Tk.Button(t , text = 'Yes!' , width = 80 , command = lambda : (action() , t.destroy()))
-    backButton = Tk.Button(t , text = 'Cancel' , command = lambda : t.destroy(), width = 80)
+    rows = 3
+    columns = 4
+    count = 1
+    for row in range(rows):
+        print(row)
+        for column in range(columns):
+            print(column)
+            button = BlueButton(t , width = setWidth(30) , height = setHeight(25))
+            button.label.configure(text = str((count * 5).zfill(2)))
+            button.grid(row = row , column = column)
+            button.label.bind('<1>' , lambda x: (var = count * 5 , t.destroy()))
+            count += 1
 
-    #place widgets in window
-    titleLabel.grid()
-    confirmButton.grid()
+    backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
+    backButton.label.configure(text = 'Cancel')
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+
     backButton.grid()
 
 

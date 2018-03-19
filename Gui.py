@@ -112,7 +112,7 @@ class TimeLabel(MyLabel) :
     def tick(self) :
         # get the current local time from the PC
         temp = time.localtime()
-        self.label.config(text = str(temp[3] % 12) + ':' + str(temp[4]).zfill(2) + ':' + str(temp[5]).zfill(2))
+        self.label.config(text = str(temp[3].zfill(2)) + ':' + str(temp[4]).zfill(2) + ':' + str(temp[5]).zfill(2))
         # calls itself every so many milliseconds
         self.after(300 , self.tick)
 

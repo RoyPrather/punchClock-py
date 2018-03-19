@@ -33,7 +33,6 @@ except:
 class log:
     def __init__(self, id):
         entry = dbi('SELECT * FROM log WHERE id =' + str(id) + ';').fetchall()[0]
-        print(entry)
         self. id = entry[0]
         self.month = entry[1]
         self.day = entry[2]
@@ -52,7 +51,8 @@ class log:
 
     def addTime(self, hour , minute , second):
         emp = employee(self.uid)
-        emp.hours += abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) - datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0))
+        emp.hours += abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0).seconds - datetime.timedelta(
+            0 , self.second , 0 , 0 , self.minute , self.hour , 0).seconds)
         emp.updateDB()
         self.second = second
         self.hour = hour
@@ -61,12 +61,29 @@ class log:
 
     def subTime(self, hour , minute , second):
         emp = employee(self.uid)
-        emp.hours -= abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) - datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0))
+        emp.hours -= abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0).seconds - datetime.timedelta(
+            0 , self.second , 0 , 0 , self.minute , self.hour , 0).seconds)
         emp.updateDB()
         self.second = second
         self.hour = hour
         self.minute = minute
         self.update()
+
+    def adjustTime(self, hour , minute ,second):
+        if self.action == 1 or self.action == 5:
+            if datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) > datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0):
+                self.addTime(hour , minute , second)
+
+            elif datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) < datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0):
+                self.subTime(hour , minute , second)
+
+        elif self.action == 6 or self.action == 4 :
+            if datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) > datetime.timedelta(0 , self.second , 0 , 0 ,self.minute , self.hour ,0) :
+                self.subTime(hour , minute , second)
+
+            elif datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) < datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0) :
+                self.addTime(hour , minute , second)
+
 
     @classmethod
     def getDay(cls , month , day , uid):
