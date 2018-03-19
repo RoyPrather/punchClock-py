@@ -148,7 +148,7 @@ def adminWin() :
     newAdminButton.label.bind('<1>' , lambda x: programingWin('admin'))
     backButton.label.bind('<1>' , lambda x: t.destroy())
     closeButton.label.bind('<1>' , lambda x : root.destroy())
-    
+
 # Bring up new employee screen
 def newEmployeeWin() :
     # create window
@@ -394,7 +394,7 @@ def timeCard(emp) :
                 0 , entry[6])) + 'Overtime Hours')
 
         hours += entry[6]
-    hoursLabel.label.configure(text = datetime.timedelta.(0,hours))
+    hoursLabel.label.configure(text = datetime.timedelta(0,hours))
 
 
    #bind widgets
