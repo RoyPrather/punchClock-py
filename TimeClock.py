@@ -445,9 +445,7 @@ def timeSelectWin(var) :
         var = num
 
     for row in range(rows):
-        print(row)
         for column in range(columns):
-            print(column)
             button = BlueButton(t , width = setWidth(30) , height = setHeight(25))
             button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
@@ -458,7 +456,7 @@ def timeSelectWin(var) :
     backButton.label.configure(text = 'Cancel')
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
-    backButton.grid()
+    backButton.grid(row = 3 , column = 0 , columnspan = 4)
 
 
 def doneWin(text):
