@@ -423,14 +423,14 @@ def editLogWin(entryId):
     hour = entry.hour
     minute = entry.minute
     second = entry.second
-    hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hour))
-    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minute))
-    secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(second))
+    hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hoursLabel , hour))
+    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel , minute))
+    secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel , second ))
     confirmButton.label.bind('<1>' , lambda x:(entry.adjustTime(hour , minute , second) ,t.destroy()))
 
 
 #confirmation win
-def timeSelectWin(var) :
+def timeSelectWin(label , var) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -438,7 +438,7 @@ def timeSelectWin(var) :
 
     rows = 3
     columns = 4
-    count = 1
+    count = 0
     def setvar(num):
         var = num
 
@@ -447,7 +447,7 @@ def timeSelectWin(var) :
             button = BlueButton(t , width = setWidth(25) , height = setHeight(25))
             button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
-            button.label.bind('<1>' , lambda x: (setvar(count * 5) , t.destroy()))
+            button.label.bind('<1>' , lambda x: (setvar(count * 5) , label.label.configure(text = count * 5) , t.destroy()))
             count += 1
 
     backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
