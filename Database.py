@@ -26,7 +26,7 @@ except:
     dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY ,'
          'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '
          'minute smallint NOT NULL ,second smallint NOT NULL , hours smallint NOT NULL , '
-         'action varchar NOT NULL , uid varchar NOT NULL DEFAULT 0);')
+         'action integer NOT NULL , uid varchar NOT NULL DEFAULT 0);')
 
 
 #handles log table in database
@@ -47,7 +47,7 @@ class log:
     def update(self):
         dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
             ' , minute = ' + str(self.minute) + ' , second = ' + str(self.second) + ' , hours = ' + str(self.hours) +
-            ' , action = "' + self.action + '" WHERE id = ' +  str(self. id) + ';')
+            ' , action = ' + self.action + ' WHERE id = ' +  str(self. id) + ';')
         db.commit()
 
     def addTime(self, hour , minute , second):
@@ -81,7 +81,7 @@ class log:
     def addEntry(cls , action , hours , uid , dtime):
         dbi('INSERT INTO log (month , day , hour , minute , second , hours , action , uid) values (' + str(dtime.month) +
             ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(hours) +
-            ' , "' + str(action) + '" , "' + str(uid) + '");')
+            ' , ' + str(action) + ' , "' + str(uid) + '");')
         db.commit()
 
 
