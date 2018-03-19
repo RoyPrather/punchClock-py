@@ -82,10 +82,7 @@ def clockInWin(id) :
     sendMessageButton.label.configure(text = 'Message Management')
     backButton.label.configure(text = 'Done')
 
-
-
     # place widgets in window
-
     nameLabel.grid(column = 0 , row = 0 , columnspan = 2)
     hoursTitle.grid(column = 0 , row = 1)
     hoursTotal.grid(column = 0 , row = 2)
@@ -361,7 +358,7 @@ def timeCard(emp) :
             logs.insert(count , entry[0])
 
         else:
-            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) + '. \t \t Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
+            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) + '.            Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         count += 1
 
@@ -384,6 +381,8 @@ def editLogWin(entryId):
     minutesLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
     secondsLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+    confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+    messageLabel = MyLabel(t , width = setWidth(100, height = setHeight(75)))
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Hours, Minutes, or Seconds to Edit')
@@ -391,13 +390,15 @@ def editLogWin(entryId):
     minutesLabel.label.configure(text = str(entry.minute) + ':')
     secondsLabel.label.configure(text = str(entry.second))
     backButton.label.configure(text = 'Cancel')
-
+    confirmButton.label.configure(text = 'Confirm')
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 5)
     hoursLabel.grid(column = 1 ,row = 1)
     minutesLabel.grid(column = 2 , row = 1)
     secondsLabel.grid(column = 3 , row = 1)
-    backButton.grid(column = 0 , row = 2)
+    messageLabel.grid(column = 0 , row = 2 , columnspan = 5)
+    backButton.grid(column = 0 , row = 3)
+    confirmButton.grid(column = 4 , row = 3)
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
