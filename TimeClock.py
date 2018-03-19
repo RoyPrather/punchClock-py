@@ -354,11 +354,11 @@ def timeCard(emp) :
     logs = []
     for entry in log.getDay(now.month , now.day, emp.id):
         if entry[6] == 0:
-            LogListbox.insert(count , entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) )
+            LogListbox.insert(count , entry[7] + ' At:    ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) )
             logs.insert(count , entry[0])
 
         else:
-            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) + '.            Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
+            LogListbox.insert(count ,  entry[7] + ' At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(entry[5]) + '.        Added ' + str(datetime.timedelta(0,entry[6])) + ' Hours')
             logs.insert(count , entry[0])
         count += 1
 
@@ -382,7 +382,7 @@ def editLogWin(entryId):
     secondsLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    messageLabel = MyLabel(t , width = setWidth(100, height = setHeight(75)))
+    messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Hours, Minutes, or Seconds to Edit')
