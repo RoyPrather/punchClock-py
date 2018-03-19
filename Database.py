@@ -48,17 +48,25 @@ class log:
         dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
             ' , minute = ' + str(self.minute) + ' , second = ' + str(self.second) + ' , hours = ' + str(self.hours) +
             ' , action = "' + self.action + '" WHERE id = ' +  str(self. id) + ';')
+        db.commit()
 
-
-    def subTime(self , seconds):
+    def addTime(self, hour , minute , second):
         emp = employee(self.uid)
-        emp.hours -= seconds
+        emp.hours += abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) - datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0))
+        emp.updateDB()
+        self.second = second
+        self.hour = hour
+        self.minute = minute
+        self.update()
 
-
-    def addTime(self , seconds):
+    def subTime(self, hour , minute , second):
         emp = employee(self.uid)
-        emp.hours += seconds
-
+        emp.hours -= abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) - datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0))
+        emp.updateDB()
+        self.second = second
+        self.hour = hour
+        self.minute = minute
+        self.update()
 
     @classmethod
     def getDay(cls , month , day , uid):
@@ -188,3 +196,4 @@ class employee:
 
     def destroy(self):
         dbi('DELETE FROM employees WHERE uid = "' + self.id + '";')
+        db.commit()

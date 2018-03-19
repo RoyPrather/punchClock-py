@@ -402,7 +402,7 @@ def editLogWin(entryId):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-
+    confirmButton.label.bind
 
 #confirmation win
 def confirmWin(title , action) :
