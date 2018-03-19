@@ -448,6 +448,7 @@ def timeSelectWin(label , var) :
             button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
             temp = count * 5
+            x = None
             button.label.bind('<1>' , lambda x=x: (setvar(temp) , label.label.configure(text = temp) , t.destroy()))
             count += 1
 
