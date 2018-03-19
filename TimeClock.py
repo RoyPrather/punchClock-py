@@ -394,7 +394,7 @@ def timeCard(emp) :
                 0 , entry[6])) + 'Overtime Hours')
 
         hours += entry[6]
-    hoursLabel.label.configure(text ='Hours This Day  ' datetime.timedelta(0,hours))
+    hoursLabel.label.configure(text ='Hours This Day  ' + datetime.timedelta(0,hours))
 
 
    #bind widgets
