@@ -394,7 +394,7 @@ def editLogWin(entryId):
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    hoursLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
+    hoursLabel = MyLabel(t, width = setWidth(20) , height = setHeight(15))
     minutesLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
     secondsLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
@@ -448,8 +448,7 @@ def timeSelectWin(label , var) :
             button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
             temp = count * 5
-            x = None
-            button.label.bind('<1>' , lambda x = temp: (setvar(x) , label.label.configure(text = x) , t.destroy()))
+            button.label.bind('<1>' , lambda x = temp: (setvar(x) , label.label.configure(text = str(x)) , t.destroy()))
             count += 1
 
     backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
