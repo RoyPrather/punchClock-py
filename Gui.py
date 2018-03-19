@@ -368,7 +368,4 @@ class EditButton(MyLabel):
         self.label.bind('<1>' , lambda x: self.function())
 
     def function(self):
-        if self.add == 1:
-            self.entry.addTime(self.hour, self.minute, self.second)
-        elif self.add == 0:
-            self.entry.subTime(self.hour, self.minute, self.second)
+        self.

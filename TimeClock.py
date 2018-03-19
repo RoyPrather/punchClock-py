@@ -398,7 +398,7 @@ def editLogWin(entryId):
     minutesLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
     secondsLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    confirmButton = EditButton(t , width = setWidth(25) , height = setHeight(25))
+    confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(60))
 
     #configure widgets
@@ -408,8 +408,6 @@ def editLogWin(entryId):
     secondsLabel.label.configure(text = str(entry.second) , font = 'verdana 25 bold')
     backButton.label.configure(text = 'Cancel')
     confirmButton.label.configure(text = 'Confirm')
-    confirmButton.entry = entry
-    #if
 
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 5)
@@ -428,7 +426,7 @@ def editLogWin(entryId):
     hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hour))
     minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minute))
     secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(second))
-    confirmButton.setBind('<1>' , lambda x:(entry.adjustTime ,t.destroy()))
+    confirmButton.label.bind('<1>' , lambda x:(entry.adjustTime(hour , minute , second) ,t.destroy()))
 
 
 #confirmation win
@@ -446,7 +444,7 @@ def timeSelectWin(var) :
 
     for row in range(rows):
         for column in range(columns):
-            button = BlueButton(t , width = setWidth(30) , height = setHeight(25))
+            button = BlueButton(t , width = setWidth(25) , height = setHeight(25))
             button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
             button.label.bind('<1>' , lambda x: (setvar(count * 5) , t.destroy()))
