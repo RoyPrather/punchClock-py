@@ -377,7 +377,7 @@ def timeCard(emp) :
             LogListbox.insert(count , 'Clocked Out At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(datetime.timedelta(0 , entry[6])) + ' Hours')
             logs.insert(count , entry[0])
-            count += 1
+        count += 1
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
