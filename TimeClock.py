@@ -394,9 +394,9 @@ def editLogWin(entryId):
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    hoursLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
-    minutesLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
-    secondsLabel = MyLabel(t, width = setWidth(5) , height = setHeight(15))
+    hoursLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
+    minutesLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
+    secondsLabel = MyLabel(t, width = setWidth(7) , height = setHeight(15))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     confirmButton = EditButton(t , width = setWidth(25) , height = setHeight(25))
     messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(60))
