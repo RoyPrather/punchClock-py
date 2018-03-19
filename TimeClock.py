@@ -424,7 +424,7 @@ def editLogWin(entryId):
     minute = entry.minute
     second = entry.second
     hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hoursLabel , hour))
-    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel , minute))
+    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minutesLabel , minute))
     secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel , second ))
     confirmButton.label.bind('<1>' , lambda x:(entry.adjustTime(hour , minute , second) ,t.destroy()))
 
@@ -447,7 +447,8 @@ def timeSelectWin(label , var) :
             button = BlueButton(t , width = setWidth(25) , height = setHeight(25))
             button.label.configure(text = str((count * 5)).zfill(2))
             button.grid(row = row , column = column)
-            button.label.bind('<1>' , lambda x: (setvar(count * 5) , label.label.configure(text = count * 5) , t.destroy()))
+            temp = count * 5
+            button.label.bind('<1>' , lambda x: (setvar(temp) , label.label.configure(text = temp) , t.destroy()))
             count += 1
 
     backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
