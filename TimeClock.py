@@ -313,7 +313,7 @@ def timeCardList() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name)
+            nameFrame.insert(count , emp.name + '    ' + emp.hours / 360  + '  Hours')
             count += 1
 
     #bind widgets
