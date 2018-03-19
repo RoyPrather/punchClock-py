@@ -409,7 +409,7 @@ def editLogWin(entryId):
     backButton.label.configure(text = 'Cancel')
     confirmButton.label.configure(text = 'Confirm')
     confirmButton.entry = entry
-    if
+    #if
 
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 5)
