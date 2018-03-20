@@ -468,7 +468,7 @@ def closeProgramWin():
     #place widgets in window
     titleLable.grid(row = 0 , column = 0 , columnspan = 2)
     closeButton.grid(row = 1 , column = 0)
-    backButton.grid(row = 1 , column = 0)
+    backButton.grid(row = 1 , column = 1)
 
     #bind Widgets
     closeButton.label.bind('<1>' , lambda x: root.destroy())
