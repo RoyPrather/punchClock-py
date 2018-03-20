@@ -422,6 +422,7 @@ def timeCardDayWin(emp):
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
     dtime = datetime.datetime.now()
     tdelta = (dtime - stime).days
+    print(tdelta)
     days = []
     count = 0
     for day in range(tdelta):
@@ -431,7 +432,7 @@ def timeCardDayWin(emp):
 
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    daysListLabel.grid(column = 0 , row = 1 , columnspan= 2)
+    daysListLabel.grid(column = 0 , row = 1)
     scrollBar.grid(column = 1 , row = 1)
     backButton.grid(column = 0 , row = 2)
     confirmButton.grid(column = 1 , row = 2)
