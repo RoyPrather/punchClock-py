@@ -55,7 +55,7 @@ class Log:
     def update(self):
         dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
             ' , minute = ' + str(self.minute) + ' , second = ' + str(self.second) + ' , hours = ' + str(self.hours) +
-            ' , action = ' + str(self.action) + ' , uid = "' + str(self.uid) + '" WHERE id = ' +  str(self. id) + ';')
+            ' , action = ' + str(self.action) + ' , uid = "' + self.uid + '" WHERE id = ' +  str(self. id) + ';')
         db.commit()
 
     @classmethod
@@ -94,18 +94,19 @@ class Log:
 #hadles employee database
 class employee:
     def __init__(self, uid):
-        self.id = uid
-        self.name = (dbi('SELECT name FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
-        self.totalHours = (dbi('SELECT totalHours FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
-        self.overtime = (dbi('SELECT overtime FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
-        self.hours = (dbi('SELECT hours FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
-        self.onTen = (dbi('SELECT onTen FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
-        self.onLunch = (dbi('SELECT onLunch FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
-        self.clockedIn = (dbi('SELECT clockedIn FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0]
+        self.uid = uid
+        self.id = (dbi('SELECT id FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.name = (dbi('SELECT name FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.totalHours = (dbi('SELECT totalHours FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.overtime = (dbi('SELECT overtime FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.hours = (dbi('SELECT hours FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.onTen = (dbi('SELECT onTen FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.onLunch = (dbi('SELECT onLunch FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.clockedIn = (dbi('SELECT clockedIn FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.format = '%Y-%m-%d %H:%M:%S'
         self.over = datetime.timedelta(0,0,0,0,0,8)
         self.overweek = datetime.timedelta(0,0,0,0,0,40)
-        self.lastTime = datetime.datetime.strptime((dbi('SELECT lastTime FROM employees WHERE uid = ' + str(self.id) + ';')).fetchall()[0][0], self.format)
+        self.lastTime = datetime.datetime.strptime((dbi('SELECT lastTime FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0], self.format)
 
     @classmethod
     def newEmployee(cls , name , uid):
@@ -122,7 +123,7 @@ class employee:
         dbi('UPDATE employees SET name = "' + self.name + '" ,  totalHours = ' + str(self.totalHours) +
             ' , overtime = ' + str(self.overtime) + ' , hours = ' + str(self.hours) + ' , onTen  = ' + str(self.onTen) +
             ', onLunch = ' + str(self.onLunch) + ', clockedIn = ' + str(self.clockedIn) + ' , lastTime = "' +
-             self.lastTime.strftime(self.format) + '" , uid = "' + self.id + '" WHERE uid = ' + str(self.id) + ';')
+             self.lastTime.strftime(self.format) + '" , uid = "' + self.uid + '" WHERE id = ' + self.id + ';')
         db.commit()
 
 
@@ -131,7 +132,7 @@ class employee:
             if datetime.datetime.now().day != self.lastTime.day:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
-            Log.addEntry(1 , 0 , self.id , self.lastTime)
+            Log.addEntry(1 , 0 , self.uid , self.lastTime)
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
@@ -145,7 +146,7 @@ class employee:
             self.totalHours += temp
             self.onTen = 1
             self.lastTime = datetime.datetime.now()
-            Log.addEntry(2 , temp , self.id , self.lastTime)
+            Log.addEntry(2 , temp , self.uid , self.lastTime)
             self.updateDB()
 
 
@@ -157,11 +158,11 @@ class employee:
             if temp2 <= temp:
                 self.hours += temp2.seconds
                 self.totalHours += temp2.seconds
-                Log.addEntry(3 , temp2.seconds , self.id , self.lastTime)
+                Log.addEntry(3 , temp2.seconds , self.uid , self.lastTime)
             else:
                 self.hours += temp.seconds
                 self.totalHours += temp.seconds
-                Log.addEntry(3 , temp.seconds , self.id , self.lastTime)
+                Log.addEntry(3 , temp.seconds , self.uid , self.lastTime)
             self.onTen = 0
             self.updateDB()
 
@@ -173,7 +174,7 @@ class employee:
             self.totalHours += temp
             self.onLunch = 1
             self.lastTime = datetime.datetime.now()
-            Log.addEntry(4 , temp , self.id , self.lastTime)
+            Log.addEntry(4 , temp , self.uid , self.lastTime)
             self.updateDB()
 
 
@@ -181,7 +182,7 @@ class employee:
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
-            Log.addEntry(5 , 0 , self.id , self.lastTime)
+            Log.addEntry(5 , 0 , self.uid , self.lastTime)
             self.onLunch = 0
             self.updateDB()
 
@@ -192,7 +193,7 @@ class employee:
             self.hours += temp.seconds
             self.totalHours += temp.seconds
             self.lastTime = datetime.datetime.now()
-            Log.addEntry(6 , temp.seconds , self.id , self.lastTime)
+            Log.addEntry(6 , temp.seconds , self.uid , self.lastTime)
             if self.hours > self.over.seconds:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
@@ -202,7 +203,7 @@ class employee:
 
 
     def destroy(self):
-        dbi('DELETE FROM employees WHERE uid = "' + self.id + '";')
+        dbi('DELETE FROM employees WHERE uid = "' + self.uid + '";')
         db.commit()
 
     def addTime(self, seconds , year , month , day):
@@ -213,7 +214,7 @@ class employee:
             print(seconds)
             self.totalHours += seconds
             self.updateDB()
-        Log.addEntry(7 , seconds , self.id , dtime)
+        Log.addEntry(7 , seconds , self.uid , dtime)
 
     def subTime(self , seconds , year , month , day):
         periodStart = Log(0)
@@ -222,7 +223,7 @@ class employee:
         if dtime >= stime :
             self.totalHours -= seconds
             self.updateDB()
-        Log.addEntry(8 , seconds , self.id , self.lastTime)
+        Log.addEntry(8 , seconds , self.uid , self.lastTime)
 
     def addOvertime(self, seconds , year , month , day):
         periodStart = Log(0)
@@ -231,7 +232,7 @@ class employee:
         if dtime >= stime :
             self.overtime += seconds
             self.updateDB()
-        Log.addEntry(9 , seconds , self.id , self.lastTime)
+        Log.addEntry(9 , seconds , self.uid , self.lastTime)
 
     def subOvertime(self, seconds , year , month , day):
         periodStart = Log(0)
@@ -240,4 +241,4 @@ class employee:
         if dtime >= stime :
             self.overtime -= seconds
             self.updateDB()
-        Log.addEntry(10 , seconds , self.id , self.lastTime)
+        Log.addEntry(10 , seconds , self.uid , self.lastTime)

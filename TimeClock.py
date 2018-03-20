@@ -368,7 +368,7 @@ def timeCardWin(emp , year , month , day) :
 
 
     hours = 0
-    for entry in Log.getDay(year , month , day, emp.id):
+    for entry in Log.getDay(year , month , day, emp.uid):
         if entry[8] == 1:
             LogListbox.insert('end' , 'Clocked In At:                        ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 3600.0 , 2)) + ' Hours')
@@ -605,7 +605,7 @@ def employeeCheckInListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]].id))
+    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]].uid))
 
 
 def replaceCardListWin() :

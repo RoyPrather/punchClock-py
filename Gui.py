@@ -143,7 +143,7 @@ class TotalHoursLabel(MyLabel) :
 
 
     def tick(self) :
-        self.emp = employee(self.emp.id)
+        self.emp = employee(self.emp.uid)
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
             self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
@@ -169,7 +169,7 @@ class OverHoursLabel(MyLabel) :
 
 
     def tick(self) :
-        self.emp = employee(emp.id)
+        self.emp = employee(emp.uid)
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
             if self.emp.hours > self.emp.over.seconds :
                 self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
@@ -329,7 +329,7 @@ class ReplaceCardButton(MyLabel):
         self.reader = MFRC522.MFRC522()
 
     def updateEmployee(self, newUid):
-        self.emp.id = self.uid
+        self.emp.uid = newUid
         self.emp.updateDB()
         for row  in Log.getEmployee(self.uid):
             entry = Log(row.fetchall[0])
