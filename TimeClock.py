@@ -368,7 +368,7 @@ def timeCardWin(emp , year , month , day) :
 
 
     hours = 0
-    for entry in log.getDay(year , month , day, emp.id):
+    for entry in Log.getDay(year , month , day, emp.id):
         if entry[8] == 1:
             LogListbox.insert('end' , 'Clocked In At:                        ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 3600.0 , 2)) + ' Hours')
@@ -436,7 +436,7 @@ def timeCardDayWin(emp):
     ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = daysListLabel.yview)
 
-    periodStart = log(0)
+    periodStart = Log(0)
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
     dtime = datetime.datetime.now()
     tdelta = (dtime - stime).days + 1
@@ -649,10 +649,10 @@ def replaceCardListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: (replaceCardWin(emps[nameFrame.curselection()[0]].id, t.destroy())))
+    submitButton.label.bind('<1>' , lambda x: (replaceCardWin(emps[nameFrame.curselection()[0]].id), t.destroy()))
 
 
-def replaceCardWin(name) :
+def replaceCardWin(emp) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -660,12 +660,12 @@ def replaceCardWin(name) :
 
     # create widgets
     dLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
-    kButton = ProgramingButton(t , width = setWidth(50) , height = setHeight(25))
+    kButton = ReplaceCardButton(t , width = setWidth(50) , height = setHeight(25))
     backButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
 
     # configure widgets
     dLabel.label.configure(text = 'Scan New Card')
-    kButton.name = name
+    kButton.emp = emp
     kButton.mLabel = dLabel
     kButton.tick()
     backButton.label.configure(text = 'Cancel')
