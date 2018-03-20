@@ -61,7 +61,7 @@ class Log:
     @classmethod
     def getEmployee(cls, uid):
         try:
-            return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + ';')
+            return dbi('SELECT * FROM log WHERE uid = "' + uid + '";')
 
         except:
             print('error in getEmployee function, mabey empty table')
