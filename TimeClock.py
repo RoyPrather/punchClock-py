@@ -427,7 +427,7 @@ def timeCardDayWin(emp):
     count = 0
     for day in range(tdelta):
         temp = dtime - datetime.timedelta(day)
-        daysListLabel.insert(count, temp.month +'/'+ temp.day +'/'+ temp.year)
+        daysListLabel.insert(count, str(temp.month) +'/'+ str(temp.day) +'/'+ str(temp.year))
         days.insert(count, temp)
 
     #place widgets
