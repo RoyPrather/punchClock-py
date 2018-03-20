@@ -508,8 +508,8 @@ def editTimeCardWin(emp , year , month , day):
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     hoursLabel = HoursLabel(t , width = setWidth(100) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    addHoursButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    subHoursButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    addOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    subOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     addMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     subMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(60))
@@ -535,17 +535,20 @@ def editTimeCardWin(emp , year , month , day):
     titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
     hoursLabel.grid(row = 1 , column = 0 , columnspan = 2)
     ListboxFrame.grid(row = 2 , column = 0 , columnspan = 2)
-    addHoursButton.grid(row = 3 , column = 0)
-    subHoursButton.grid(row = 3 , column = 0)
-    addMinuteButton.grid(row = 4 , column = 0)
-    subMinuteButton.grid(row = 4 , column = 0)
+    addMinuteButton.grid(row = 3 , column = 0)
+    subMinuteButton.grid(row = 3 , column = 1)
+    addOverButton.grid(row = 4 , column = 0)
+    subOverButton.grid(row = 4 , column = 1)
     backButton.grid(row = 5 , column = 0 , columnspan = 2)
     scrollBar.pack(fill = 'y' , side = 'right')
     numSelectBox.pack(fill = 'both' , side = 'left')
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: timeCardDayWin(emps[nameFrame.curselection()[0]]))
+    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
+    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
+    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
+    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
 
 
 ##################################
