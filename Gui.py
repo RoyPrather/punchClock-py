@@ -157,7 +157,8 @@ class TotalHoursLabel(MyLabel) :
                 self.label.config(text = round((self.emp.totalHours + temp.seconds) / 3600.0 , 2))
 
         else :
-            self.label.configure(text = round(self.emp.totalHours / 3600.0 , 2)
+            self.label.configure(text = round(self.emp.totalHours / 3600.0 , 2))
+
         self.after(300 , self.tick)
 
 
@@ -194,7 +195,8 @@ class OverHoursLabel(MyLabel) :
                 if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
                     self.label.config(text = round((self.emp.overtime + temp.seconds) / 3600.0 , 2))
         else :
-            self.label.configure(text = round(self.emp.overtime / 3600.0 , 2)
+            self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
+            
         self.after(300 , self.tick)
 
 
