@@ -121,17 +121,17 @@ class HoursLabel(MyLabel) :
 
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = round((self.emp.hours + ((datetime.datetime.now() - self.emp.lastTime).seconds)) / 360.0 , 2))
+            self.label.config(text = round((self.emp.hours + ((datetime.datetime.now() - self.emp.lastTime).seconds)) / 3600.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
 
             if temp2 <= temp :
-                self.label.config(text = round((self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+                self.label.config(text = round((self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
             else :
-                self.label.config(text = round((self.emp.hours + temp.seconds) / 360.0 , 2))
+                self.label.config(text = round((self.emp.hours + temp.seconds) / 3600.0 , 2))
 
         self.after(300 , self.tick)
 
@@ -145,16 +145,16 @@ class TotalHoursLabel(MyLabel) :
     def tick(self) :
         self.emp = employee(self.emp.id)
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+            self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
             if temp2 <= temp :
-                self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+                self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
             else :
-                self.label.config(text = round((self.emp.totalHours + temp.seconds) / 360.0 , 2))
+                self.label.config(text = round((self.emp.totalHours + temp.seconds) / 3600.0 , 2))
 
         self.after(300 , self.tick)
 
@@ -168,10 +168,10 @@ class OverHoursLabel(MyLabel) :
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
             if self.emp.hours > self.emp.over.seconds :
-                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
             if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
@@ -179,17 +179,17 @@ class OverHoursLabel(MyLabel) :
             if temp2 <= temp :
 
                 if self.emp.hours > self.emp.over.seconds :
-                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
                 if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
+                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
 
             else :
                 if self.emp.hours > self.emp.over.seconds :
-                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 360.0 , 2))
+                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 3600.0 , 2))
 
                 if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 360.0 , 2))
+                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 3600.0 , 2))
 
         self.after(300 , self.tick)
 

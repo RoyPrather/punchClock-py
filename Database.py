@@ -107,8 +107,8 @@ class employee:
 
 
     def updateDB(self):
-        dbi('UPDATE employees SET name = "' +str(self.name) + '" ,  totalHours = "' + str(self.totalHours) +
-            '" , overtime = "' + str(self.overtime) + '" , hours = "' + str(self.hours) + '" , onTen  = ' + str(self.onTen) +
+        dbi('UPDATE employees SET name = "' + self.name + '" ,  totalHours = ' + str(self.totalHours) +
+            ' , overtime = ' + str(self.overtime) + ' , hours = ' + str(self.hours) + ' , onTen  = ' + str(self.onTen) +
             ', onLunch = ' + str(self.onLunch) + ', clockedIn = ' + str(self.clockedIn) + ' , lastTime = "' +
              self.lastTime.strftime(self.format) + '" WHERE uid = ' + str(self.id) + ';')
         db.commit()
