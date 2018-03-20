@@ -320,13 +320,22 @@ class MyButton(MyLabel) :
         self.label.configure(bg = 'blue' , relief = "groove")
 
 
-class ProgramingButton(MyLabel):
+class ReplaceCardButton(MyLabel):
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
-        self.name = None
+        self.emp = None
         self.uid = None
         self.mLabel = None
         self.reader = MFRC522.MFRC522()
+
+    def updateEmployee(self, newUid):
+        self.emp.id = self.uid
+        self.emp.updateDB()
+        for row  in Log.getEmployee(self.uid):
+            entry = Log(row.fetchall[0])
+            entry.uid = newUid
+            entry.update()
+
 
 
     def tick(self) :
@@ -345,13 +354,12 @@ class ProgramingButton(MyLabel):
                 try:
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
-                    self.label.configure(bg = 'green' , relief = "groove" , text = '!?!CLEAR OLD WORKER!?!')
-                    self.label.bind('<1>' , lambda x : (emp.destroy() , employee.newEmployee(self.name , self.uid), self.master.destroy()))
+                    self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
+                    self.label.bind('<1>' , lambda x : ( emp.destroy() , self.updateEmployee(self.uid) , self.master.destroy()))
 
                 except:
-                    employee.newEmployee(self.name , self.uid)
-                    self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
-                    self.label.bind('<1>' , lambda x : self.master.destroy())
+                    self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
+                    self.label.bind('<1>' , lambda x :(self.updateEmployee(self.uid) , self.master.destroy())
 
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
