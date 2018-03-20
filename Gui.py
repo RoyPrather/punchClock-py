@@ -15,6 +15,7 @@ class MyLabel(Tk.Frame) :
         self.pack_propagate(0)
         self.label.pack(fill = 'both' , expand = 1)
 
+
 class MyScrollBar(Tk.Frame) :
     def __init__(self , parent , *args , **kwargs) :
         Tk.Frame.__init__(self , parent , *args , **kwargs)
@@ -318,6 +319,51 @@ class MyButton(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.label.configure(bg = 'blue' , relief = "groove")
+
+
+class ProgramingButton(MyLabel) :
+
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.name = None
+        self.uid = None
+        self.mLabel = None
+        self.reader = MFRC522.MFRC522()
+
+    def tick(self) :
+        # Scan for cards
+        (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+
+        # If a card is found
+        if status == self.reader.MI_OK :
+            # Get the UID of the card
+            (status , uid) = self.reader.MFRC522_Anticoll()
+
+            # If we have the UID, continue
+            if status == self.reader.MI_OK :
+                self.uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
+
+                try :
+                    emp = employee(self.uid)
+                    self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
+                    self.label.configure(bg = 'green' , relief = "groove" , text = '!?!CLEAR OLD WORKER!?!')
+                    self.label.bind('<1>' , lambda x : (
+                    emp.destroy() , employee.newEmployee(self.name , self.uid) , self.master.destroy()))
+
+                except :
+                    employee.newEmployee(self.name , self.uid)
+                    self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
+                    self.label.bind('<1>' , lambda x : self.master.destroy())
+
+            else :
+                self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
+                self.label.unbind('<1>')
+                self.after(300 , self.tick)
+
+        else :
+            self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
+            self.label.unbind('<1>')
+            self.after(300 , self.tick)
 
 
 class ReplaceCardButton(MyLabel):
