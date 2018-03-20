@@ -416,7 +416,7 @@ def timeCardDayWin(emp):
     titleLabel.label.configure(text = 'Choose Day To Veiw')
     backButton.label.configure(text = 'Cancel')
     confirmButton.label.configure(text = 'OK')
-    scrollBar.scrollBar.config(command = nameFrame.yview)
+    scrollBar.scrollBar.config(command = daysListLabel.yview)
 
     periodStart = log(0)
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
