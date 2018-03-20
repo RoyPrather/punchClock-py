@@ -38,7 +38,7 @@ except:
 
 
 #handles log table in database
-class log:
+class Log:
     def __init__(self, id):
         entry = dbi('SELECT * FROM log WHERE id =' + str(id) + ';').fetchall()[0]
         self. id = entry[0]
@@ -55,7 +55,7 @@ class log:
     def update(self):
         dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
             ' , minute = ' + str(self.minute) + ' , second = ' + str(self.second) + ' , hours = ' + str(self.hours) +
-            ' , action = ' + str(self.action) + ' WHERE id = ' +  str(self. id) + ';')
+            ' , action = ' + str(self.action) + ' , uid = "' + str(self.uid) + '" WHERE id = ' +  str(self. id) + ';')
         db.commit()
 
     @classmethod
@@ -131,7 +131,7 @@ class employee:
             if datetime.datetime.now().day != self.lastTime.day:
                 self.hours = 0
             self.lastTime = datetime.datetime.now()
-            log.addEntry(1 , 0 , self.id , self.lastTime)
+            Log.addEntry(1 , 0 , self.id , self.lastTime)
             self.onTen = 0
             self.onLunch = 0
             self.clockedIn = 1
@@ -145,7 +145,7 @@ class employee:
             self.totalHours += temp
             self.onTen = 1
             self.lastTime = datetime.datetime.now()
-            log.addEntry(2 , temp , self.id , self.lastTime)
+            Log.addEntry(2 , temp , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -157,11 +157,11 @@ class employee:
             if temp2 <= temp:
                 self.hours += temp2.seconds
                 self.totalHours += temp2.seconds
-                log.addEntry(3 , temp2.seconds , self.id , self.lastTime)
+                Log.addEntry(3 , temp2.seconds , self.id , self.lastTime)
             else:
                 self.hours += temp.seconds
                 self.totalHours += temp.seconds
-                log.addEntry(3 , temp.seconds , self.id , self.lastTime)
+                Log.addEntry(3 , temp.seconds , self.id , self.lastTime)
             self.onTen = 0
             self.updateDB()
 
@@ -173,7 +173,7 @@ class employee:
             self.totalHours += temp
             self.onLunch = 1
             self.lastTime = datetime.datetime.now()
-            log.addEntry(4 , temp , self.id , self.lastTime)
+            Log.addEntry(4 , temp , self.id , self.lastTime)
             self.updateDB()
 
 
@@ -181,7 +181,7 @@ class employee:
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
-            log.addEntry(5 , 0 , self.id , self.lastTime)
+            Log.addEntry(5 , 0 , self.id , self.lastTime)
             self.onLunch = 0
             self.updateDB()
 
@@ -192,7 +192,7 @@ class employee:
             self.hours += temp.seconds
             self.totalHours += temp.seconds
             self.lastTime = datetime.datetime.now()
-            log.addEntry(6 , temp.seconds , self.id , self.lastTime)
+            Log.addEntry(6 , temp.seconds , self.id , self.lastTime)
             if self.hours > self.over.seconds:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
@@ -206,38 +206,38 @@ class employee:
         db.commit()
 
     def addTime(self, seconds , year , month , day):
-        periodStart = log(0)
+        periodStart = Log(0)
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime:
             print(seconds)
             self.totalHours += seconds
             self.updateDB()
-        log.addEntry(7 , seconds , self.id , dtime)
+        Log.addEntry(7 , seconds , self.id , dtime)
 
     def subTime(self , seconds , year , month , day):
-        periodStart = log(0)
+        periodStart = Log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
             self.totalHours -= seconds
             self.updateDB()
-        log.addEntry(8 , seconds , self.id , self.lastTime)
+        Log.addEntry(8 , seconds , self.id , self.lastTime)
 
     def addOvertime(self, seconds , year , month , day):
-        periodStart = log(0)
+        periodStart = Log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
             self.overtime += seconds
             self.updateDB()
-        log.addEntry(9 , seconds , self.id , self.lastTime)
+        Log.addEntry(9 , seconds , self.id , self.lastTime)
 
     def subOvertime(self, seconds , year , month , day):
-        periodStart = log(0)
+        periodStart = Log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
             self.overtime -= seconds
             self.updateDB()
-        log.addEntry(10 , seconds , self.id , self.lastTime)
+        Log.addEntry(10 , seconds , self.id , self.lastTime)
