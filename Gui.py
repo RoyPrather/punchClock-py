@@ -286,12 +286,19 @@ class EndLunchButton(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.emp = None
+        self.alertFunction = None
+        self.thirtyMin = datetime.timedelta(0,1800)
 
 
     def tick(self) :
-        if self.emp.onLunch :
+        now = datetime.datetime.now()
+        if self.emp.onLunch  and (now - self.emp.lastTime).seconds >= self.thirtyMin.seconds:
             self.label.configure(bg = 'green' , relief = "groove")
             self.label.bind('<1>' , lambda x : self.emp.endLunch())
+
+        elif self.emp.onLunch  and (now - self.emp.lastTime).seconds < self.thirtyMin.seconds:
+            self.label.configure(bg = 'red' , relief = "ridge")
+            self.label.bind('<1>' , lambda x : self.alertFunction())
 
         else :
             self.label.configure(bg = 'red' , relief = "ridge")

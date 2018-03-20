@@ -79,6 +79,7 @@ def clockInWin(id) :
     lunchOutButton.tick()
     lunchInButton.label.configure(text = 'Return Lunch Break')
     lunchInButton.emp = emp
+    lunchInButton.alertFunction = earlyLunchWin
     lunchInButton.tick()
     sendMessageButton.label.configure(text = 'Message Management')
     backButton.label.configure(text = 'Done')
@@ -467,8 +468,8 @@ def closeProgramWin():
 
     #place widgets in window
     titleLable.grid(row = 0 , column = 0 , columnspan = 2)
-    closeButton.grid(row = 1 , column = 0)
-    backButton.grid(row = 1 , column = 1)
+    closeButton.grid(row = 1 , column = 1)
+    backButton.grid(row = 1 , column = 0)
 
     #bind Widgets
     closeButton.label.bind('<1>' , lambda x: root.destroy())
@@ -477,19 +478,26 @@ def closeProgramWin():
 
 
 
-def alertWin(text):
+def earlyLunchWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
 
     # create widgets
-    titleLabel = Tk.Label(t , text = text , width = 80 , height = 10)
-    backButton = Tk.Button(t , text = 'OK' , command = lambda : t.destroy(), width = 80)
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(20))
+    backButton = MyButton(t , width = setWidth(100) , height = setHeight(20))
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Sorry, You Must Be On Lunch For 30 Min!')
+    backButton.label.configure(text = 'OK')
 
     #place widgets in window
     titleLabel.grid()
     backButton.grid()
+
+    #bind widgets
+    backButton.label.bind('<1>' , labmda x: t.destroy())
 
 
 ##################################
