@@ -527,7 +527,7 @@ def editTimeCardWin(emp , year , month , day):
     subMinuteButton.label.configure(text = 'Remove Minutes')
     backButton.label.configure(text = 'Cancel')
     ListboxFrame.pack_propagate(0)
-    scrollBar.scrollBar.config(command = nameFrame.yview)
+    scrollBar.scrollBar.config(command = numSelectBox.yview)
     for i in range(60):
         numSelectBox.insert(i+1, i+1)
 
