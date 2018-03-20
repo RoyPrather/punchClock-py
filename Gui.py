@@ -359,7 +359,7 @@ class ReplaceCardButton(MyLabel):
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
-                    self.label.bind('<1>' , lambda x :(self.updateEmployee(self.uid) , self.master.destroy())
+                    self.label.bind('<1>' , lambda x :(self.updateEmployee(self.uid) , self.master.destroy()))
 
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
