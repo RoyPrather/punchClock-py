@@ -343,9 +343,9 @@ def timeCardWin(emp , year , month , day) :
     scrollBar.scrollBar.config(command = LogListbox.yview)
 
     #place widgets
-    titleLabel.grid(row = 0 , column = 0)
-    ListboxFrame.grid(row = 1 , column = 0)
-    hoursLabel.grid(row = 2 , column = 0)
+    titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
+    ListboxFrame.grid(row = 1 , column = 0 , columnspan = 2)
+    hoursLabel.grid(row = 2 , column = 0 , columnspan = 2)
     backButton.grid(row = 3 , column = 0)
     editButton.grid(row = 3 , column = 1)
     scrollBar.pack(fill = 'y' , side = 'right')
@@ -410,14 +410,15 @@ def timeCardDayWin(emp):
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
     confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    scrollBar = MyScrollBar(t , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(t , width = 25 , height = 7 ,
-                           yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
+    ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    daysListLabel = Tk.Listbox(ListboxFrame , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
     backButton.label.configure(text = 'Cancel')
     confirmButton.label.configure(text = 'OK')
+    ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = daysListLabel.yview)
 
     periodStart = log(0)
@@ -434,8 +435,9 @@ def timeCardDayWin(emp):
 
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    daysListLabel.grid(column = 0 , row = 1)
-    scrollBar.grid(column = 1 , row = 1)
+    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    daysListLabel.pack(fill = 'both' , side = 'left')
     backButton.grid(column = 0 , row = 2)
     confirmButton.grid(column = 1 , row = 2)
 
