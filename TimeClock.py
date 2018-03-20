@@ -357,11 +357,11 @@ def timeCardWin(emp , year , month , day) :
     hours = 0
     for entry in log.getDay(year , month , day, emp.id):
         if entry[8] == 1:
-            LogListbox.insert('end' , 'Clocked In At:                    ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Clocked In At:                        ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 2 :
-            LogListbox.insert('end' , 'Started A Ten At:               ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Started A Ten At:                  ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 3 :
@@ -369,15 +369,15 @@ def timeCardWin(emp , year , month , day) :
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 4 :
-            LogListbox.insert('end' , 'Started A Lunch At:             ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Started A Lunch At:               ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 5 :
-            LogListbox.insert('end' , 'Returned From Lunch At:       ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Returned From Lunch At:         ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 6 :
-            LogListbox.insert('end' , 'Clocked Out At:                   ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Clocked Out At:                     ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 7 :
