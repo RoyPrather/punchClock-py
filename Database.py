@@ -197,7 +197,7 @@ class employee:
         periodStart = log(0)
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
         dtime = datetime.datetime(year , month , day)
-        if dtime > stime:
+        if dtime >= stime:
             self.totalHours += seconds
             self.updateDB()
         log.addEntry(7 , seconds , self.id , dtime)
@@ -206,7 +206,7 @@ class employee:
         periodStart = log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
-        if dtime > stime :
+        if dtime >= stime :
             self.totalHours -= seconds
             self.updateDB()
         log.addEntry(8 , seconds , self.id , self.lastTime)
@@ -215,7 +215,7 @@ class employee:
         periodStart = log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
-        if dtime > stime :
+        if dtime >= stime :
             self.overtime += seconds
             self.updateDB()
         log.addEntry(9 , seconds , self.id , self.lastTime)
@@ -224,7 +224,7 @@ class employee:
         periodStart = log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
-        if dtime > stime :
+        if dtime >= stime :
             self.overtime -= seconds
             self.updateDB()
         log.addEntry(10 , seconds , self.id , self.lastTime)
