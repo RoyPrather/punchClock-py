@@ -59,6 +59,15 @@ class log:
         db.commit()
 
     @classmethod
+    def getEmployee(cls, uid):
+        try:
+            return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + ';')
+
+        except:
+            print('error in getEmployee function, mabey empty table')
+
+
+    @classmethod
     def getDay(cls ,year , month , day , uid):
         try:
             return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ';')
