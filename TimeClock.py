@@ -497,7 +497,8 @@ def earlyLunchWin():
     backButton.grid()
 
     #bind widgets
-    backButton.label.bind('<1>' , labmda x: t.destroy())
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+
 
 
 ##################################
@@ -522,9 +523,6 @@ bName.grid(column = 0 , row = 0 , columnspan = 2)
 tLabel.grid(column = 1 , row = 1)
 mainLog.grid(column = 0 , row = 1, rowspan = 2)
 scanLabel.grid(column = 1 , row = 2)
-
-# bind widgets
-
 
 # start program
 root.mainloop()
