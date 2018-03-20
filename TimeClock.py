@@ -287,9 +287,9 @@ def timeCardListWin() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     submitButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
 
@@ -400,7 +400,7 @@ def timeCardWin(emp , year , month , day) :
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    editButton.label.bind('<1>' , lambda x: editTimeCardWin(emp))
+    editButton.label.bind('<1>' , lambda x: editTimeCardWin(emp , year , month , day))
 
 
 def timeCardDayWin(emp):
@@ -449,7 +449,6 @@ def timeCardDayWin(emp):
     confirmButton.label.bind('<1>' , lambda x: timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day))
 
 
-
 def closeProgramWin():
     # create window
     t = Tk.Toplevel(root)
@@ -476,8 +475,6 @@ def closeProgramWin():
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
-
-
 def earlyLunchWin():
     # create window
     t = Tk.Toplevel(root)
@@ -498,6 +495,57 @@ def earlyLunchWin():
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
+
+
+def editTimeCardWin(emp , year , month , day):
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+
+    # create widgets
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
+    hoursLabel = HoursLabel(t , width = setWidth(100) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    addHoursButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    subHoursButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    addMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    subMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(60))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(60))
+    numSelectBox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(60) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Add or Remove Time')
+    hoursLabel.emp = emp
+    hoursLabel.tick()
+    addHoursButton.label.configure(text = 'Add Hours')
+    subHoursButton.label.configure(text = 'Remove Hours')
+    addMinuteButton.label.configure(text = 'Add Minutes')
+    subMinuteButton.label.configure(text = 'Remove Minutes')
+    backButton.label.configure(text = 'Cancel')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+    for i in range(60):
+        numSelectBox.insert(i+1, i+1)
+
+    #place widgets in window
+    titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
+    hoursLabel.grid(row = 1 , column = 0 , columnspan = 2)
+    ListboxFrame.grid(row = 2 , column = 0 , columnspan = 2)
+    addHoursButton.grid(row = 3 , column = 0)
+    subHoursButton.grid(row = 3 , column = 0)
+    addMinuteButton.grid(row = 4 , column = 0)
+    subMinuteButton.grid(row = 4 , column = 0)
+    backButton.grid(row = 5 , column = 0 , columnspan = 2)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    numSelectBox.pack(fill = 'both' , side = 'left')
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+    submitButton.label.bind('<1>' , lambda x: timeCardDayWin(emps[nameFrame.curselection()[0]]))
 
 
 ##################################
