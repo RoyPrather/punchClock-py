@@ -649,7 +649,7 @@ def replaceCardListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: (replaceCardWin(emps[nameFrame.curselection()[0]].id), t.destroy()))
+    submitButton.label.bind('<1>' , lambda x: (replaceCardWin(emps[nameFrame.curselection()[0]]), t.destroy()))
 
 
 def replaceCardWin(emp) :
