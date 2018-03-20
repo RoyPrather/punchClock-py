@@ -593,7 +593,7 @@ def employeeCheckInListWin() :
     count = 0
     emps = []
     for uid in employee.listEmployees():
-        emp = uid[0]
+        emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
             nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
@@ -601,7 +601,7 @@ def employeeCheckInListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]]))
+    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]].id))
 
 
 ##################################
