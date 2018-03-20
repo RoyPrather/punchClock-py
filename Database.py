@@ -7,21 +7,24 @@ db = sqlite3.connect('TimeClock.sqlite')
 # function to interface with sql database
 dbi = db.execute
 
+#make sure there is an emoloyee table
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="employees"')
 try:
     temp.fetchall()[0][0]
 
+#if not create one
 except:
     dbi('CREATE TABLE employees (id integer NOT NULL PRIMARY KEY ,name varchar NOT NULL,'
         'totalHours smallint NOT NULL DEFAULT 0,overtime smallint NOT NULL DEFAULT 0,hours smallint NOT NULL DEFAULT 0,'
         'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
         'lastTime varchar NOT NULL DEFAULT 0,uid varchar NOT NULL DEFAULT 0);')
 
-
+#make sure there is a log table
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log"')
 try:
     temp.fetchall()[0][0]
 
+#if not create one and start pay period
 except:
     dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY , year smallint NOT NULL , '
         'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '

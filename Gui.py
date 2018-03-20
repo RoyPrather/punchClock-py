@@ -22,7 +22,7 @@ class MyScrollBar(Tk.Frame) :
         self.pack_propagate(0)
         self.scrollBar.pack(fill = 'both' , expand = 1)
 
-
+#TODO: figure out why the scanner freezes ... read Read.py in MFRC522 class folder
 class ScanLabel(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
@@ -196,7 +196,7 @@ class OverHoursLabel(MyLabel) :
                     self.label.config(text = round((self.emp.overtime + temp.seconds) / 3600.0 , 2))
         else :
             self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
-            
+
         self.after(300 , self.tick)
 
 

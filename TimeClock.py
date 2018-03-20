@@ -110,6 +110,7 @@ def clockInWin(id) :
 
 
 # Bring up  admin screen
+#TODO: addbutton to veiw employee clockin screen / move close program and done buttons / add button to replace a lost eployee card
 def adminWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -212,6 +213,7 @@ def programCardWin(name) :
 
 
 # Bring up hours report
+#TODO: update buttons / write qurrey classfuntion in database.py/ save a text file
 def reportWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -239,6 +241,7 @@ def reportWin() :
 
 
 # Bring up Messge sending window
+#TODO: create a table for messages/ create a hadleing class /fix ui
 def readMessageWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -258,6 +261,7 @@ def readMessageWin() :
 
 
 # Bring up Message board to view messages
+#TODO: fix ui
 def sendMessageWin(name) :
     # create window
     t = Tk.Toplevel(root)
@@ -474,7 +478,7 @@ def closeProgramWin():
     closeButton.label.bind('<1>' , lambda x: root.destroy())
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
-
+#TODO: add admin override
 def earlyLunchWin():
     # create window
     t = Tk.Toplevel(root)
@@ -496,7 +500,7 @@ def earlyLunchWin():
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
-
+#TODO: add overtime label
 def editTimeCardWin(emp , year , month , day):
     # create window
     t = Tk.Toplevel(root)
