@@ -512,7 +512,7 @@ def editTimeCardWin(emp , year , month , day):
     subOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     addMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     subMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(60))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(40))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(60))
     numSelectBox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(60) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
 

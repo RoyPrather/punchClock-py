@@ -197,8 +197,8 @@ class employee:
         periodStart = log(0)
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
         dtime = datetime.datetime(year , month , day)
-
         if dtime >= stime:
+            print(seconds)
             self.totalHours += seconds
             self.updateDB()
         log.addEntry(7 , seconds , self.id , dtime)
