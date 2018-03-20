@@ -464,7 +464,7 @@ def closeProgramWin():
     backButton.label.configure(text = 'Cancel')
 
     #place widgets in window
-    titleLabel.grid()
+    closeButton.grid()
     backButton.grid()
 
     #bind Widgets
