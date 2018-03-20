@@ -120,17 +120,17 @@ class HoursLabel(MyLabel) :
 
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = datetime.timedelta(0 , (self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+            self.label.config(text = round((self.emp.hours + ((datetime.datetime.now() - self.emp.lastTime).seconds)) / 360.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
 
             if temp2 <= temp :
-                self.label.config(text = datetime.timedelta(0 , (self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+                self.label.config(text = round((self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
             else :
-                self.label.config(text = datetime.timedelta(0 , (self.emp.hours + temp.seconds)))
+                self.label.config(text = round((self.emp.hours + temp.seconds) / 360.0 , 2))
 
         self.after(300 , self.tick)
 
