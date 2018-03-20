@@ -6,9 +6,10 @@ root.attributes('-fullscreen' , True)
 root.lift()
 root.focus_force()
 
-#crate sizing variables
+#crate sizing variables   (oversized in some places to fix test screen)
 screenWidth = root.winfo_screenwidth()
 screenHeight = root.winfo_screenheight()
+
 
 def setWidth(percent):
     return((screenWidth / 100) * percent)
@@ -45,21 +46,21 @@ def clockInWin(id) :
     tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(12))
     lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(12))
     lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(12))
-    sendMessageButton = BlueButton(t , width = setWidth(50) , height = setHeight(12))
-    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(12))
+    sendMessageButton = MyButton(t , width = setWidth(50) , height = setHeight(12))
+    backButton = MyButton(t , width = setWidth(50) , height = setHeight(12))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
     hoursTitle.label.config(text = 'Total Hours This Period')
-    hoursTotal.label.config(text = datetime.timedelta(0 , emp.totalHours))
+    hoursTotal.label.config(text = round(emp.totalHours / 360.0 , 2))
     hoursTotal.emp = emp
     hoursTotal.tick()
     todayTitle.label.config(text = 'Hours Worked This Shift')
-    todayHours.label.config(text = datetime.timedelta(0 , emp.hours))
+    todayHours.label.config(text = round(emp.hours / 360.0 , 2))
     todayHours.emp = emp
     todayHours.tick()
     overTitle.label.config(text = 'Over Time')
-    overHours.label.config(text = datetime.timedelta(0 , emp.overtime))
+    overHours.label.config(text = round(emp.overtime / 360.0 , 2))
 
     clockInButton.label.configure(text = 'Clock In')
     clockInButton.emp = emp
@@ -114,13 +115,13 @@ def adminWin() :
     t.attributes('-fullscreen' , True)
     t.lift()
     # create widgets
-    viewMessageButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    viewLogButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    newEmployeeButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    createReportButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    newAdminButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(30))
-    closeButton = BlueButton(t , height = setHeight(15) , width = setWidth(25))
+    viewMessageButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    viewLogButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    newEmployeeButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    createReportButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    newAdminButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    backButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    closeButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
 
     #configure Widgets
     viewMessageButton.label.configure(text = 'View Messages')
@@ -149,6 +150,7 @@ def adminWin() :
     backButton.label.bind('<1>' , lambda x: t.destroy())
     closeButton.label.bind('<1>' , lambda x : root.destroy())
 
+
 # Bring up new employee screen
 def newEmployeeWin() :
     # create window
@@ -158,13 +160,13 @@ def newEmployeeWin() :
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(25))
-    nameEntry = Tk.Entry(t , width = 30)
-    submitButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
-    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
+    nameEntry = Tk.Entry(t , width = 30 )
+    submitButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    backButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
 
     #configure widgets
     submitButton.label.configure( text = 'Create Employee')
-    nameEntry.configure(font = font)
+    nameEntry.configure(font = largeFont)
     titleLabel.label.configure(text = 'Enter New Employee Name')
     backButton.label.configure(text = 'Cancel')
 
@@ -190,7 +192,7 @@ def programCardWin(name) :
     # create widgets
     dLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
     kButton = ProgramingButton(t , width = setWidth(50) , height = setHeight(25))
-    backButton = BlueButton(t , width = setWidth(50) , height = setHeight(25))
+    backButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
 
     #configure widgets
     dLabel.label.configure(text = 'Scan New Card')
@@ -285,10 +287,10 @@ def timeCardListWin() :
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
-    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
-    submitButton = BlueButton(t , width = setWidth(25) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    submitButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = 'verdana 25 bold')
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
@@ -328,8 +330,8 @@ def timeCardWin(emp , year , month , day) :
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    editButton = BlueButton(t, width = setWidth(25) , height = setHeight(25))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
+    editButton = MyButton(t, width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     LogListbox = Tk.Listbox(ListboxFrame , width = setWidth(90) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
@@ -355,27 +357,27 @@ def timeCardWin(emp , year , month , day) :
     hours = 0
     for entry in log.getDay(year , month , day, emp.id):
         if entry[8] == 1:
-            LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Clocked In At:                    ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 2 :
-            LogListbox.insert('end' , 'Started A Ten At:           ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Started A Ten At:               ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 3 :
-            LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Returned From Ten At:         ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 4 :
-            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Started A Lunch At:             ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 5 :
-            LogListbox.insert('end' , 'Returned From Lunch At: ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Returned From Lunch At:       ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 6 :
-            LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Clocked Out At:                   ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 7 :
@@ -408,11 +410,11 @@ def timeCardDayWin(emp):
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+    confirmButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(80) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')

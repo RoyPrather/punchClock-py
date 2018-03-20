@@ -5,6 +5,7 @@ from Database import *
 
 # style args
 font = 'verdana 15 bold'
+largeFont = 'verdana 25 bold'
 
 # custom widgets
 class MyLabel(Tk.Frame) :
@@ -143,16 +144,16 @@ class TotalHoursLabel(MyLabel) :
 
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = datetime.timedelta(0 , (self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+            self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
             if temp2 <= temp :
-                self.label.config(text = datetime.timedelta(0 , (self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+                self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
             else :
-                self.label.config(text = datetime.timedelta(0 , (self.emp.totalHours + temp.seconds)))
+                self.label.config(text = round((self.emp.totalHours + temp.seconds) / 360.0 , 2))
 
         self.after(300 , self.tick)
 
@@ -166,10 +167,10 @@ class OverHoursLabel(MyLabel) :
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
             if self.emp.hours > self.emp.over.seconds :
-                self.label.config(text = datetime.timedelta(0 , (self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
             if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                self.label.config(text = datetime.timedelta(0 , (self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
@@ -177,17 +178,17 @@ class OverHoursLabel(MyLabel) :
             if temp2 <= temp :
 
                 if self.emp.hours > self.emp.over.seconds :
-                    self.label.config(text = datetime.timedelta(0 , (self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
                 if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                    self.label.config(text = datetime.timedelta(0 , (self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds)))
+                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
             else :
                 if self.emp.hours > self.emp.over.seconds :
-                    self.label.config(text = datetime.timedelta(0 , (self.emp.overtime + temp.seconds)))
+                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 360.0 , 2))
 
                 if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                    self.label.config(text = datetime.timedelta(0 , (self.emp.overtime + temp.seconds)))
+                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 360.0 , 2))
 
         self.after(300 , self.tick)
 
@@ -299,7 +300,7 @@ class EndLunchButton(MyLabel) :
         self.after(300 , self.tick)
 
 
-class BlueButton(MyLabel) :
+class MyButton(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.label.configure(bg = 'blue' , relief = "groove")
@@ -329,8 +330,8 @@ class ProgramingButton(MyLabel):
 
                 try:
                     emp = employee(self.uid)
-                    self.mLabel.label.configure(text = 'Card alredy in Use')
-                    self.label.configure(bg = 'green' , relief = "groove" , text = '!!!CLEAR OLD WORKER!!!')
+                    self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
+                    self.label.configure(bg = 'green' , relief = "groove" , text = '!?!CLEAR OLD WORKER!?!')
                     self.label.bind('<1>' , lambda x : (emp.destroy() , employee.newEmployee(self.name , self.uid), self.master.destroy()))
 
                 except:
@@ -349,17 +350,5 @@ class ProgramingButton(MyLabel):
             self.after(300 , self.tick)
 
 
-class NumButton(MyLabel) :
-    def __init__(self , parent , *args , **kwargs) :
-        MyLabel.__init__(self , parent , *args , **kwargs)
-        self.label.configure(bg = 'blue' , relief = "groove")
-        self.value = None
 
-class NumLabel(MyLabel) :
-    def __init__(self , parent , *args , **kwargs) :
-        MyLabel.__init__(self , parent , *args , **kwargs)
-        self.value = None
-
-    def setValue(self, Value):
-        self.value = Value
 
