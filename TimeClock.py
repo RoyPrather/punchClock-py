@@ -545,10 +545,10 @@ def editTimeCardWin(emp , year , month , day):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
-    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
-    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
-    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds))
+    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds) , year , month , day)
+    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds) , year , month , day)
+    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds) , year , month , day)
+    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds) , year , month , day)
 
 
 ##################################
