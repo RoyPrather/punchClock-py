@@ -328,13 +328,14 @@ class ReplaceCardButton(MyLabel):
         self.mLabel = None
         self.reader = MFRC522.MFRC522()
 
-    def updateEmployee(self, newUid):
-        self.emp.uid = newUid
-        self.emp.updateDB()
-        for row  in Log.getEmployee(self.uid):
+    def updateEmployee(self):
+        for row  in Log.getEmployee(self.emp.uid):
             entry = Log(row.fetchall[0])
-            entry.uid = newUid
+            entry.uid = self.uid
             entry.update()
+        self.emp.uid = self.uid
+        self.emp.updateDB()
+
 
 
 
@@ -355,11 +356,11 @@ class ReplaceCardButton(MyLabel):
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
-                    self.label.bind('<1>' , lambda x : ( emp.destroy() , self.updateEmployee(self.uid) , self.master.destroy()))
+                    self.label.bind('<1>' , lambda x : ( emp.destroy() , self.updateEmployee() , self.master.destroy()))
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
-                    self.updateEmployee(self.uid)
+                    self.updateEmployee()
                     self.label.bind('<1>' , lambda x : self.master.destroy())
 
             else:
