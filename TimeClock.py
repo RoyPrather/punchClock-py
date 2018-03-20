@@ -500,7 +500,6 @@ def earlyLunchWin():
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
-
 ##################################
 ######## Root Window design #####
 #################################
