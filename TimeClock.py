@@ -421,7 +421,7 @@ def timeCardDayWin(emp):
     periodStart = log(0)
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
     dtime = datetime.datetime.now()
-    tdelta = (dtime - stime).days
+    tdelta = (dtime - stime).days + 1
     print(tdelta)
     days = []
     count = 0
