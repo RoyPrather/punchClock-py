@@ -353,13 +353,14 @@ class ReplaceCardButton(MyLabel):
 
                 try:
                     emp = employee(self.uid)
-                    self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
+                    self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
                     self.label.bind('<1>' , lambda x : ( emp.destroy() , self.updateEmployee(self.uid) , self.master.destroy()))
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
-                    self.label.bind('<1>' , lambda x :(self.updateEmployee(self.uid) , self.master.destroy()))
+                    self.updateEmployee(self.uid)
+                    self.label.bind('<1>' , lambda x : self.master.destroy())
 
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
