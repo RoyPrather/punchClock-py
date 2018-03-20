@@ -456,16 +456,19 @@ def closeProgramWin():
     t.lift()
 
     # create widgets
+    titleLable = MyLabel(t , width = setWidth(100) , height = setHeight(30))
     closeButton = MyButton(t  , width = setWidth(30) , height = setHeight(20))
     backButton = MyButton(t , width = setWidth(30) , height = setHeight(20))
 
     #configure widgets
+    titleLable.label.configure(text = 'Are You Sure' , font = largeFont)
     closeButton.label.configure(text = '!!!CLOSE PROGRAM!!!')
     backButton.label.configure(text = 'Cancel')
 
     #place widgets in window
-    closeButton.grid()
-    backButton.grid()
+    titleLable.grid(row = 0 , column = 0 , columnspan = 2)
+    closeButton.grid(row = 1 , column = 0)
+    backButton.grid(row = 1 , column = 0)
 
     #bind Widgets
     closeButton.label.bind('<1>' , lambda x: root.destroy())
