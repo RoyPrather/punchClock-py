@@ -521,8 +521,8 @@ def editTimeCardWin(emp , year , month , day):
     titleLabel.label.configure(text = 'Add or Remove Time')
     hoursLabel.emp = emp
     hoursLabel.tick()
-    addHoursButton.label.configure(text = 'Add Hours')
-    subHoursButton.label.configure(text = 'Remove Hours')
+    addOverButton.label.configure(text = 'Add Overtime Minutes')
+    subOverButton.label.configure(text = 'Remove Overtime Minutes')
     addMinuteButton.label.configure(text = 'Add Minutes')
     subMinuteButton.label.configure(text = 'Remove Minutes')
     backButton.label.configure(text = 'Cancel')
