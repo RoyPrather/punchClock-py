@@ -330,7 +330,7 @@ class ReplaceCardButton(MyLabel):
 
     def updateEmployee(self):
         for row  in Log.getEmployee(self.emp.uid):
-            entry = Log(row.fetchall[0])
+            entry = Log(row[0])
             entry.uid = self.uid
             entry.update()
         self.emp.uid = self.uid
