@@ -317,10 +317,10 @@ def timeCardListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: timeCardWin(emps[nameFrame.curselection()[0]]))
+    submitButton.label.bind('<1>' , lambda x: timeCardDayWin(emps[nameFrame.curselection()[0]]))
 
 
-def timeCardWin(emp) :
+def timeCardWin(emp , year , month , day) :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -350,9 +350,9 @@ def timeCardWin(emp) :
     scrollBar.pack(fill = 'y' , side = 'right')
     LogListbox.pack(fill = 'both' , side = 'left')
 
-    now = datetime.datetime.now()
+
     hours = 0
-    for entry in log.getDay(now.month , now.day, emp.id):
+    for entry in log.getDay(year , month , day, emp.id):
         if entry[7] == 1:
             LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
                 entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
@@ -398,76 +398,48 @@ def timeCardWin(emp) :
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
-def editLogWin(entryId):
+def timeCardDayWin(emp):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
-
-    entry = log(entryId)
 
     #create widgets
     titleLabel = MyLabel(t, width = setWidth(100) , height = setHeight(15))
-    hoursLabel = NumLabel(t, width = setWidth(20) , height = setHeight(15))
-    minutesLabel = NumLabel(t, width = setWidth(7) , height = setHeight(15))
-    secondsLabel = NumLabel(t, width = setWidth(7) , height = setHeight(15))
-    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
-    messageLabel = MyLabel(t , width = setWidth(100) , height = setHeight(60))
+    backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
+    scrollBar = MyScrollBar(t , width = setWidth(10) , height = setHeight(70))
+    daysListLabel = Tk.Listbox(t , width = setWidth(75) , height = setHeight(70) ,
+                           yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
 
     #configure widgets
-    titleLabel.label.configure(text = 'Choose Hours, Minutes, or Seconds to Edit')
-    hoursLabel.label.configure(text = str(entry.hour) + ':' , font = 'verdana 25 bold')
-    minutesLabel.label.configure(text = str(entry.minute) + ':' , font = 'verdana 25 bold')
-    secondsLabel.label.configure(text = str(entry.second) , font = 'verdana 25 bold')
+    titleLabel.label.configure(text = 'Choose Day To Veiw')
     backButton.label.configure(text = 'Cancel')
-    confirmButton.label.configure(text = 'Confirm')
+    confirmButton.label.configure(text = 'OK')
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+
+    periodStart = log(0)
+    stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
+    dtime = datetime.datetime(now)
+    tdelta = (dtime - stime).days
+    days = []
+    count = 0
+    for day in range(tdelta):
+        temp = dtime - datetime.timedelta(day)
+        daysListLabel.insert(count, temp.month +'/'+ temp.day +'/'+ temp.year)
+        days.insert(count, temp)
 
     #place widgets
-    titleLabel.grid(column = 0 , row = 0 , columnspan = 5)
-    hoursLabel.grid(column = 1 ,row = 1)
-    minutesLabel.grid(column = 2 , row = 1)
-    secondsLabel.grid(column = 3 , row = 1)
-    messageLabel.grid(column = 0 , row = 2 , columnspan = 5)
-    backButton.grid(column = 0 , row = 3)
-    confirmButton.grid(column = 4 , row = 3)
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    daysListLabel.grid(column = 0 , row = 1 , columnspan= 2)
+    scrollBar.grid(column = 1 , row = 1)
+    backButton.grid(column = 0 , row = 2)
+    confirmButton.grid(column = 1 , row = 2)
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    hoursLabel.setValue(entry.hour)
-    minutesLabel.setValue(entry.minute)
-    secondsLabel.setValue(entry.second)
-    hoursLabel.label.bind('<1>' , lambda x: timeSelectWin(hoursLabel))
-    minutesLabel.label.bind('<1>' , lambda x: timeSelectWin(minutesLabel))
-    secondsLabel.label.bind('<1>' , lambda x: timeSelectWin(secondsLabel))
-    confirmButton.label.bind('<1>' , lambda x:(entry.adjustTime(hoursLabel.value , minutesLabel.value , secondsLabel.value) ,t.destroy()))
+    confirmButton.label.bind('<1>' , lambda x: timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day))
 
-
-#confirmation win
-def timeSelectWin(label) :
-    # create window
-    t = Tk.Toplevel(root)
-    t.attributes('-fullscreen' , True)
-    t.lift()
-
-    rows = 3
-    columns = 4
-    count = 0
-
-    for row in range(rows):
-        for column in range(columns):
-            button = NumButton(t , width = setWidth(25) , height = setHeight(25))
-            button.label.configure(text = str((count * 5)).zfill(2))
-            button.value = count * 5
-            button.grid(row = row , column = column)
-            button.label.bind('<1>' , lambda x: (label.setValue(button.value) , label.label.configure(text = button.value) , t.destroy()))
-            count += 1
-
-    backButton = BlueButton(t , width = setWidth(80) , height = setHeight(25))
-    backButton.label.configure(text = 'Cancel')
-    backButton.label.bind('<1>' , lambda x: t.destroy())
-
-    backButton.grid(row = 3 , column = 0 , columnspan = 4)
 
 
 def doneWin(text):

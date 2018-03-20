@@ -23,10 +23,15 @@ try:
     temp.fetchall()[0][0]
 
 except:
-    dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY ,'
+    dbi('CREATE TABLE log (id integer NOT NULL PRIMARY KEY , year smallint NOT NULL , '
         'month smallint NOT NULL ,day smallint NOT NULL , hour smallint NOT NULL , '
         'minute smallint NOT NULL ,second smallint NOT NULL , hours smallint NOT NULL , '
         'action smallint NOT NULL , uid varchar NOT NULL DEFAULT 0);')
+    dtime = datetime.datetime.now()
+    dbi('INSERT INTO log (year , month , day , hour , minute , second , hours , action , uid , id) values ('
+        + str(dtime.year) + ' , ' + str(dtime.month)  + ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(
+        dtime.second) + ' , 0 , 0 , "0" , 0);')
+    db.commit()
 
 
 #handles log table in database
@@ -34,14 +39,15 @@ class log:
     def __init__(self, id):
         entry = dbi('SELECT * FROM log WHERE id =' + str(id) + ';').fetchall()[0]
         self. id = entry[0]
-        self.month = entry[1]
-        self.day = entry[2]
-        self.hour = entry[3]
-        self.minute = entry[4]
-        self.second = entry[5]
-        self.hours = entry[6]
-        self.action = entry[7]
-        self.uid = entry[8]
+        self.year = entry[1]
+        self.month = entry[2]
+        self.day = entry[3]
+        self.hour = entry[4]
+        self.minute = entry[5]
+        self.second = entry[6]
+        self.hours = entry[7]
+        self.action = entry[8]
+        self.uid = entry[9]
 
     def update(self):
         dbi('UPDATE log SET month = ' + str(self.month) + ' , day = ' + str(self.day) + ' , hour = ' + str(self.hour) +
@@ -49,46 +55,10 @@ class log:
             ' , action = ' + str(self.action) + ' WHERE id = ' +  str(self. id) + ';')
         db.commit()
 
-    def addTime(self, hour , minute , second):
-        emp = employee(self.uid)
-        emp.hours += abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0).seconds - datetime.timedelta(
-            0 , self.second , 0 , 0 , self.minute , self.hour , 0).seconds)
-        emp.updateDB()
-        self.second = second
-        self.hour = hour
-        self.minute = minute
-        self.update()
-
-    def subTime(self, hour , minute , second):
-        emp = employee(self.uid)
-        emp.hours -= abs(datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0).seconds - datetime.timedelta(
-            0 , self.second , 0 , 0 , self.minute , self.hour , 0).seconds)
-        emp.updateDB()
-        self.second = second
-        self.hour = hour
-        self.minute = minute
-        self.update()
-
-    def adjustTime(self, hour , minute ,second):
-        if self.action == 1 or self.action == 5:
-            if datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) > datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0):
-                self.addTime(hour , minute , second)
-
-            elif datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) < datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0):
-                self.subTime(hour , minute , second)
-
-        elif self.action == 6 or self.action == 4 :
-            if datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) > datetime.timedelta(0 , self.second , 0 , 0 ,self.minute , self.hour ,0) :
-                self.subTime(hour , minute , second)
-
-            elif datetime.timedelta(0 , second , 0 , 0 , minute , hour , 0) < datetime.timedelta(0 , self.second , 0 , 0 , self.minute , self.hour , 0) :
-                self.addTime(hour , minute , second)
-
-
     @classmethod
-    def getDay(cls , month , day , uid):
+    def getDay(cls ,year , month , day , uid):
         try:
-            return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ';')
+            return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ';')
 
         except:
             print('error in getDay function, mabey empty table')
@@ -96,9 +66,16 @@ class log:
 
     @classmethod
     def addEntry(cls , action , hours , uid , dtime):
-        dbi('INSERT INTO log (month , day , hour , minute , second , hours , action , uid) values (' + str(dtime.month) +
+        dbi('INSERT INTO log (year , month , day , hour , minute , second , hours , action , uid) values (' + str(dtime.year) + ' , ' + str(dtime.month) +
             ' , ' + str(dtime.day) + ' , ' + str(dtime.hour) + ' , ' + str(dtime.minute) + ' , ' + str(dtime.second) + ' , ' + str(hours) +
             ' , ' + str(action) + ' , "' + str(uid) + '");')
+        db.commit()
+
+    @classmethod
+    def resetPeriod(cls):
+        now = datetime.datetime.now()
+        dbi('UPDATE log SET year = ' + str(now.year) + ' , month = ' + str(now.month) + ' , day = ' + str(now.day) + ' , hour = ' + str(now.hour) +
+            ' , minute = ' + str(now.minute) + ' , second = ' + str(now.second) + '  WHERE action = 0 ;')
         db.commit()
 
 
@@ -216,22 +193,38 @@ class employee:
         dbi('DELETE FROM employees WHERE uid = "' + self.id + '";')
         db.commit()
 
-    def addTime(self, seconds):
-        self.totalHours += seconds
-        log.addEntry(7 , seconds , self.id , self.lastTime)
-        self.updateDB()
+    def addTime(self, seconds , year , month , day):
+        periodStart = log(0)
+        stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
+        dtime = datetime.datetime(year , month , day)
+        if dtime > stime:
+            self.totalHours += seconds
+            self.updateDB()
+        log.addEntry(7 , seconds , self.id , dtime)
 
-    def subTime(self , seconds):
-        self.totalHours -= seconds
+    def subTime(self , seconds , year , month , day):
+        periodStart = log(0)
+        stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
+        dtime = datetime.datetime(year , month , day)
+        if dtime > stime :
+            self.totalHours -= seconds
+            self.updateDB()
         log.addEntry(8 , seconds , self.id , self.lastTime)
-        self.updateDB()
 
-    def addOvertime(self, seconds):
-        self.overtime += seconds
+    def addOvertime(self, seconds , year , month , day):
+        periodStart = log(0)
+        stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
+        dtime = datetime.datetime(year , month , day)
+        if dtime > stime :
+            self.overtime += seconds
+            self.updateDB()
         log.addEntry(9 , seconds , self.id , self.lastTime)
-        self.updateDB()
 
-    def subOvertime(self, seconds):
-        self.overtime -= seconds
+    def subOvertime(self, seconds , year , month , day):
+        periodStart = log(0)
+        stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
+        dtime = datetime.datetime(year , month , day)
+        if dtime > stime :
+            self.overtime -= seconds
+            self.updateDB()
         log.addEntry(10 , seconds , self.id , self.lastTime)
-        self.updateDB()
