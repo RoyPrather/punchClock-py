@@ -506,7 +506,7 @@ def editTimeCardWin(emp , year , month , day):
 
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    hoursLabel = HoursLabel(t , width = setWidth(100) , height = setHeight(15))
+    hoursLabel = TotalHoursLabel(t , width = setWidth(100) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     addOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     subOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))

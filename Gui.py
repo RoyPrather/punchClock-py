@@ -143,6 +143,7 @@ class TotalHoursLabel(MyLabel) :
 
 
     def tick(self) :
+        self.emp = employee(self.emp.id)
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
             self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 360.0 , 2))
 
