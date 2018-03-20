@@ -347,6 +347,7 @@ def timeCardWin(emp , year , month , day) :
     ListboxFrame.grid(row = 1 , column = 0)
     hoursLabel.grid(row = 2 , column = 0)
     backButton.grid(row = 3 , column = 0)
+    editButton.grid(row = 3 , column = 1)
     scrollBar.pack(fill = 'y' , side = 'right')
     LogListbox.pack(fill = 'both' , side = 'left')
 
@@ -354,28 +355,28 @@ def timeCardWin(emp , year , month , day) :
     hours = 0
     for entry in log.getDay(year , month , day, emp.id):
         if entry[8] == 1:
-            LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
-                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
+            LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 2 :
-            LogListbox.insert('end' , 'Started a Ten At:           ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
-                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
+            LogListbox.insert('end' , 'Started a Ten At:           ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 3 :
-            LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
-                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
+            LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 4 :
-            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
-                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
+            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 5 :
-            LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
-                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
+            LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 6 :
-            LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
-                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
+            LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 7 :
             LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
@@ -396,6 +397,7 @@ def timeCardWin(emp , year , month , day) :
 
    #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
+    editButton.label.bind('<1>' , lambda x: editTimeCardWin(emp))
 
 
 def timeCardDayWin(emp):
