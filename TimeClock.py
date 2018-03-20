@@ -122,8 +122,9 @@ def adminWin() :
     newEmployeeButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
     createReportButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
     newAdminButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
-    backButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    employeeCheckInButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
     closeButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
+    backButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
 
     #configure Widgets
     viewMessageButton.label.configure(text = 'View Messages')
@@ -131,17 +132,19 @@ def adminWin() :
     newEmployeeButton.label.configure(text = 'Create New Employee')
     createReportButton.label.configure(text = 'End Pay Period')
     newAdminButton.label.configure(text = 'Create New Admin Card')
+    employeeCheckInButton.label.configure(text = 'View Employee Screen')
     backButton.label.configure(text ='Back')
     closeButton.label.configure(text = 'Close Program')
 
     # place widgets in window
-    viewMessageButton.grid(column = 0 , row = 0)
-    viewLogButton.grid(column = 0 , row = 1)
-    newEmployeeButton.grid(column = 0 , row = 2)
-    createReportButton.grid(column = 1 , row = 0)
-    newAdminButton.grid(column = 1 , row = 1)
-    backButton.grid(column = 1 , row = 2)
-    closeButton.grid(column = 0 , row = 3 , columnspan = 2)
+    viewMessageButton.grid(row = 0 , column = 0)
+    viewLogButton.grid(row = 0 , column  = 1)
+    newEmployeeButton.grid(row = 1 , column = 0)
+    createReportButton.grid(row = 1 , column = 1)
+    newAdminButton.grid(row = 2 , column = 0)
+    employeeCheckInButton.grid(row = 2 , column = 1)
+    backButton.grid(row = 3 , column = 0)
+    closeButton.grid(row = 3 , column = 1)
 
     # bind widgets
     viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
@@ -149,6 +152,7 @@ def adminWin() :
     newEmployeeButton.label.bind('<1>' , lambda x: newEmployeeWin())
     createReportButton.label.bind('<1>' , lambda x: reportWin())
     newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
+    employeeCheckInButton.label.bind('<1>' , lambda x: employeeCheckInListWin())
     backButton.label.bind('<1>' , lambda x: t.destroy())
     closeButton.label.bind('<1>' , lambda x : closeProgramWin())
 
@@ -553,6 +557,51 @@ def editTimeCardWin(emp , year , month , day):
     subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
     addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
     subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
+
+
+#employee list for time cards
+def employeeCheckInListWin() :
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    submitButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Choose an Employee to Veiw')
+    submitButton.label.configure(text = 'View Clock In Screen')
+    backButton.label.configure(text = 'Back')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+
+    #place widgets in window
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    nameFrame.pack(fill = 'both' , side = 'left')
+    submitButton.grid(column = 1 , row = 2)
+    backButton.grid(column = 0 , row = 2)
+
+    #place list of employees into nameFrame
+    count = 0
+    emps = []
+    for uid in employee.listEmployees():
+        emp = uid[0]
+        if emp.name != 'admin':
+            emps.insert(count , emp)
+            nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
+            count += 1
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]]))
 
 
 ##################################
