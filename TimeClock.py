@@ -110,19 +110,20 @@ def clockInWin(id) :
 
 
 # Bring up  admin screen
-#TODO: addbutton to veiw employee clockin screen / move close program and done buttons / add button to replace a lost eployee card
+#TODO: add button to replace a lost eployee card
 def adminWin() :
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
     # create widgets
-    viewMessageButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
-    viewLogButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
-    newEmployeeButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
-    createReportButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
-    newAdminButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
-    employeeCheckInButton = MyButton(t , width = setWidth(50) , height = setHeight(30))
+    viewMessageButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    viewLogButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    newEmployeeButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    createReportButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    newAdminButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    employeeCheckInButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+    replaceCardButton = MyButton(t, width = setWidth(50) , height = setHeight(25))
     closeButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
     backButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
 
@@ -133,18 +134,20 @@ def adminWin() :
     createReportButton.label.configure(text = 'End Pay Period')
     newAdminButton.label.configure(text = 'Create New Admin Card')
     employeeCheckInButton.label.configure(text = 'View Employee Screen')
+    replaceCardButton.label.configure(text = 'Replace Lost Card')
     backButton.label.configure(text ='Back')
     closeButton.label.configure(text = 'Close Program')
 
     # place widgets in window
     viewMessageButton.grid(row = 0 , column = 0)
-    viewLogButton.grid(row = 0 , column  = 1)
-    newEmployeeButton.grid(row = 1 , column = 0)
-    createReportButton.grid(row = 1 , column = 1)
+    newEmployeeButton.grid(row = 0 , column = 1)
+    createReportButton.grid(row = 1 , column = 0)
+    viewLogButton.grid(row = 1 , column  = 1)
     newAdminButton.grid(row = 2 , column = 0)
     employeeCheckInButton.grid(row = 2 , column = 1)
-    backButton.grid(row = 3 , column = 0)
-    closeButton.grid(row = 3 , column = 1)
+    replaceCardButton.grid(row = 3 , column = 0)
+    backButton.grid(row = 4 , column = 0)
+    closeButton.grid(row = 4 , column = 1)
 
     # bind widgets
     viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
@@ -153,6 +156,7 @@ def adminWin() :
     createReportButton.label.bind('<1>' , lambda x: reportWin())
     newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
     employeeCheckInButton.label.bind('<1>' , lambda x: employeeCheckInListWin())
+    replaceCardButton.label.bind('<1>' , lambda x: replaceCardListWin())
     backButton.label.bind('<1>' , lambda x: t.destroy())
     closeButton.label.bind('<1>' , lambda x : closeProgramWin())
 
@@ -188,7 +192,7 @@ def newEmployeeWin() :
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
-# Bring up new admin screen
+# "Program" new card
 def programCardWin(name) :
     # create window
     t = Tk.Toplevel(root)
@@ -559,7 +563,7 @@ def editTimeCardWin(emp , year , month , day):
     subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
 
 
-#employee list for time cards
+#employee list for check in screen
 def employeeCheckInListWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -602,6 +606,77 @@ def employeeCheckInListWin() :
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
     submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]].id))
+
+
+def replaceCardListWin() :
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Choose an Employee to Veiw')
+    submitButton.label.configure(text = 'Create New Card')
+    backButton.label.configure(text = 'Back')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+
+    #place widgets in window
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    nameFrame.pack(fill = 'both' , side = 'left')
+    submitButton.grid(column = 1 , row = 2)
+    backButton.grid(column = 0 , row = 2)
+
+    #place list of employees into nameFrame
+    count = 0
+    emps = []
+    for uid in employee.listEmployees():
+        emp = employee(uid[0])
+        if emp.name != 'admin':
+            emps.insert(count , emp)
+            nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
+            count += 1
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+    submitButton.label.bind('<1>' , lambda x: (replaceCardWin(emps[nameFrame.curselection()[0]].id, t.destroy())))
+
+
+def replaceCardWin(name) :
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    dLabel = MyLabel(t , width = setWidth(100) , height = setHeight(75))
+    kButton = ProgramingButton(t , width = setWidth(50) , height = setHeight(25))
+    backButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+
+    # configure widgets
+    dLabel.label.configure(text = 'Scan New Card')
+    kButton.name = name
+    kButton.mLabel = dLabel
+    kButton.tick()
+    backButton.label.configure(text = 'Cancel')
+
+    # place widgets in window
+    dLabel.grid(row = 0 , column = 0 , columnspan = 2)
+    kButton.grid(row = 1 , column = 1)
+    backButton.grid(row = 1 , column = 0)
+
+    # bind widgets
+    backButton.label.bind('<1>' , lambda x : t.destroy())
 
 
 ##################################
