@@ -353,43 +353,43 @@ def timeCardWin(emp , year , month , day) :
 
     hours = 0
     for entry in log.getDay(year , month , day, emp.id):
-        if entry[7] == 1:
-            LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        if entry[8] == 1:
+            LogListbox.insert('end' , 'Clocked In At:                ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
+                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 2 :
-            LogListbox.insert('end' , 'Started a Ten At:           ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 2 :
+            LogListbox.insert('end' , 'Started a Ten At:           ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
+                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 3 :
-            LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 3 :
+            LogListbox.insert('end' , 'Returned From Ten At: ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
+                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 4 :
-            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 4 :
+            LogListbox.insert('end' , 'Started A Lunch At:       ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
+                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 5 :
-            LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 5 :
+            LogListbox.insert('end' , 'Ended A Lunch At:          ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
+                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 6 :
-            LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[3]) + ':' + str(entry[4]) + ':' + str(
-                entry[5]) + '.        Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 6 :
+            LogListbox.insert('end' , 'Clocked Out At:             ' + str(entry[4]) + ':' + str(entry[5]) + ':' + str(
+                entry[6]) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 7 :
-            LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 7 :
+            LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 8 :
-            LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[6] / 360.0 , 2)) + ' Hours')
+        elif entry[8] == 8 :
+            LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
-        elif entry[7] == 9 :
-            LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[6] / 360.0 , 2)) + 'Overtime Hours')
+        elif entry[8] == 9 :
+            LogListbox.insert('end' , 'Manual Change.                Added ' + str(round(entry[7] / 360.0 , 2)) + 'Overtime Hours')
 
-        elif entry[7] == 10 :
-            LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[6] / 360.0 , 2)) + 'Overtime Hours')
+        elif entry[8] == 10 :
+            LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[7] / 360.0 , 2)) + 'Overtime Hours')
 
-        hours += entry[6]
+        hours += entry[7]
 
     hoursLabel.label.configure(text ='Hours This Day  ' + str(round(hours / 360.0 , 2)))
 
@@ -409,7 +409,7 @@ def timeCardDayWin(emp):
     confirmButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     scrollBar = MyScrollBar(t , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(t , width = 20 , height = 7 ,
+    daysListLabel = Tk.Listbox(t , width = 25 , height = 7 ,
                            yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
 
     #configure widgets
