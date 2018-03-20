@@ -148,7 +148,7 @@ def adminWin() :
     createReportButton.label.bind('<1>' , lambda x: reportWin())
     newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    closeButton.label.bind('<1>' , lambda x : root.destroy())
+    closeButton.label.bind('<1>' , lambda x : closeProgramWin())
 
 
 # Bring up new employee screen
@@ -314,7 +314,7 @@ def timeCardListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '    ' + str(round(emp.totalHours / 360.0 , 2))  + '  Hours')
+            nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 360.0 , 2))  + '  Hours')
             count += 1
 
     #bind widgets
@@ -373,7 +373,7 @@ def timeCardWin(emp , year , month , day) :
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 5 :
-            LogListbox.insert('end' , 'Returned From Lunch At:      ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+            LogListbox.insert('end' , 'Returned From Lunch At:     ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
                 entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 360.0 , 2)) + ' Hours')
 
         elif entry[8] == 6 :
@@ -449,19 +449,29 @@ def timeCardDayWin(emp):
 
 
 
-def doneWin(text):
+def closeProgramWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
 
     # create widgets
-    titleLabel = Tk.Label(t , text = text +' Completed Sucsessfully' , width = 80 , height = 10)
-    backButton = Tk.Button(t , text = 'OK' , command = lambda : t.destroy(), width = 80)
+    closeButton = MyButton(t  , width = setWidth(30) , height = setHeight(20))
+    backButton = MyButton(t , width = setWidth(30) , height = setHeight(20))
+
+    #configure widgets
+    closeButton.label.configure(text = '!!!CLOSE PROGRAM!!!')
+    backButton.label.configure(text = 'Cancel')
 
     #place widgets in window
     titleLabel.grid()
     backButton.grid()
+
+    #bind Widgets
+    closeButton.label.bind('<1>' , lambda x: root.destroy())
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+
+
 
 
 def alertWin(text):
