@@ -412,7 +412,7 @@ def timeCardDayWin(emp):
     backButton = BlueButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(100) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = 'verdana 25 bold')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
