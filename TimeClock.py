@@ -23,7 +23,7 @@ def endPeriod():
     now = datetime.datetime.now()
     totalHours = 0
     totalOver = 0
-    file = open('../EmployeeHours-' + str(now.month) + '/' + str(now.day) + '/' + str(now.year) + '.txt' , 'w+')
+    file = open('EmployeeHours-' + str(now.month) + '/' + str(now.day) + '/' + str(now.year) + '.txt' , 'a+')
     file.write('Hours Summary')
     file.write('\n')
     for uid in employee.listEmployees():
