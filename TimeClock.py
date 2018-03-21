@@ -30,12 +30,19 @@ def endPeriod():
     for uid in employee.listEmployees():
         emp = employee(uid[0])
         if emp.name != 'admin':
+            if emp.onTen:
+                emp.endTen()
+            if emp.onLunch:
+                emp.endLunch()
+            if emp.clockedIn:
+                emp.clockOut()
             file.write(emp.name + '   \t   \t Regular Hours: ' + str(round((emp.totalHours - emp.overtime) /
                     3600.0 , 2)) + '   \t   \t Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)) + '\n')
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
             emp.overtime = 0
             emp.totalHours = 0
+            emp.hours = 0
             emp.updateDB()
     file.write('Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2)) + '\n')
     file.write('Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2)) + '\n')
@@ -76,10 +83,10 @@ def clockInWin(id) :
     # configure widgets
     nameLabel.label.config(text = emp.name)
     hoursTitle.label.config(text = 'Total Hours This Period')
-    hoursTotal.label.config(text = round(emp.totalHours / 3600.0 , 2))
+    hoursTotal.label.config(text = str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)))
     hoursTotal.emp = emp
     hoursTotal.tick()
-    todayTitle.label.config(text = 'Hours Worked This Shift')
+    todayTitle.label.config(text = 'Hours Worked Today')
     todayHours.label.config(text = round(emp.hours / 3600.0 , 2))
     todayHours.emp = emp
     todayHours.tick()
@@ -134,7 +141,6 @@ def clockInWin(id) :
 
 
 # Bring up  admin screen
-#TODO: add button to replace a lost eployee card
 def adminWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -245,7 +251,6 @@ def programCardWin(name) :
 
 
 # Bring up hours report
-#TODO: update buttons / write qurrey classfuntion in database.py/ save a text file
 def reportWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -380,7 +385,8 @@ def timeCardListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
+            nameFrame.insert(count , emp.name + '  :  ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2))  +
+                             '  Hours / ' + str(round(emp.overtime / 3600.0 , 2)) + '  Overtime')
             count += 1
 
     #bind widgets
@@ -653,7 +659,8 @@ def employeeCheckInListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
+            nameFrame.insert(count , emp.name + '  :  ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2))  +
+                             '  Hours / ' + str(round(emp.overtime / 3600.0 , 2)) + '  Overtime')
             count += 1
 
     #bind widgets
@@ -697,7 +704,8 @@ def replaceCardListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '  /  ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
+            nameFrame.insert(count , emp.name + '  :  ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2))  +
+                             '  Hours / ' + str(round(emp.overtime / 3600.0 , 2)) + '  Overtime')
             count += 1
 
     #bind widgets

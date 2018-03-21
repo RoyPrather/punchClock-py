@@ -188,7 +188,7 @@ class employee:
 
 
     def clockOut(self):
-        if self.clockedIn and (not self.onTen):
+        if self.clockedIn and (not self.onLunch) and (not self.onTen):
             temp = datetime.datetime.now() - self.lastTime
             self.hours += temp.seconds
             self.totalHours += temp.seconds
@@ -198,8 +198,6 @@ class employee:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
                 self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
-            self.onTen = 0
-            self.onLunch = 0
             self.clockedIn = 0
             self.updateDB()
 
