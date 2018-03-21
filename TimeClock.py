@@ -250,8 +250,8 @@ def reportWin() :
     t.lift()
 
     # create widgets
-    titleLabel = MyLabel(t , width = setWidth(50) , height = setHeight(15))
-    hoursLabel = MyLabel(t , width = setWidth(50) , height = setHeight(15))
+    titleLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
+    hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     editButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     endPeriodButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
