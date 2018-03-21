@@ -188,7 +188,7 @@ class employee:
 
 
     def clockOut(self):
-        if self.clockedIn and (not self.onLunch) and (not self.onTen):
+        if self.clockedIn and (not self.onTen):
             temp = datetime.datetime.now() - self.lastTime
             self.hours += temp.seconds
             self.totalHours += temp.seconds
