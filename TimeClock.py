@@ -263,7 +263,7 @@ def earlyLunchWin(emp):
     #configure widgets
     titleLabel.label.configure(text = 'Sorry, You Must Be On Lunch For 30 Min!')
     backButton.label.configure(text = 'OK')
-    overrideButton.mLabel = titleLabel.label
+    overrideButton.mLabel = titleLabel
     overrideButton.emp = emp
     overrideButton.tick()
 

@@ -337,26 +337,22 @@ class ProgramingButton(MyLabel) :
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!CLEAR OLD WORKER!?!')
-
                     self.label.bind('<1>' , lambda x : (
                     emp.destroy() , employee.newEmployee(self.name , self.uid) , self.master.destroy()))
 
                 except :
                     employee.newEmployee(self.name , self.uid)
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
-
                     self.label.bind('<1>' , lambda x : self.master.destroy())
 
             else :
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
                 self.label.unbind('<1>')
-
                 self.after(300 , self.tick)
 
         else :
             self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
             self.label.unbind('<1>')
-
             self.after(300 , self.tick)
 
 
