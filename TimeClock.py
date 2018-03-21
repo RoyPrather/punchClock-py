@@ -35,8 +35,8 @@ def endPeriod():
             totalOver += emp.overtime
             emp.overtime = 0
             emp.totalHours = 0
-    file.write('Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2) + '\n')
-    file.write('Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2) + '\n')
+    file.write('Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2)) + '\n')
+    file.write('Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2)) + '\n')
 
 
 # Bring up Clock in Screen
