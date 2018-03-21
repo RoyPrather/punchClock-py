@@ -23,7 +23,7 @@ def endPeriod():
     now = datetime.datetime.now()
     totalHours = 0
     totalOver = 0
-    file = open('EmployeeHours-' + str(now.month) + '/' + str(now.day) + '/' + str(now.year) + '.txt' , 'w')
+    file = open('EmployeeHours-' + str(now.month) + '/' + str(now.day) + '/' + str(now.year) + '.txt' , 'w+')
     file.write('Hours Summary')
     file.write('\n')
     for uid in employee.listEmployees():
@@ -37,6 +37,7 @@ def endPeriod():
             emp.totalHours = 0
     file.write('Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2)) + '\n')
     file.write('Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2)) + '\n')
+    file.close()
 
 
 # Bring up Clock in Screen
@@ -253,15 +254,15 @@ def reportWin() :
     titleLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
     hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
-    editButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    endPeriodButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    editButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    endPeriodButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Total Hours:')
-    editButton.label.configure(text = 'Edit Selected Employee')
+    editButton.label.configure(text = 'Edit Employee')
     endPeriodButton.label.configure(text = 'End Pay Period')
     backButton.label.configure(text = 'Back')
     ListboxFrame.pack_propagate(0)
