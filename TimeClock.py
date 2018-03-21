@@ -518,7 +518,7 @@ def timeCardDayWin(emp):
     confirmButton.grid(column = 1 , row = 2)
 
     #bind widgets
-    backButton.label.bind('<1>' , lambda x: (t.destroy() ,timeCardListWin())
+    backButton.label.bind('<1>' , lambda x: (t.destroy() ,timeCardListWin()))
     confirmButton.label.bind('<1>' , lambda x: (timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
 
