@@ -198,6 +198,8 @@ class employee:
                 self.overtime += self.hours - self.over.seconds
             if self.totalHours > (self.overweek.seconds + self.overtime):
                 self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
+            self.onTen = 0
+            self.onLunch = 0
             self.clockedIn = 0
             self.updateDB()
 

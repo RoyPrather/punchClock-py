@@ -225,7 +225,7 @@ class ClockOutButton(MyLabel) :
 
 
     def tick(self) :
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onTen) :
             self.label.configure(bg = 'green' , relief = "groove")
             self.label.bind('<1>' , lambda x : self.emp.clockOut())
 
