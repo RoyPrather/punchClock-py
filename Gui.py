@@ -102,8 +102,6 @@ class ScanLabel(MyLabel) :
             self.label.configure(text = 'Please Scan Card' , bg = 'red')
 
 
-
-
 class TimeLabel(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
