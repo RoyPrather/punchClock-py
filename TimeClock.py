@@ -1,4 +1,5 @@
 from Gui import *
+import subprocess
 
 # create main window
 root = Tk.Tk()
