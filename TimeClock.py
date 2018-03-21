@@ -597,7 +597,7 @@ def editTimeCardWin(emp , year , month , day):
     hoursLabel.emp = emp
     hoursLabel.tick()
     overLabel.emp = emp
-    hoursLabel.tick()
+    overLabel.tick()
     addOverButton.label.configure(text = 'Add Overtime Minutes')
     subOverButton.label.configure(text = 'Remove Overtime Minutes')
     addMinuteButton.label.configure(text = 'Add Minutes')
@@ -610,9 +610,9 @@ def editTimeCardWin(emp , year , month , day):
 
     #place widgets in window
     hoursTitleLabel.grid(row = 0 , column = 0 )
-    hoursTitleLabel.grid(row = 0 , column = 1 )
+    overTitleLabel.grid(row = 0 , column = 1 )
     hoursLabel.grid(row = 1 , column = 0 )
-    overLabel.grid(row = 1 , column = 0)
+    overLabel.grid(row = 1 , column = 1)
     ListboxFrame.grid(row = 2 , column = 0 , columnspan = 2)
     addMinuteButton.grid(row = 3 , column = 0)
     subMinuteButton.grid(row = 3 , column = 1)
