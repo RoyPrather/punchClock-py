@@ -87,7 +87,7 @@ class Log:
     def resetPeriod(cls):
         now = datetime.datetime.now()
         dbi('UPDATE log SET year = ' + str(now.year) + ' , month = ' + str(now.month) + ' , day = ' + str(now.day + 1) + ' , hour = ' + str(now.hour) +
-            ' , minute = ' + str(now.minute) + ' , second = ' + str(now.second) + '  WHERE action = 0 ;')
+            ' , minute = ' + str(now.minute) + ' , second = ' + str(now.second) + '  WHERE id = 0 ;')
         db.commit()
 
 

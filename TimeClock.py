@@ -506,6 +506,7 @@ def timeCardDayWin(emp):
         temp = dtime - datetime.timedelta(day)
         daysListLabel.insert(count, str(temp.month) +'/'+ str(temp.day) +'/'+ str(temp.year))
         days.insert(count, temp)
+        count += 1
 
     #place widgets
     titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
