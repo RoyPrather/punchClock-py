@@ -36,8 +36,8 @@ def endPeriod():
                 emp.endLunch()
             if emp.clockedIn:
                 emp.clockOut()
-            file.write(emp.name + '   \t   \t Regular Hours: ' + str(round((emp.totalHours - emp.overtime) /
-                    3600.0 , 2)) + '   \t   \t Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)) + '\n')
+            file.write(emp.name + '- Regular Hours: ' + str(round((emp.totalHours - emp.overtime) /
+                    3600.0 , 2)) + '- Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)))
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
             emp.overtime = 0
