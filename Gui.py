@@ -299,7 +299,6 @@ class EndLunchButton(MyLabel) :
         self.alertFunction = None
         self.thirtyMin = datetime.timedelta(0,1800)
 
-
     def tick(self) :
         now = datetime.datetime.now()
         if self.emp.onLunch  and (now - self.emp.lastTime).seconds >= self.thirtyMin.seconds:
@@ -308,7 +307,7 @@ class EndLunchButton(MyLabel) :
 
         elif self.emp.onLunch  and (now - self.emp.lastTime).seconds < self.thirtyMin.seconds:
             self.label.configure(bg = 'red' , relief = "ridge")
-            self.label.bind('<1>' , lambda x : self.alertFunction())
+            self.label.bind('<1>' , lambda x : self.alertFunction(self.emp))
 
         else :
             self.label.configure(bg = 'red' , relief = "ridge")
@@ -413,7 +412,6 @@ class ReplaceCardButton(MyLabel):
             self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
             self.label.unbind('<1>')
             self.after(300 , self.tick)
-
 
 
 class LunchOverrideButton(MyLabel) :

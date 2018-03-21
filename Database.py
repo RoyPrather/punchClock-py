@@ -179,7 +179,6 @@ class employee:
             self.updateDB()
 
 
-
     def endLunch(self):
         if self.onLunch:
             self.lastTime = datetime.datetime.now()
