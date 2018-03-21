@@ -1102,7 +1102,7 @@ bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
 scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
-scanLabel.tick()
+scanLabel.startUp()
 tLabel.label.configure(font = 'verdana 30 bold')
 
 # place Widgets
