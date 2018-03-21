@@ -265,7 +265,7 @@ def reportWin() :
     endPeriodButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = 'Total Hours:')
@@ -361,7 +361,7 @@ def timeCardListWin() :
     submitButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
@@ -486,7 +486,7 @@ def timeCardDayWin(emp):
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(80) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = largeFont)
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
@@ -585,7 +585,7 @@ def editTimeCardWin(emp , year , month , day):
     subMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(40))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(60))
-    numSelectBox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(60) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+    numSelectBox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(60) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
 
     #configure widgets
@@ -635,7 +635,7 @@ def employeeCheckInListWin() :
     submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
@@ -680,7 +680,7 @@ def replaceCardListWin() :
     submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
