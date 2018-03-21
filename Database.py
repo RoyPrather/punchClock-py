@@ -231,6 +231,7 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
+            self.totalHours += seconds
             self.overtime += seconds
             self.updateDB()
         Log.addEntry(9 , seconds , self.uid , self.lastTime)
