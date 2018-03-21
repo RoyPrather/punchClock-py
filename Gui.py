@@ -170,7 +170,7 @@ class OverHoursLabel(MyLabel) :
 
 
     def tick(self) :
-        self.emp = employee(emp.uid)
+        self.emp = employee(self.emp.uid)
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
             if self.emp.hours > self.emp.over.seconds :
                 self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))

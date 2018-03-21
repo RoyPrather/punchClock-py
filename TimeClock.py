@@ -390,7 +390,7 @@ def timeCardListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: timeCardDayWin(emps[nameFrame.curselection()[0]]))
+    submitButton.label.bind('<1>' , lambda x: (timeCardDayWin(emps[nameFrame.curselection()[0]]) , t.destroy()))
 
 
 def timeCardWin(emp , year , month , day) :
@@ -518,7 +518,7 @@ def timeCardDayWin(emp):
     confirmButton.grid(column = 1 , row = 2)
 
     #bind widgets
-    backButton.label.bind('<1>' , lambda x: t.destroy())
+    backButton.label.bind('<1>' , lambda x: (t.destroy() ,timeCardListWin())
     confirmButton.label.bind('<1>' , lambda x: (timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
 
