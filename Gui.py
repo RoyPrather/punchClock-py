@@ -429,6 +429,10 @@ class LunchOverrideButton(MyLabel) :
                         self.mLabel.label.configure(text = '!!!This May Not Be Legal!!!')
                         self.label.configure(bg = 'green' , relief = "groove" , text = '!?!End Lunch Early!?!')
                         self.label.bind('<1>' , lambda x: (self.emp.endLunch , t.destroy()))
+                    else:
+                        self.label.configure(bg = 'red' , relief = "ridge" , text = 'Manager Override')
+                        self.label.unbind('<1>')
+                        self.after(300 , self.tick)
 
                 except :
                     self.label.configure(bg = 'red' , relief = "ridge" , text = 'Manager Override')
