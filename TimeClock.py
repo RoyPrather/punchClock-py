@@ -19,7 +19,28 @@ def setHeight(percent):
     return((screenHeight / 100) * percent)
 
 
+def endPeriod():
+    now = datetime.datetime.now()
+    totalHours = 0
+    totalOver = 0
+    file = open('EmployeeHours-' + str(now.month) + '/' + str(now.day) + '/' + str(now.year) + '.txt' , 'w')
+    file.write('Hours Summary')
+    file.write('\n')
+    for uid in employee.listEmployees():
+        emp = employee(uid)
+        if emp.name != 'admin':
+            file.write(emp.name + '   \t   \t Regular Hours:   \t' + str(round((emp.totalHours - emp.overtime) /
+                    3600.0 , 2)) + '   \t   \t Overtime Hours:   \t' + str(round(emp.overtime / 3600.00 , 2)) + '\n')
+            totalHours += emp.totalHours - emp.overtime
+            totalOver += emp.overtime
+            emp.overtime = 0
+            emp.totalHours = 0
+    file.write('Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2) + '\n')
+    file.write('Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2) + '\n')
+
+
 # Bring up Clock in Screen
+#TODO: view timecard button
 def clockInWin(id) :
     # create window
     t = Tk.Toplevel(root)
@@ -229,23 +250,52 @@ def reportWin() :
     t.lift()
 
     # create widgets
-    totalLabel = Tk.Label(t , text = 'Total Hours this Period :' , width = 40)
-    totalHours = Tk.Label(t , text = 'test' , width = 40)
-    nameLabel = Tk.Label(t , text = 'Name' , width = 26)
-    hoursLabel = Tk.Label(t , text = 'Regular Hours' , width = 26)
-    overLabel = Tk.Label(t , text = 'Hours Overtime' , width = 26)
-    reportFrame = Tk.Frame(t , height = 100, width = 800)
-    backButton = Tk.Button(t , text = 'Cancel' , command = t.destroy, width = 80)
+    titleLabel = MyLabel(t , width = setWidth(50) , height = setHeight(15))
+    hoursLabel = MyLabel(t , width = setWidth(50) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    editButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
+    endPeriodButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Total Hours:')
+    editButton.label.configure(text = 'Edit Selected Employee')
+    endPeriodButton.label.configure(text = 'End Pay Period')
+    backButton.label.configure(text = 'Back')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+
+    #place widgets in window
+    titleLabel.grid(row = 0 , column = 0)
+    hoursLabel.grid(row = 0 , column = 1 , columnspan = 2)
+    ListboxFrame.grid(row = 1 , column = 0 , columnspan = 3)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    nameFrame.pack(fill = 'both' , side = 'left')
+    backButton.grid(row = 2 , column = 0)
+    editButton.grid(row = 2 , column  = 1)
+    endPeriodButton.grid(row = 2 , column = 2)
 
 
-    # place widgets in window
-    totalLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    totalHours.grid(column = 2 , row = 0 , columnspan = 2)
-    nameLabel.grid(column = 1 , row = 1)
-    hoursLabel.grid(column = 2 , row = 1)
-    overLabel.grid(column = 3 , row = 1)
-    reportFrame.grid(column = 0 , row =2 , columnspan = 4)
-    backButton.grid(column = 0 , row = 3 , columnspan = 4)
+    #place list of employees into nameFrame
+    count = 0
+    emps = []
+    totalHours = 0
+    for uid in employee.listEmployees():
+        emp = employee(uid[0])
+        if emp.name != 'admin':
+            emps.insert(count , emp)
+            nameFrame.insert(count , emp.name + '    :     ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
+            totalHours += emp.totalHours
+            count += 1
+
+    hoursLabel.label.configure(text = round(totalHours / 3600.0 , 2))
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+    editButton.label.bind('<1>' , lambda x: timeCardDayWin(emps[nameFrame.curselection()[0]]))
+    endPeriodButton.label.bind('<1>' , lambda x:(Log.resetPeriod(), endPeriod() , t.destroy()))
+
 
 
 # Bring up Messge sending window
@@ -541,7 +591,7 @@ def editTimeCardWin(emp , year , month , day):
     ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = numSelectBox.yview)
     for i in range(60):
-        numSelectBox.insert(i+1, i+1)
+        numSelectBox.insert(i, 60 - i)
 
     #place widgets in window
     titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
@@ -557,10 +607,10 @@ def editTimeCardWin(emp , year , month , day):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
-    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
-    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
-    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,numSelectBox.curselection()[0]).seconds , year , month , day))
+    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
+    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
+    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
+    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
 
 
 #employee list for check in screen
