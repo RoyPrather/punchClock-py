@@ -7,6 +7,7 @@ db = sqlite3.connect('TimeClock.sqlite')
 # function to interface with sql database
 dbi = db.execute
 
+
 #make sure there is an emoloyee table
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="employees"')
 try:

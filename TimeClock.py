@@ -305,7 +305,6 @@ def reportWin() :
     endPeriodButton.label.bind('<1>' , lambda x:(Log.resetPeriod(), endPeriod() , t.destroy()))
 
 
-
 # Bring up Messge sending window
 #TODO: create a table for messages/ create a hadleing class /fix ui
 def readMessageWin() :
@@ -470,8 +469,8 @@ def timeCardWin(emp , year , month , day) :
 
 
    #bind widgets
-    backButton.label.bind('<1>' , lambda x: t.destroy())
-    editButton.label.bind('<1>' , lambda x: editTimeCardWin(emp , year , month , day))
+    backButton.label.bind('<1>' , lambda x: (t.destroy() , timeCardDayWin(emp)))
+    editButton.label.bind('<1>' , lambda x: (editTimeCardWin(emp , year , month , day) , t.destroy()))
 
 
 def timeCardDayWin(emp):
@@ -520,7 +519,7 @@ def timeCardDayWin(emp):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    confirmButton.label.bind('<1>' , lambda x: timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day))
+    confirmButton.label.bind('<1>' , lambda x: (timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
 
 def closeProgramWin():
@@ -577,7 +576,6 @@ def editTimeCardWin(emp , year , month , day):
     t.attributes('-fullscreen' , True)
     t.lift()
 
-
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
     hoursLabel = TotalHoursLabel(t , width = setWidth(100) , height = setHeight(15))
@@ -618,7 +616,7 @@ def editTimeCardWin(emp , year , month , day):
     numSelectBox.pack(fill = 'both' , side = 'left')
 
     #bind widgets
-    backButton.label.bind('<1>' , lambda x: t.destroy())
+    backButton.label.bind('<1>' , lambda x: (t.destroy(), editTimeCardWin(emp , year , month , day)))
     addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
