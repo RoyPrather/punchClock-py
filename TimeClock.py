@@ -28,7 +28,7 @@ def endPeriod():
     file.write('Hours Summary')
     file.write('\n')
     for uid in employee.listEmployees():
-        emp = employee(uid)
+        emp = employee(uid[0])
         if emp.name != 'admin':
             file.write(emp.name + '   \t   \t Regular Hours:   \t' + str(round((emp.totalHours - emp.overtime) /
                     3600.0 , 2)) + '   \t   \t Overtime Hours:   \t' + str(round(emp.overtime / 3600.00 , 2)) + '\n')
