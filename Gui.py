@@ -1,7 +1,9 @@
 import Tkinter as Tk
 import time
 import MFRC522
+import RPi.GPIO as GPIO
 from Database import *
+
 
 # style args
 font = 'verdana 15 bold'
@@ -28,75 +30,78 @@ class ScanLabel(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.uid = None
-        self.cardRead = 0
-        self.reader = MFRC522.MFRC522()
         self.function = None
         self.adminfunc = None
-        self.createAdmin()
-
-
-    def createAdmin(self) :
         temp = dbi('SELECT uid FROM employees WHERE name = "admin"')
         try :
             temp.fetchall()[0][0]
-
+            self.tick()
         except :
-            # Scan for cards
-            (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
+            self.createAdmin()
 
-            # If a card is found
-            if status == self.reader.MI_OK :
-                # Get the UID of the card
-                (status , uid) = self.reader.MFRC522_Anticoll()
 
-                # If we have the UID, continue
-                if status == self.reader.MI_OK :
-                    uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
-                    employee.newEmployee('admin' , uid)
-
-                else :
-                    self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
-                    self.after(150,self.createAdmin)
+    def createAdmin(self) :
+        reader = MFRC522.MFRC522()
+        # Scan for cards
+        (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
+        # If a card is found
+        if status == reader.MI_OK :
+            # Get the UID of the card
+            (status , uid) = reader.MFRC522_Anticoll()
+            # If we have the UID, continue
+            if status == reader.MI_OK :
+                uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
+                employee.newEmployee('admin' , uid)
+                GPIO.cleanup()
+                self.tick()
 
             else :
                 self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
-                self.after(150 , self.createAdmin)
+                GPIO.cleanup()
+                self.after(150,self.createAdmin)
+
+        else :
+            self.label.configure(text = 'Please Scan New Admin Card' , bg = 'red')
+            GPIO.cleanup()
+            self.after(150 , self.createAdmin)
 
 
     def tick(self) :
+        reader = MFRC522.MFRC522()
         # Scan for cards
-        status = None
-        (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
-
+        (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
         # If a card is found
-        if status == self.reader.MI_OK :
+        if status == reader.MI_OK :
             # Get the UID of the card
-            (status , uid) = self.reader.MFRC522_Anticoll()
-
+            (status , uid) = reader.MFRC522_Anticoll()
             # If we have the UID, continue
-            if status == self.reader.MI_OK :
+            if status == reader.MI_OK :
                 self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
-
                 try:
                     emp = employee(self.uid)
-
                     if emp.name == 'admin':
                         self.label.config(text = "Admin Card Read" , bg = 'green')
                         self.label.bind('<1>' , lambda x : self.adminfunc())
+                        GPIO.cleanup()
                         self.after(3000 , self.tick)
 
                     else:
                         self.label.config(text = emp.name , bg = 'green')
                         self.label.bind('<1>' , lambda x: self.function(self.uid))
+                        GPIO.cleanup()
                         self.after(3000, self.tick)
 
                 except:
+                    GPIO.cleanup()
                     self.tick()
 
         else:
+            GPIO.cleanup()
             self.after(300 , self.tick)
             self.label.unbind('<1>')
             self.label.configure(text = 'Please Scan Card' , bg = 'red')
+
+
 
 
 class TimeLabel(MyLabel) :
@@ -328,41 +333,42 @@ class ProgramingButton(MyLabel) :
         self.name = None
         self.uid = None
         self.mLabel = None
-        self.reader = MFRC522.MFRC522()
 
     def tick(self) :
+        reader = MFRC522.MFRC522()
         # Scan for cards
-        (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
-
+        (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
         # If a card is found
-        if status == self.reader.MI_OK :
+        if status == reader.MI_OK :
             # Get the UID of the card
-            (status , uid) = self.reader.MFRC522_Anticoll()
-
+            (status , uid) = reader.MFRC522_Anticoll()
             # If we have the UID, continue
-            if status == self.reader.MI_OK :
+            if status == reader.MI_OK :
                 self.uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
-
                 try :
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!CLEAR OLD WORKER!?!')
+                    GPIO.cleanup()
                     self.label.bind('<1>' , lambda x : (
                     emp.destroy() , employee.newEmployee(self.name , self.uid) , self.master.destroy()))
 
                 except :
                     employee.newEmployee(self.name , self.uid)
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
+                    GPIO.cleanup()
                     self.label.bind('<1>' , lambda x : self.master.destroy())
 
             else :
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
                 self.label.unbind('<1>')
+                GPIO.cleanup()
                 self.after(300 , self.tick)
 
         else :
             self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
             self.label.unbind('<1>')
+            GPIO.cleanup()
             self.after(300 , self.tick)
 
 
@@ -372,7 +378,6 @@ class ReplaceCardButton(MyLabel):
         self.emp = None
         self.uid = None
         self.mLabel = None
-        self.reader = MFRC522.MFRC522()
 
     def updateEmployee(self):
         for row  in Log.getEmployee(self.emp.uid):
@@ -386,37 +391,39 @@ class ReplaceCardButton(MyLabel):
 
 
     def tick(self) :
+        reader = MFRC522.MFRC522()
         # Scan for cards
-        (status , TagType) = self.reader.MFRC522_Request(self.reader.PICC_REQIDL)
-
+        (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
         # If a card is found
-        if status == self.reader.MI_OK :
+        if status == reader.MI_OK :
             # Get the UID of the card
-            (status , uid) = self.reader.MFRC522_Anticoll()
-
+            (status , uid) = reader.MFRC522_Anticoll()
             # If we have the UID, continue
-            if status == self.reader.MI_OK :
+            if status == reader.MI_OK :
                 self.uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
-
                 try:
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
+                    GPIO.cleanup()
                     self.label.bind('<1>' , lambda x : ( emp.destroy() , self.updateEmployee() , self.master.destroy()))
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
                     self.updateEmployee()
+                    GPIO.cleanup()
                     self.label.bind('<1>' , lambda x : self.master.destroy())
 
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
                 self.label.unbind('<1>')
+                GPIO.cleanup()
                 self.after(300 , self.tick)
 
         else:
             self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
             self.label.unbind('<1>')
+            GPIO.cleanup()
             self.after(300 , self.tick)
 
 

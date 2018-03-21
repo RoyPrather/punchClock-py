@@ -37,7 +37,7 @@ def endPeriod():
             if emp.clockedIn:
                 emp.clockOut()
             file.write(emp.name + '- Regular Hours: ' + str(round((emp.totalHours - emp.overtime) /
-                    3600.0 , 2)) + '- Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)) + ' \n')
+                    3600.0 , 2)) + '/ Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)) + ' \n')
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
             emp.overtime = 0
@@ -45,7 +45,7 @@ def endPeriod():
             emp.hours = 0
             emp.updateDB()
     file.write('\n Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2)) + '\n')
-    file.write('Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2)) + '\n')
+    file.write(' Total Overtime Paid:   \t \t' + str(round(totalOver / 3600.00 , 2)) + '\n')
     file.close()
 
 
