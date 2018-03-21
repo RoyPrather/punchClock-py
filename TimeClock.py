@@ -577,8 +577,10 @@ def editTimeCardWin(emp , year , month , day):
     t.lift()
 
     # create widgets
-    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    hoursLabel = TotalHoursLabel(t , width = setWidth(100) , height = setHeight(15))
+    hoursTitleLabel = MyLabel(t , width = setWidth(50) , height = setHeight(15))
+    overTitleLabel = MyLabel(t , width = setWidth(50) , height = setHeight(15))
+    hoursLabel = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(15))
+    overLabel = OverHoursLabel(t , width = setWidth(50) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     addOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     subOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
@@ -590,22 +592,27 @@ def editTimeCardWin(emp , year , month , day):
 
 
     #configure widgets
-    titleLabel.label.configure(text = 'Add or Remove Time')
+    hoursTitleLabel.label.configure(text = 'Add or Remove Regular Time')
+    overTitleLabel.label.configure(text = 'Add or Remove Overtime')
     hoursLabel.emp = emp
+    hoursLabel.tick()
+    overLabel.emp = emp
     hoursLabel.tick()
     addOverButton.label.configure(text = 'Add Overtime Minutes')
     subOverButton.label.configure(text = 'Remove Overtime Minutes')
     addMinuteButton.label.configure(text = 'Add Minutes')
     subMinuteButton.label.configure(text = 'Remove Minutes')
-    backButton.label.configure(text = 'Cancel')
+    backButton.label.configure(text = 'Back')
     ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = numSelectBox.yview)
     for i in range(60):
         numSelectBox.insert(i, 60 - i)
 
     #place widgets in window
-    titleLabel.grid(row = 0 , column = 0 , columnspan = 2)
-    hoursLabel.grid(row = 1 , column = 0 , columnspan = 2)
+    hoursTitleLabel.grid(row = 0 , column = 0 )
+    hoursTitleLabel.grid(row = 0 , column = 1 )
+    hoursLabel.grid(row = 1 , column = 0 )
+    overLabel.grid(row = 1 , column = 0)
     ListboxFrame.grid(row = 2 , column = 0 , columnspan = 2)
     addMinuteButton.grid(row = 3 , column = 0)
     subMinuteButton.grid(row = 3 , column = 1)
@@ -616,7 +623,7 @@ def editTimeCardWin(emp , year , month , day):
     numSelectBox.pack(fill = 'both' , side = 'left')
 
     #bind widgets
-    backButton.label.bind('<1>' , lambda x: (t.destroy(), editTimeCardWin(emp , year , month , day)))
+    backButton.label.bind('<1>' , lambda x: (t.destroy(), timeCardWin(emp , year , month , day)))
     addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
