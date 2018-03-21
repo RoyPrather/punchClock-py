@@ -416,4 +416,43 @@ class ReplaceCardButton(MyLabel):
 
 
 
+class LunchOverrideButton(MyLabel) :
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.emp = None
+        self.mLabel = None
+
+    def tick(self) :
+        # Scan for cards
+        (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
+        # If a card is found
+        if status == reader.MI_OK :
+            # Get the UID of the card
+            (status , uid) = reader.MFRC522_Anticoll()
+            # If we have the UID, continue
+            if status == reader.MI_OK :
+                UID = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
+                try :
+                    admin = employee(UID)
+                    if admin.name == 'admin':
+                        self.mLabel.label.configure(text = '!!!This May Not Be Legal!!!')
+                        self.label.configure(bg = 'green' , relief = "groove" , text = '!?!End Lunch Early!?!')
+                        self.label.bind('<1>' , lambda x: (self.emp.endLunch , t.destroy()))
+
+                except :
+                    self.label.configure(bg = 'red' , relief = "ridge" , text = 'Manager Override')
+                    self.label.unbind('<1>')
+                    self.after(300 , self.tick)
+
+            else :
+                self.label.configure(bg = 'red' , relief = "ridge" , text = 'Manager Override')
+                self.label.unbind('<1>')
+                self.after(300 , self.tick)
+
+        else :
+            self.label.configure(bg = 'red' , relief = "ridge" , text = 'Manager Override')
+            self.label.unbind('<1>')
+            self.after(300 , self.tick)
+
+
 

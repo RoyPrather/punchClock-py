@@ -249,7 +249,7 @@ def employeeTimeCardWin(emp , year , month , day) :
     backButton.label.bind('<1>' , lambda x: (employeeTimeCardDayWin(emp) , t.destroy()))
 
 #TODO: add admin override
-def earlyLunchWin():
+def earlyLunchWin(emp):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -258,15 +258,19 @@ def earlyLunchWin():
     # create widgets
     titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(20))
     backButton = MyButton(t , width = setWidth(100) , height = setHeight(20))
+    overrideButton = LunchOverrideButton(t , width = setWidth(100) , height = setHeight(20))
 
     #configure widgets
     titleLabel.label.configure(text = 'Sorry, You Must Be On Lunch For 30 Min!')
     backButton.label.configure(text = 'OK')
+    overrideButton.mLabel = titleLabel.label
+    overrideButton.emp = emp
+    overrideButton.tick()
 
     #place widgets in window
     titleLabel.grid()
     backButton.grid()
-
+    overrideButton.grid()
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
