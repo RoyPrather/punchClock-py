@@ -25,7 +25,7 @@ def endPeriod():
     totalOver = 0
     filename = 'EmployeeHours-' + str(now.month) + '-' + str(now.day) + '-' + str(now.year) + '.txt'
     file = open(filename , 'w+')
-    file.write('Hours Summary')
+    file.write('Hours Summary \n')
     file.write('\n')
     for uid in employee.listEmployees():
         emp = employee(uid[0])
@@ -37,7 +37,7 @@ def endPeriod():
             if emp.clockedIn:
                 emp.clockOut()
             file.write(emp.name + '- Regular Hours: ' + str(round((emp.totalHours - emp.overtime) /
-                    3600.0 , 2)) + '- Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)))
+                    3600.0 , 2)) + '- Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)) + '\n')
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
             emp.overtime = 0
