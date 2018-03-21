@@ -1,5 +1,5 @@
 from Gui import *
-
+import RPi.GPIO as GPIO
 # create main window
 root = Tk.Tk()
 root.attributes('-fullscreen' , True)
@@ -960,7 +960,7 @@ def closeProgramWin():
     backButton.grid(row = 1 , column = 0)
 
     #bind Widgets
-    closeButton.label.bind('<1>' , lambda x: root.destroy())
+    closeButton.label.bind('<1>' , lambda x: (GPIO.cleanup() , root.destroy()))
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
