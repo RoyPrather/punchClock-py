@@ -269,7 +269,7 @@ def reportWin() :
 
     #place widgets in window
     titleLabel.grid(row = 0 , column = 0)
-    hoursLabel.grid(row = 0 , column = 1 , columnspan = 2)
+    hoursLabel.grid(row = 0 , column = 1)
     ListboxFrame.grid(row = 1 , column = 0 , columnspan = 3)
     scrollBar.pack(fill = 'y' , side = 'right')
     nameFrame.pack(fill = 'both' , side = 'left')
