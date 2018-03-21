@@ -469,7 +469,7 @@ def timeCardWin(emp , year , month , day) :
 
 
    #bind widgets
-    backButton.label.bind('<1>' , lambda x: (t.destroy() , timeCardDayWin(emp)))
+    backButton.label.bind('<1>' , lambda x: (timeCardDayWin(emp) , t.destroy()))
     editButton.label.bind('<1>' , lambda x: (editTimeCardWin(emp , year , month , day) , t.destroy()))
 
 
@@ -518,7 +518,7 @@ def timeCardDayWin(emp):
     confirmButton.grid(column = 1 , row = 2)
 
     #bind widgets
-    backButton.label.bind('<1>' , lambda x: (t.destroy() ,timeCardListWin()))
+    backButton.label.bind('<1>' , lambda x: (timeCardListWin() , t.destroy()))
     confirmButton.label.bind('<1>' , lambda x: (timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
 
@@ -623,7 +623,7 @@ def editTimeCardWin(emp , year , month , day):
     numSelectBox.pack(fill = 'both' , side = 'left')
 
     #bind widgets
-    backButton.label.bind('<1>' , lambda x: (t.destroy(), timeCardWin(emp , year , month , day)))
+    backButton.label.bind('<1>' , lambda x: (timeCardWin(emp , year , month , day) , t.destroy()))
     addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
