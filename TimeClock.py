@@ -582,13 +582,13 @@ def editTimeCardWin(emp , year , month , day):
     hoursLabel = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(15))
     overLabel = OverHoursLabel(t , width = setWidth(50) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    addOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    subOverButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
+    addOverButton = MyButton(t , width = setWidth(45) , height = setHeight(15))
+    subOverButton = MyButton(t , width = setWidth(45) , height = setHeight(15))
     addMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     subMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(40))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(60))
-    numSelectBox = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(60) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
+    numSelectBox = Tk.Listbox(ListboxFrame , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
 
     #configure widgets
