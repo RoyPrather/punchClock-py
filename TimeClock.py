@@ -1,5 +1,4 @@
 from Gui import *
-import subprocess
 
 # create main window
 root = Tk.Tk()
@@ -24,8 +23,7 @@ def endPeriod():
     now = datetime.datetime.now()
     totalHours = 0
     totalOver = 0
-    filename = 'EmployeeHours-' + str(now.month) + '/' + str(now.day) + '/' + str(now.year) + '.txt'
-    subprocess.call(['touch' , filename])
+    filename = 'EmployeeHours-' + str(now.month) + '-' + str(now.day) + '-' + str(now.year) + '.txt'
     file = open(filename , 'w+')
     file.write('Hours Summary')
     file.write('\n')
