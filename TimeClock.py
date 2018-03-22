@@ -667,7 +667,7 @@ def reportWin():
 
     #configure widgets
     titleLabel.label.configure(text = 'Total Hours:')
-    OverTitleLabel.label.configure(text = 'Overtime Hours:')
+    overTitleLabel.label.configure(text = 'Overtime Hours:')
     editButton.label.configure(text = 'Edit Employee')
     endPeriodButton.label.configure(text = 'End Pay Period')
     backButton.label.configure(text = 'Back')
