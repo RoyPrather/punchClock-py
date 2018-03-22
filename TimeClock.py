@@ -1,3 +1,4 @@
+!/usr/bin/python
 from Gui import *
 import RPi.GPIO as GPIO
 # create main window
