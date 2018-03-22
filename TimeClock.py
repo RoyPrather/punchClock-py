@@ -337,7 +337,7 @@ def timeCardListWin() :
     submitButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font , justify = 'right')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
