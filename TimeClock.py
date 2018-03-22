@@ -586,7 +586,7 @@ def endPeriod():
                 emp.clockOut()
             temp = ['Employee Name' , 'Regular Hours' , 'Overtime Hours']
             file.write('{0[0]:<30}{0[1]:^15}{0[2]:>15}\n'.format(temp))
-            file.write('{0:<30}{1:^15}{2:>15}\n'.format(emp.name , round((emp.totalHours - emp.overtime) / 3600.0 , 2)  , str(round(emp.overtime / 3600.00 , 2))))
+            file.write('{0:<30}{1:^15}{2:^15}\n\n'.format(emp.name , round((emp.totalHours - emp.overtime) / 3600.0 , 2)  , str(round(emp.overtime / 3600.00 , 2))))
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
             emp.overtime = 0
