@@ -985,7 +985,7 @@ def employeeCheckInListWin() :
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
     nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) ,
                            yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' ,
-                           font = font , align = 'right')
+                           font = font , justify = 'right')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
