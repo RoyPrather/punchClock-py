@@ -1009,8 +1009,9 @@ def employeeCheckInListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count ,'{0:>20}{1:>15}{2:>15}'.format(
-                emp.name , 'Hours: ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) , 'Overtime: ' +str(round(emp.overtime / 3600.0 , 2))))
+            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
+                            str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) , 'Overtime: ' +
+                            str(round(emp.overtime / 3600.0 , 2))))
             count += 1
 
     #bind widgets
@@ -1030,7 +1031,7 @@ def replaceCardListWin() :
     submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
@@ -1054,8 +1055,7 @@ def replaceCardListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '  :  ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2))  +
-                             '  Hours / ' + str(round(emp.overtime / 3600.0 , 2)) + '  Overtime')
+            nameFrame.insert(count , emp.name )
             count += 1
 
     #bind widgets
