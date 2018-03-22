@@ -19,10 +19,8 @@ def setWidth(percent):
 def setHeight(percent):
     return((screenHeight / 100) * percent)
 
-
 # Bring up Clock in Screen
-#TODO: view timecard button
-def clockInWin(uid) :
+def clockInWin(uid):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -115,7 +113,7 @@ def clockInWin(uid) :
 
     # bind widgets
     sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
-    backButton.label.bind('<1>' , lambda x: t.destroy())
+    backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy()))
     timeCardButton.label.bind('<1>' , lambda x: (employeeTimeCardDayWin(emp), t.destroy()))
 
 
@@ -131,7 +129,7 @@ def employeeTimeCardDayWin(emp):
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(80) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font)
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
@@ -168,7 +166,7 @@ def employeeTimeCardDayWin(emp):
     confirmButton.label.bind('<1>' , lambda x: (employeeTimeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
 
-def employeeTimeCardWin(emp , year , month , day) :
+def employeeTimeCardWin(emp , year , month , day):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -275,8 +273,9 @@ def earlyLunchWin(emp):
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
+#TODO: delete employee button /screen
 # Bring up  admin screen
-def adminWin() :
+def adminWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -322,10 +321,10 @@ def adminWin() :
     newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
     employeeCheckInButton.label.bind('<1>' , lambda x: employeeCheckInListWin())
     replaceCardButton.label.bind('<1>' , lambda x: replaceCardListWin())
-    backButton.label.bind('<1>' , lambda x: t.destroy())
+    backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy())
     closeButton.label.bind('<1>' , lambda x : closeProgramWin())
 
-#employee list for time cards
+
 def timeCardListWin() :
     # create window
     t = Tk.Toplevel(root)
@@ -362,8 +361,9 @@ def timeCardListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '  :  ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2))  +
-                             '  Hours / ' + str(round(emp.overtime / 3600.0 , 2)) + '  Overtime')
+            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
+                            str(round((emp.totalHours - emp.overtime) / 3600.0 ,2)) , 'Overtime: ' +
+                            str(round(emp.overtime / 3600.0 , 2))))
             count += 1
 
     #bind widgets
@@ -383,7 +383,7 @@ def timeCardDayWin(emp):
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(80) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font)
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
@@ -419,8 +419,8 @@ def timeCardDayWin(emp):
     backButton.label.bind('<1>' , lambda x: (timeCardListWin() , t.destroy()))
     confirmButton.label.bind('<1>' , lambda x: (timeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
-
-def timeCardWin(emp , year , month , day) :
+#TODO: format strings
+def timeCardWin(emp , year , month , day):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -505,7 +505,7 @@ def timeCardWin(emp , year , month , day) :
     backButton.label.bind('<1>' , lambda x: (timeCardDayWin(emp) , t.destroy()))
     editButton.label.bind('<1>' , lambda x: (editTimeCardWin(emp , year , month , day) , t.destroy()))
 
-
+#TODO: rework interface
 def editTimeCardWin(emp , year , month , day):
     # create window
     t = Tk.Toplevel(root)
@@ -522,7 +522,7 @@ def editTimeCardWin(emp , year , month , day):
     subOverButton = MyButton(t , width = setWidth(45) , height = setHeight(15))
     addMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
     subMinuteButton = MyButton(t , width = setWidth(30) , height = setHeight(15))
-    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(40))
+    ListboxFrame = Tk.Frame(t, width = setWidth(30) , height = setHeight(40))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(60))
     numSelectBox = Tk.Listbox(ListboxFrame , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
 
@@ -565,6 +565,54 @@ def editTimeCardWin(emp , year , month , day):
     addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
     subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
 
+#TODO: change from hours to current checkin status
+def employeeCheckInListWin():
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) ,
+                           yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' ,
+                           font = font , justify = 'right')
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Choose an Employee to Veiw')
+    submitButton.label.configure(text = 'View Clock In Screen')
+    backButton.label.configure(text = 'Back')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+
+    #place widgets in window
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    nameFrame.pack(fill = 'both' , side = 'left')
+    submitButton.grid(column = 1 , row = 2)
+    backButton.grid(column = 0 , row = 2)
+
+    #place list of employees into nameFrame
+    count = 0
+    emps = []
+    for uid in employee.listEmployees():
+        emp = employee(uid[0])
+        if emp.name != 'admin':
+            emps.insert(count , emp)
+            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
+                            str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) , 'Overtime: ' +
+                            str(round(emp.overtime / 3600.0 , 2))))
+            count += 1
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: (toggleOff(scanToggle) , t.destroy()))
+    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]].uid))
+
 
 def endPeriod():
     now = datetime.datetime.now()
@@ -598,24 +646,28 @@ def endPeriod():
     file.close()
 
 
-def reportWin() :
+def reportWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
     t.lift()
 
     # create widgets
-    titleLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
-    hoursLabel = MyLabel(t , width = setWidth(30) , height = setHeight(15))
+    titleLabel = MyLabel(t , width = setWidth(25) , height = setHeight(15))
+    hoursLabel = MyLabel(t , width = setWidth(25) , height = setHeight(15))
+    overTitleLabel = MyLabel(t , width = setWidth(25) , height = setHeight(15))
+    overHoursLabel = MyLabel(t , width = setWidth(25) , height = setHeight(15))
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     editButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     endPeriodButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font)
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) ,
+                           yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font , justify = 'right')
 
     #configure widgets
     titleLabel.label.configure(text = 'Total Hours:')
+    OverTitleLabel.label.configure(text = 'Overtime Hours:')
     editButton.label.configure(text = 'Edit Employee')
     endPeriodButton.label.configure(text = 'End Pay Period')
     backButton.label.configure(text = 'Back')
@@ -625,27 +677,35 @@ def reportWin() :
     #place widgets in window
     titleLabel.grid(row = 0 , column = 0)
     hoursLabel.grid(row = 0 , column = 1)
-    ListboxFrame.grid(row = 1 , column = 0 , columnspan = 3)
+    overTitleLabel.grid(row = 0 , column = 2)
+    overHoursLabel.grid(row = 0 , column = 3)
+    ListboxFrame.grid(row = 1 , column = 0 , columnspan = 4)
     scrollBar.pack(fill = 'y' , side = 'right')
     nameFrame.pack(fill = 'both' , side = 'left')
     backButton.grid(row = 2 , column = 0)
     editButton.grid(row = 2 , column  = 1)
-    endPeriodButton.grid(row = 2 , column = 2)
+    endPeriodButton.grid(row = 2 , column = 2, columnspan = 2)
 
 
     #place list of employees into nameFrame
     count = 0
     emps = []
     totalHours = 0
+    overHours = 0
     for uid in employee.listEmployees():
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '    :     ' + str(round(emp.totalHours / 3600.0 , 2))  + '  Hours')
-            totalHours += emp.totalHours
+            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
+                            str(round((emp.totalHours - emp.overtime) / 3600.0 ,2)) , 'Overtime: ' +
+                            str(round(emp.overtime / 3600.0 , 2))))
+            totalHours += emp.totalHours - emp.overtime
+            overHours += emp.overtime
             count += 1
 
     hoursLabel.label.configure(text = round(totalHours / 3600.0 , 2))
+    overHoursLabel.label.configure(text = round(overHours / 3600.0 , 2))
+
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
     editButton.label.bind('<1>' , lambda x: (reportTimeCardDayWin(emps[nameFrame.curselection()[0]]), t.destroy()))
@@ -664,7 +724,7 @@ def reportTimeCardDayWin(emp):
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(80) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font)
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = LargeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
@@ -700,8 +760,8 @@ def reportTimeCardDayWin(emp):
     backButton.label.bind('<1>' , lambda x: (reportWin() , t.destroy()))
     confirmButton.label.bind('<1>' , lambda x: (reportTimeCardWin(emp ,days[daysListLabel.curselection()[0]].year , days[daysListLabel.curselection()[0]].month , days[daysListLabel.curselection()[0]].day) , t.destroy()))
 
-
-def reportTimeCardWin(emp , year , month , day) :
+#TODO: format strings
+def reportTimeCardWin(emp , year , month , day):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -786,7 +846,7 @@ def reportTimeCardWin(emp , year , month , day) :
     backButton.label.bind('<1>' , lambda x: (reportTimeCardDayWin(emp) , t.destroy()))
     editButton.label.bind('<1>' , lambda x: (reportEditTimeCardWin(emp , year , month , day) , t.destroy()))
 
-
+#TODO:rework interface
 def reportEditTimeCardWin(emp , year , month , day):
     # create window
     t = Tk.Toplevel(root)
@@ -847,7 +907,7 @@ def reportEditTimeCardWin(emp , year , month , day):
     subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
 
 
-def newEmployeeWin() :
+def newEmployeeWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -877,7 +937,7 @@ def newEmployeeWin() :
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
-def programCardWin(name) :
+def programCardWin(name):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -892,6 +952,7 @@ def programCardWin(name) :
     dLabel.label.configure(text = 'Scan New Card')
     kButton.name = name
     kButton.mLabel = dLabel
+    kButton.delConfirm = confirmDeleteWin
     kButton.tick()
     backButton.label.configure(text = 'Cancel')
 
@@ -903,10 +964,9 @@ def programCardWin(name) :
     # bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
-
 # Bring up Messge sending window
 #TODO: create a table for messages/ create a hadleing class /fix ui
-def readMessageWin() :
+def readMessageWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -925,7 +985,7 @@ def readMessageWin() :
 
 # Bring up Message board to view messages
 #TODO: fix ui
-def sendMessageWin(name) :
+def sendMessageWin(name):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -958,7 +1018,7 @@ def closeProgramWin():
 
     #configure widgets
     titleLable.label.configure(text = 'Are You Sure' , font = largeFont)
-    closeButton.label.configure(text = '!!!CLOSE PROGRAM!!!')
+    closeButton.label.configure(text = '!CLOSE PROGRAM!')
     backButton.label.configure(text = 'Cancel')
 
     #place widgets in window
@@ -971,55 +1031,7 @@ def closeProgramWin():
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
-def employeeCheckInListWin() :
-    # create window
-    t = Tk.Toplevel(root)
-    t.attributes('-fullscreen' , True)
-    t.lift()
-
-    # create widgets
-    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
-    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
-    submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
-    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
-    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) ,
-                           yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' ,
-                           font = font , justify = 'right')
-
-    #configure widgets
-    titleLabel.label.configure(text = 'Choose an Employee to Veiw')
-    submitButton.label.configure(text = 'View Clock In Screen')
-    backButton.label.configure(text = 'Back')
-    ListboxFrame.pack_propagate(0)
-    scrollBar.scrollBar.config(command = nameFrame.yview)
-
-    #place widgets in window
-    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
-    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
-    scrollBar.pack(fill = 'y' , side = 'right')
-    nameFrame.pack(fill = 'both' , side = 'left')
-    submitButton.grid(column = 1 , row = 2)
-    backButton.grid(column = 0 , row = 2)
-
-    #place list of employees into nameFrame
-    count = 0
-    emps = []
-    for uid in employee.listEmployees():
-        emp = employee(uid[0])
-        if emp.name != 'admin':
-            emps.insert(count , emp)
-            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
-                            str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) , 'Overtime: ' +
-                            str(round(emp.overtime / 3600.0 , 2))))
-            count += 1
-
-    #bind widgets
-    backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: clockInWin(emps[nameFrame.curselection()[0]].uid))
-
-
-def replaceCardListWin() :
+def replaceCardListWin():
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -1063,7 +1075,7 @@ def replaceCardListWin() :
     submitButton.label.bind('<1>' , lambda x: (replaceCardWin(emps[nameFrame.curselection()[0]]), t.destroy()))
 
 
-def replaceCardWin(emp) :
+def replaceCardWin(emp):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -1090,12 +1102,39 @@ def replaceCardWin(emp) :
     backButton.label.bind('<1>' , lambda x : t.destroy())
 
 
+def confirmDeleteWin(emp):
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
 
+    # create widgets
+    titleLable = MyLabel(t , width = setWidth(100) , height = setHeight(60))
+    deleteButton = MyButton(t  , width = setWidth(30) , height = setHeight(20))
+    backButton = MyButton(t , width = setWidth(30) , height = setHeight(20))
+
+    #configure widgets
+    titleLable.label.configure(text = 'This Will Remove\n' + emp.name + '\nFrom The System', font = largeFont)
+    deleteButton.label.configure(text = '!DELETE Employee!')
+    backButton.label.configure(text = 'Cancel')
+
+    #place widgets in window
+    titleLable.grid(row = 0 , column = 0 , columnspan = 2)
+    deleteButton.grid(row = 1 , column = 1)
+    backButton.grid(row = 1 , column = 0)
+
+    #bind Widgets
+    deleteButton.label.bind('<1>' , lambda x:(emp.destroy() , t.destroy()))
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 ##################################
 ######## Root Window design #####
 #################################
+
+#TODO: listbox with days log entrys
+#TODO: alert to take lunch or log out
+
 # create widgets
 bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))

@@ -4,6 +4,14 @@ import MFRC522
 from Database import *
 reader = MFRC522.MFRC522()
 
+scanToggle = 1
+
+def toggleOn(Toggle):
+    Toggle = 1
+
+def toggleOff(Toggle):
+    Toggle = 0
+
 # style args
 font = 'verdana 15 bold'
 largeFont = 'verdana 25 bold'
@@ -31,6 +39,7 @@ class ScanLabel(MyLabel) :
         self.uid = None
         self.function = None
         self.adminfunc = None
+        toggleOn(scanToggle)
 
     def startUp(self):
         temp = dbi('SELECT uid FROM employees WHERE name = "admin"')
@@ -64,31 +73,37 @@ class ScanLabel(MyLabel) :
 
 
     def tick(self) :
-        # Scan for cards
-        (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
-        # If a card is found
-        if status == reader.MI_OK :
-            # Get the UID of the card
-            (status , uid) = reader.MFRC522_Anticoll()
-            # If we have the UID, continue
+        if scanToggle:
+            # Scan for cards
+            (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
+            # If a card is found
             if status == reader.MI_OK :
-                self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
-                try:
-                    emp = employee(self.uid)
-                    if emp.name == 'admin':
-                        self.label.config(text = "Admin Card Read" , bg = 'green')
-                        self.label.bind('<1>' , lambda x : self.adminfunc())
-                        self.after(3000 , self.tick)
+                # Get the UID of the card
+                (status , uid) = reader.MFRC522_Anticoll()
+                # If we have the UID, continue
+                if status == reader.MI_OK :
+                    self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
+                    try:
+                        emp = employee(self.uid)
+                        if emp.name == 'admin':
+                            self.label.config(text = "Admin Card Read" , bg = 'green')
+                            self.label.bind('<1>' , lambda x : (toggleOff(scanToggle) , self.adminfunc()))
+                            self.after(3000 , self.tick)
 
-                    else:
-                        self.label.config(text = emp.name , bg = 'green')
-                        self.label.bind('<1>' , lambda x: self.function(self.uid))
-                        self.after(3000, self.tick)
+                        else:
+                            self.label.config(text = emp.name , bg = 'green')
+                            self.label.bind('<1>' , lambda x:(toggleOff(scanToggle) self.function(self.uid)))
+                            self.after(3000, self.tick)
 
-                except:
+                    except:
+                        self.after(300 , self.tick)
+
+                else :
                     self.after(300 , self.tick)
+                    self.label.unbind('<1>')
+                    self.label.configure(text = 'Please Scan Card' , bg = 'red')
 
-            else :
+            else:
                 self.after(300 , self.tick)
                 self.label.unbind('<1>')
                 self.label.configure(text = 'Please Scan Card' , bg = 'red')
@@ -327,6 +342,7 @@ class ProgramingButton(MyLabel) :
         self.name = None
         self.uid = None
         self.mLabel = None
+        self.delConfirm = None
 
     def tick(self) :
         # Scan for cards
@@ -340,15 +356,14 @@ class ProgramingButton(MyLabel) :
                 self.uid = str(uid[0]) + str(uid[1]) + str(uid[2]) + str(uid[3])
                 try :
                     emp = employee(self.uid)
-                    self.mLabel.label.configure(text = '!!!Card alredy in Use!!!')
-                    self.label.configure(bg = 'green' , relief = "groove" , text = '!?!CLEAR OLD WORKER!?!')
-                    self.label.bind('<1>' , lambda x : (
-                    emp.destroy() , employee.newEmployee(self.name , self.uid) , self.master.destroy()))
+                    self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
+                    self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
+                    self.label.bind('<1>' , lambda x : (self.delConfirm(emp) , employee.newEmployee(self.name , self.uid) , self.master.destroy()))
 
                 except :
                     employee.newEmployee(self.name , self.uid)
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Complete!')
-                    self.label.bind('<1>' , lambda x : self.master.destroy())
+                    self.label.bind('<1>' , lambda x : (self.master.destroy()))
 
             else :
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
@@ -390,12 +405,12 @@ class ReplaceCardButton(MyLabel):
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
-                    self.label.bind('<1>' , lambda x : ( emp.destroy() , self.updateEmployee() , self.master.destroy()))
+                    self.label.bind('<1>' , lambda x : (emp.destroy() , self.updateEmployee() , self.master.destroy()))
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
                     self.updateEmployee()
-                    self.label.bind('<1>' , lambda x : self.master.destroy())
+                    self.label.bind('<1>' , lambda x : (self.master.destroy() ))
 
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')

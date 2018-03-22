@@ -204,7 +204,9 @@ class employee:
 
     def destroy(self):
         dbi('DELETE FROM employees WHERE uid = "' + self.uid + '";')
+        dbi('DELETE FROM log WHERE uid = "' + self.uid + '";')
         db.commit()
+
 
     def addTime(self, seconds , year , month , day):
         periodStart = Log(0)
@@ -216,6 +218,7 @@ class employee:
             self.updateDB()
         Log.addEntry(7 , seconds , self.uid , dtime)
 
+
     def subTime(self , seconds , year , month , day):
         periodStart = Log(0)
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
@@ -224,6 +227,7 @@ class employee:
             self.totalHours -= seconds
             self.updateDB()
         Log.addEntry(8 , seconds , self.uid , self.lastTime)
+
 
     def addOvertime(self, seconds , year , month , day):
         periodStart = Log(0)
@@ -234,6 +238,7 @@ class employee:
             self.overtime += seconds
             self.updateDB()
         Log.addEntry(9 , seconds , self.uid , self.lastTime)
+
 
     def subOvertime(self, seconds , year , month , day):
         periodStart = Log(0)
