@@ -1007,8 +1007,8 @@ def employeeCheckInListWin() :
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , emp.name + '  :  ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2))  +
-                             '  Hours / ' + str(round(emp.overtime / 3600.0 , 2)) + '  Overtime')
+            nameFrame.insert(count ,'{0[0]:^20}{0[1]:^15}{0[2]:>15}'.format(
+                emp.name , str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) , str(round(emp.overtime / 3600.0 , 2))))
             count += 1
 
     #bind widgets
