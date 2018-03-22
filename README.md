@@ -1,5 +1,5 @@
 # punchClock-py
-Rfid punchclock or timeclock system for raspberry pi with a rc522 reader and touchscreen
+Rfid punch clock or time clock system written in python for a raspberry pi with a rc522 reader and touchscreen
 
 still in development 
 
