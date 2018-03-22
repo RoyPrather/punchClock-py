@@ -92,7 +92,7 @@ class ScanLabel(MyLabel) :
 
                         else:
                             self.label.config(text = emp.name , bg = 'green')
-                            self.label.bind('<1>' , lambda x:(toggleOff(scanToggle) self.function(self.uid)))
+                            self.label.bind('<1>' , lambda x:(toggleOff(scanToggle) , self.function(self.uid)))
                             self.after(3000, self.tick)
 
                     except:
