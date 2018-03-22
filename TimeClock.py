@@ -1,3 +1,4 @@
+!/usr/bin/python
 from Gui import *
 import RPi.GPIO as GPIO
 # create main window
@@ -571,7 +572,8 @@ def endPeriod():
     totalOver = 0
     filename = 'EmployeeHours-' + str(now.month) + '-' + str(now.day) + '-' + str(now.year) + '.txt'
     file = open(filename , 'w+')
-    file.write('Hours Summary \n')
+    temp = 'Hours Summary'
+    file.write('{0:^60}'.format(temp))
     file.write('\n')
     for uid in employee.listEmployees():
         emp = employee(uid[0])
@@ -582,8 +584,9 @@ def endPeriod():
                 emp.endLunch()
             if emp.clockedIn:
                 emp.clockOut()
-            file.write(emp.name + '- Regular Hours: ' + str(round((emp.totalHours - emp.overtime) /
-                    3600.0 , 2)) + '/ Overtime Hours: ' + str(round(emp.overtime / 3600.00 , 2)) + ' \n')
+            temp = ['Employee Name' , 'Regular Hours' , 'Overtime Hours']
+            file.write('{0[0]:<30}{0[1]:^15}{0[2]>15}'.format(temp))
+            file.write('{0:<30}{1:^15}{2:>15}\n'.format(emp.name , round((emp.totalHours - emp.overtime) / 3600.0 , 2)  , str(round(emp.overtime / 3600.00 , 2))))
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
             emp.overtime = 0
