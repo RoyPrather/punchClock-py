@@ -321,7 +321,7 @@ def adminWin():
     newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
     employeeCheckInButton.label.bind('<1>' , lambda x: employeeCheckInListWin())
     replaceCardButton.label.bind('<1>' , lambda x: replaceCardListWin())
-    backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy())
+    backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy()))
     closeButton.label.bind('<1>' , lambda x : closeProgramWin())
 
 
