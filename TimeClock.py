@@ -45,9 +45,9 @@ def clockInWin(uid):
     lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(17))
     lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(17))
 
-    sendMessageButton = MyButton(buttonBox , width = setWidth(30) , height = setHeight(10))
-    timeCardButton = MyButton(buttonBox , width = setWidth(30) , height = setHeight(10))
-    backButton = MyButton(buttonBox , width = setWidth(30) , height = setHeight(10))
+    sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
+    timeCardButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
+    backButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
