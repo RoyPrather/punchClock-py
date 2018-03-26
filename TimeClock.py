@@ -98,11 +98,11 @@ def clockInWin(uid):
     timeCardButton.grid(column = 0 , row = 9)
 
     clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
-    tenMinOutButton.grid(column = 1 , row = 1 , rowspan = 2)
-    tenMinInButton.grid(column = 1 , row = 2 , rowspan = 2)
-    lunchOutButton.grid(column = 1 , row = 3 , rowspan = 2)
-    lunchInButton.grid(column = 1 , row = 4 , rowspan = 2)
-    clockOutButton.grid(column = 1 , row = 5 , rowspan = 2)
+    tenMinOutButton.grid(column = 1 , row = 2 , rowspan = 2)
+    tenMinInButton.grid(column = 1 , row = 4 , rowspan = 2)
+    lunchOutButton.grid(column = 1 , row = 6 , rowspan = 2)
+    lunchInButton.grid(column = 1 , row = 8 , rowspan = 2)
+    clockOutButton.grid(column = 1 , row = 10 , rowspan = 2)
 
 
 
