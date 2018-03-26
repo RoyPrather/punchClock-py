@@ -210,21 +210,27 @@ class employee:
 
     def addTime(self, seconds , year , month , day):
         periodStart = Log(0)
+        now = datetime.datetime.now()
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime:
             print(seconds)
             self.totalHours += seconds
+            if dtime.day == now.day and dtime.year == now.year:
+                self.hours += seconds
             self.updateDB()
         Log.addEntry(7 , seconds , self.uid , dtime)
 
 
     def subTime(self , seconds , year , month , day):
         periodStart = Log(0)
+        now = datetime.datetime.now()
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
             self.totalHours -= seconds
+            if dtime.day == now.day and dtime.year == now.year :
+                self.hours -= seconds
             self.updateDB()
         Log.addEntry(8 , seconds , self.uid , self.lastTime)
 
@@ -248,3 +254,12 @@ class employee:
             self.overtime -= seconds
             self.updateDB()
         Log.addEntry(10 , seconds , self.uid , self.lastTime)
+
+
+    def replaceCard(self , uid):
+        for row in Log.getEmployee(self.uid) :
+            entry = Log(row[0])
+            entry.uid = uid
+            entry.update()
+        self.uid = uid
+        self.updateDB()

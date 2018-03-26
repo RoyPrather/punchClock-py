@@ -30,26 +30,24 @@ def clockInWin(uid):
     emp = employee(uid)
 
     # create widgets
-    nameLabel = MyLabel(t ,  width = setWidth(50) , height = setHeight(18))
-    hoursTitle = MyLabel(t , width = setWidth(50) , height = setHeight(12))
-    hoursTotal = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(12))
-    todayTitle = MyLabel(t , width = setWidth(50) , height = setHeight(12))
-    todayHours = HoursLabel(t , width = setWidth(50) , height = setHeight(12))
-    overTitle = MyLabel(t , width = setWidth(50) , height = setHeight(12))
-    overHours = OverHoursLabel(t , width = setWidth(50) , height = setHeight(12))
-    placeHolder1 = MyLabel(t , width = setWidth(50) , height = setHeight(12))
-    placeHolder2 = MyLabel(t , width = setWidth(50) , height = setHeight(12))
+    nameLabel = MyLabel(t ,  width = setWidth(50) , height = setHeight(10))
+    hoursTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
+    hoursTotal = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(10))
+    todayTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
+    todayHours = HoursLabel(t , width = setWidth(50) , height = setHeight(10))
+    overTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
+    overHours = OverHoursLabel(t , width = setWidth(50) , height = setHeight(10))
 
-    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(12))
-    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(12))
-    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(12))
-    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(12))
-    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(12))
-    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(12))
-    buttonBox = Tk.Frame(t , width = setWidth(100) , height = setHeight(12))
-    sendMessageButton = MyButton(buttonBox , width = setWidth(25) , height = setHeight(12))
-    timeCardButton = MyButton(buttonBox , width = setWidth(25) , height = setHeight(12))
-    backButton = MyButton(buttonBox , width = setWidth(25) , height = setHeight(12))
+    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(17))
+    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(17))
+    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(17))
+    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(17))
+    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(17))
+    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(17))
+
+    sendMessageButton = MyButton(buttonBox , width = setWidth(30) , height = setHeight(10))
+    timeCardButton = MyButton(buttonBox , width = setWidth(30) , height = setHeight(10))
+    backButton = MyButton(buttonBox , width = setWidth(30) , height = setHeight(10))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
@@ -83,36 +81,33 @@ def clockInWin(uid):
     lunchInButton.emp = emp
     lunchInButton.alertFunction = earlyLunchWin
     lunchInButton.tick()
-    sendMessageButton.label.configure(text = 'Send Message')
+    sendMessageButton.label.configure(text = 'Send Message' , bg = 'red')
     backButton.label.configure(text = 'Done')
     timeCardButton.label.configure(text = 'Timecard')
 
     # place widgets in window
-    nameLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    nameLabel.grid(column = 0 , row = 0)
     hoursTitle.grid(column = 0 , row = 1)
     hoursTotal.grid(column = 0 , row = 2)
     todayTitle.grid(column = 0 , row = 3)
     todayHours.grid(column = 0 , row = 4)
     overTitle.grid(column = 0 , row = 5)
     overHours.grid(column = 0 , row = 6)
-    placeHolder1.grid(column = 0 , row = 7)
+    backButton.grid(column = 0 , row = 7)
+    sendMessageButton.grid(column = 0 , row = 8)
+    timeCardButton.grid(column = 0 , row = 9)
+
+    clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
+    tenMinOutButton.grid(column = 1 , row = 1 , rowspan = 2)
+    tenMinInButton.grid(column = 1 , row = 2 , rowspan = 2)
+    lunchOutButton.grid(column = 1 , row = 3 , rowspan = 2)
+    lunchInButton.grid(column = 1 , row = 4 , rowspan = 2)
+    clockOutButton.grid(column = 1 , row = 5 , rowspan = 2)
 
 
-    clockInButton.grid(column = 1 , row = 1)
-    tenMinOutButton.grid(column = 1 , row = 2)
-    tenMinInButton.grid(column = 1 , row = 3)
-    lunchOutButton.grid(column = 1 , row = 4)
-    lunchInButton.grid(column = 1 , row = 5)
-    clockOutButton.grid(column = 1 , row = 6)
-    placeHolder2.grid(column = 1 , row = 7)
-
-    buttonBox.grid(row = 8 , column = 0 , columnspan = 2)
-    backButton.grid(column = 0 , row = 0)
-    sendMessageButton.grid(column = 1 , row = 0)
-    timeCardButton.grid(column = 2 , row = 0)
 
     # bind widgets
-    sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
+    #sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
     backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy()))
     timeCardButton.label.bind('<1>' , lambda x: (employeeTimeCardDayWin(emp), t.destroy()))
 
@@ -292,7 +287,7 @@ def adminWin():
     backButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
 
     #configure Widgets
-    viewMessageButton.label.configure(text = 'View Messages')
+    viewMessageButton.label.configure(text = 'View Messages' , bg = 'red')
     viewLogButton.label.configure(text = 'View Employee Hours')
     newEmployeeButton.label.configure(text = 'Create New Employee')
     createReportButton.label.configure(text = 'End Pay Period')
@@ -314,7 +309,7 @@ def adminWin():
     closeButton.grid(row = 4 , column = 1)
 
     # bind widgets
-    viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
+    #viewMessageButton.label.bind('<1>' , lambda x: readMessageWin())
     viewLogButton.label.bind('<1>' , lambda x: timeCardListWin())
     newEmployeeButton.label.bind('<1>' , lambda x: newEmployeeWin())
     createReportButton.label.bind('<1>' , lambda x: reportWin())
@@ -604,10 +599,21 @@ def employeeCheckInListWin():
         emp = employee(uid[0])
         if emp.name != 'admin':
             emps.insert(count , emp)
-            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
-                            str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) , 'Overtime: ' +
-                            str(round(emp.overtime / 3600.0 , 2))))
-            count += 1
+            if emp.onTen:
+                nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
+                count += 1
+
+            elif emp.onLunch:
+                nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
+                count += 1
+
+            elif emp.clockedIn:
+                nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
+                count += 1
+
+            else:
+                nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked Out'))
+                count += 1
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: (toggleOff(scanToggle) , t.destroy()))
@@ -933,7 +939,7 @@ def newEmployeeWin():
     backButton.grid(row = 2 , column = 0)
 
     # bind widgets
-    submitButton.label.bind('<1>' , lambda x: (programCardWin(nameEntry.get()), t.destroy()))
+    submitButton.label.bind('<1>' , lambda x: programCardWin(nameEntry.get()))
     backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
@@ -1090,6 +1096,7 @@ def replaceCardWin(emp):
     dLabel.label.configure(text = 'Scan New Card')
     kButton.emp = emp
     kButton.mLabel = dLabel
+    kButton.delConfirm = replaceConfirmDeleteWin
     kButton.tick()
     backButton.label.configure(text = 'Cancel')
 
@@ -1102,7 +1109,7 @@ def replaceCardWin(emp):
     backButton.label.bind('<1>' , lambda x : t.destroy())
 
 
-def confirmDeleteWin(emp):
+def confirmDeleteWin(emp , name):
     # create window
     t = Tk.Toplevel(root)
     t.attributes('-fullscreen' , True)
@@ -1124,8 +1131,34 @@ def confirmDeleteWin(emp):
     backButton.grid(row = 1 , column = 0)
 
     #bind Widgets
-    deleteButton.label.bind('<1>' , lambda x:(emp.destroy() , t.destroy()))
+    deleteButton.label.bind('<1>' , lambda x:( emp.destroy() , employee.newEmployee(name, emp.uid) , t.destroy()))
     backButton.label.bind('<1>' , lambda x: t.destroy())
+
+
+def replaceConfirmDeleteWin(oldEmp , newEmp) :
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    titleLable = MyLabel(t , width = setWidth(100) , height = setHeight(60))
+    deleteButton = MyButton(t , width = setWidth(30) , height = setHeight(20))
+    backButton = MyButton(t , width = setWidth(30) , height = setHeight(20))
+
+    # configure widgets
+    titleLable.label.configure(text = 'This Will Remove\n' + oldEmp.name + '\nFrom The System' , font = largeFont)
+    deleteButton.label.configure(text = '!DELETE Employee!')
+    backButton.label.configure(text = 'Cancel')
+
+    # place widgets in window
+    titleLable.grid(row = 0 , column = 0 , columnspan = 2)
+    deleteButton.grid(row = 1 , column = 1)
+    backButton.grid(row = 1 , column = 0)
+
+    # bind Widgets
+    deleteButton.label.bind('<1>' , lambda x : (oldEmp.destroy() , newEmp.replaceCard(oldEmp.uid) , t.destroy()))
+    backButton.label.bind('<1>' , lambda x : t.destroy())
 
 
 ##################################

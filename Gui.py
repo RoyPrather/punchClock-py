@@ -358,7 +358,7 @@ class ProgramingButton(MyLabel) :
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
-                    self.label.bind('<1>' , lambda x : (self.delConfirm(emp) , employee.newEmployee(self.name , self.uid) , self.master.destroy()))
+                    self.label.bind('<1>' , lambda x : (self.delConfirm(emp , self.name) , self.master.destroy()))
 
                 except :
                     employee.newEmployee(self.name , self.uid)
@@ -382,14 +382,8 @@ class ReplaceCardButton(MyLabel):
         self.emp = None
         self.uid = None
         self.mLabel = None
+        self.delConfirm = None
 
-    def updateEmployee(self):
-        for row  in Log.getEmployee(self.emp.uid):
-            entry = Log(row[0])
-            entry.uid = self.uid
-            entry.update()
-        self.emp.uid = self.uid
-        self.emp.updateDB()
 
     def tick(self) :
         # Scan for cards
@@ -405,7 +399,7 @@ class ReplaceCardButton(MyLabel):
                     emp = employee(self.uid)
                     self.mLabel.label.configure(text = '!!!Card alredy in Use By ' + emp.name + '!!!')
                     self.label.configure(bg = 'green' , relief = "groove" , text = '!?!DELETE OLD WORKER!?!')
-                    self.label.bind('<1>' , lambda x : (emp.destroy() , self.updateEmployee() , self.master.destroy()))
+                    self.label.bind('<1>' , lambda x : (self.delConfirm(emp ,self.emp) , self.master.destroy()))
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
