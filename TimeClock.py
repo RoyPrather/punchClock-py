@@ -828,7 +828,7 @@ def reportTimeCardDayWin(emp):
     backButton = MyButton(t , width = setWidth(25) , height = setHeight(25))
     ListboxFrame = Tk.Frame(t, width = setWidth(80) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = LargeFont)
+    daysListLabel = Tk.Listbox(ListboxFrame , width = 30 , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = largeFont)
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose Day To Veiw')
