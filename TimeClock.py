@@ -283,6 +283,8 @@ def adminWin():
     newAdminButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
     employeeCheckInButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
     replaceCardButton = MyButton(t, width = setWidth(50) , height = setHeight(25))
+    deleteEmployeeButton = MyButton(t , width = setWidth(50) , height = setHeight(25))
+
     closeButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
     backButton = MyButton(t , height = setHeight(15) , width = setWidth(25))
 
@@ -294,6 +296,7 @@ def adminWin():
     newAdminButton.label.configure(text = 'Create New Admin Card')
     employeeCheckInButton.label.configure(text = 'View Employee Screen')
     replaceCardButton.label.configure(text = 'Replace Lost Card')
+    deleteEmployeeButton.label.configure(text = 'Delete Employee')
     backButton.label.configure(text ='Back')
     closeButton.label.configure(text = 'Close Program')
 
@@ -305,6 +308,7 @@ def adminWin():
     newAdminButton.grid(row = 2 , column = 0)
     employeeCheckInButton.grid(row = 2 , column = 1)
     replaceCardButton.grid(row = 3 , column = 0)
+    deleteEmployeeButton.grid(row = 3 , column = 1)
     backButton.grid(row = 4 , column = 0)
     closeButton.grid(row = 4 , column = 1)
 
@@ -316,6 +320,7 @@ def adminWin():
     newAdminButton.label.bind('<1>' , lambda x: programCardWin('admin'))
     employeeCheckInButton.label.bind('<1>' , lambda x: employeeCheckInListWin())
     replaceCardButton.label.bind('<1>' , lambda x: replaceCardListWin())
+    deleteEmployeeButton.label.bind('<1>' , lambda x: deleteEmployeeListWin())
     backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy()))
     closeButton.label.bind('<1>' , lambda x : closeProgramWin())
 
@@ -1252,6 +1257,77 @@ def replaceConfirmDeleteWin(oldEmp , newEmp) :
     # bind Widgets
     deleteButton.label.bind('<1>' , lambda x : (oldEmp.destroy() , newEmp.replaceCard(oldEmp.uid) , t.destroy()))
     backButton.label.bind('<1>' , lambda x : t.destroy())
+
+
+def deleteEmployeeListWin():
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    titleLabel = MyLabel(t , width = setWidth(100) , height = setHeight(15))
+    backButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
+    submitButton = MyButton(t , width = setWidth(50) , height = setHeight(15))
+    ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
+    scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
+    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = largeFont)
+
+    #configure widgets
+    titleLabel.label.configure(text = 'Choose an Employee to Delete')
+    submitButton.label.configure(text = 'Delete')
+    backButton.label.configure(text = 'Back')
+    ListboxFrame.pack_propagate(0)
+    scrollBar.scrollBar.config(command = nameFrame.yview)
+
+    #place widgets in window
+    titleLabel.grid(column = 0 , row = 0 , columnspan = 2)
+    ListboxFrame.grid(column = 0 , row = 1 , columnspan = 2)
+    scrollBar.pack(fill = 'y' , side = 'right')
+    nameFrame.pack(fill = 'both' , side = 'left')
+    submitButton.grid(column = 1 , row = 2)
+    backButton.grid(column = 0 , row = 2)
+
+    #place list of employees into nameFrame
+    count = 0
+    emps = []
+    for uid in employee.listEmployees():
+        emp = employee(uid[0])
+        if emp.name != 'admin':
+            emps.insert(count , emp)
+            nameFrame.insert(count , emp.name )
+            count += 1
+
+    #bind widgets
+    backButton.label.bind('<1>' , lambda x: t.destroy())
+    submitButton.label.bind('<1>' , lambda x: (deleteEmployeeWin(emps[nameFrame.curselection()[0]]), t.destroy()))
+
+
+
+def deleteEmployeeWin(emp):
+    # create window
+    t = Tk.Toplevel(root)
+    t.attributes('-fullscreen' , True)
+    t.lift()
+
+    # create widgets
+    titleLable = MyLabel(t , width = setWidth(100) , height = setHeight(60))
+    deleteButton = MyButton(t  , width = setWidth(30) , height = setHeight(20))
+    backButton = MyButton(t , width = setWidth(30) , height = setHeight(20))
+
+    #configure widgets
+    titleLable.label.configure(text = 'This Will Remove\n' + emp.name + '\nFrom The System', font = largeFont)
+    deleteButton.label.configure(text = '!DELETE Employee!')
+    backButton.label.configure(text = 'Cancel')
+
+    #place widgets in window
+    titleLable.grid(row = 0 , column = 0 , columnspan = 2)
+    deleteButton.grid(row = 1 , column = 1)
+    backButton.grid(row = 1 , column = 0)
+
+    #bind Widgets
+    deleteButton.label.bind('<1>' , lambda x:( emp.destroy() , t.destroy()))
+    backButton.label.bind('<1>' , lambda x: t.destroy())
 
 
 ##################################
