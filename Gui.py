@@ -403,8 +403,8 @@ class ReplaceCardButton(MyLabel):
 
                 except:
                     self.label.configure(bg = 'green' , relief = "groove" , text = 'Finish!')
-                    emp.replaceCard(self.uid)
-                    self.label.bind('<1>' , lambda x : (self.master.destroy() ))
+                    self.emp.replaceCard(self.uid)
+                    self.label.bind('<1>' , lambda x : (self.master.destroy()))
 
             else:
                 self.label.configure(bg = 'red' , relief = "ridge" , text = 'Please Wait')
