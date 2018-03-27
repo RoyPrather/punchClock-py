@@ -47,7 +47,7 @@ def clockInWin(uid):
 
     sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
     timeCardButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
-    backButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
+    backButton = AutoDestroyButton(t , width = setWidth(30) , height = setHeight(10))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
@@ -56,7 +56,7 @@ def clockInWin(uid):
     hoursTotal.emp = emp
     hoursTotal.tick()
     todayTitle.label.config(text = 'Hours Worked Today')
-    todayHours.label.config(text = round(emp.hours / 3600.0 , 2))
+    todayHours.label.config(text = datetime.timedelta(0,emp.hours)
     todayHours.emp = emp
     todayHours.tick()
     overTitle.label.config(text = 'Over Time')
@@ -337,7 +337,7 @@ def timeCardListWin() :
     submitButton = MyButton(t , width = setWidth(25) , height = setHeight(15))
     ListboxFrame = Tk.Frame(t, width = setWidth(85) , height = setHeight(70))
     scrollBar = MyScrollBar(ListboxFrame , width = setWidth(10) , height = setHeight(70))
-    nameFrame = Tk.Listbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font , justify = 'right')
+    nameFrame = RunningHoursListbox(ListboxFrame , width = setWidth(75) , height = setHeight(70) , yscrollcommand = scrollBar.scrollBar.set , selectmode ='single' , font = font , justify = 'right')
 
     #configure widgets
     titleLabel.label.configure(text = 'Choose an Employee to Veiw')
@@ -353,18 +353,6 @@ def timeCardListWin() :
     nameFrame.pack(fill = 'both' , side = 'left')
     submitButton.grid(column = 1 , row = 2)
     backButton.grid(column = 0 , row = 2)
-
-    #place list of employees into nameFrame
-    count = 0
-    emps = []
-    for uid in employee.listEmployees():
-        emp = employee(uid[0])
-        if emp.name != 'admin':
-            emps.insert(count , emp)
-            nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , 'Hours: ' +
-                            str(round((emp.totalHours - emp.overtime) / 3600.0 ,2)) , ' Overtime: ' +
-                            str(round(emp.overtime / 3600.0 , 2))))
-            count += 1
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
@@ -1342,6 +1330,10 @@ bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
 mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(50))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
+scrollBar = MyScrollBar(mainLog , width = setWidth(10) , height = setHeight(100))
+alertList = AlertListbox(mainLog , width = setWidth(40) , height = setHeight(100) ,
+                         yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font ,
+                         justify = 'right' , fg = 'red')
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
@@ -1350,12 +1342,16 @@ scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
 scanLabel.startUp()
 tLabel.label.configure(font = 'verdana 30 bold')
+mainLog.pack_propagate(0)
+scrollBar.scrollBar.config(command = alertList.yview)
 
 # place Widgets
 bName.grid(column = 0 , row = 0 , columnspan = 2)
 tLabel.grid(column = 1 , row = 1)
 mainLog.grid(column = 0 , row = 1, rowspan = 2)
 scanLabel.grid(column = 1 , row = 2)
+scrollBar.pack(fill = 'y' , side = 'right')
+alertList.pack(fill = 'both' , side = 'left')
 
 # start program
 root.mainloop()

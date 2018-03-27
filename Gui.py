@@ -32,6 +32,48 @@ class MyScrollBar(Tk.Frame) :
         self.pack_propagate(0)
         self.scrollBar.pack(fill = 'both' , expand = 1)
 
+class RunningHoursListbox(Tk.Listbox):
+    def __init__(self , parent , *args , **kwargs) :
+        Tk.Listbox.__init__(self , parent , *args , **kwargs)
+        self.tick()
+
+    def tick(self):
+        count = 0
+        emps = []
+        for uid in employee.listEmployees():
+            emp = employee(uid[0])
+            if emp.name != 'admin':
+                if emp.clockedIn and (not emp.onLunch) and (not emp.onTen) :
+                    emps.insert(count , emp)
+                    self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
+                                             'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).seconds) / 3600.0 , 2)) ,
+                                             'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
+
+                elif emp.onTen :
+                    temp = datetime.timedelta(0 , 600)
+                    temp2 = datetime.datetime.now() - emp.lastTime
+
+                    if temp2 <= temp :
+                        emps.insert(count , emp)
+                        self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
+                                                 'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).seconds) / 3600.0, 2)),
+                                                 'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
+
+                    else :
+                        emps.insert(count , emp)
+                        self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
+                                                 'Hours: ' + str(round((emp.totalHours + temp.seconds) / 3600.0 , 2)),
+                                                 'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
+
+                else:
+                    emps.insert(count , emp)
+                    self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
+                                             'Hours: ' + str(round((emp.totalHours) / 3600.0 , 2)) ,
+                                             'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
+                count += 1
+        self.after(1000 , tick)
+
+
 #TODO: figure out why the scanner freezes ... read Read.py in MFRC522 class folder
 class ScanLabel(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
@@ -137,17 +179,17 @@ class HoursLabel(MyLabel) :
 
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = round((self.emp.hours + ((datetime.datetime.now() - self.emp.lastTime).seconds)) / 3600.0 , 2))
+            self.label.config(text = datetime.timedelta(0 ,self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
 
             if temp2 <= temp :
-                self.label.config(text = round((self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
+                self.label.config(text = datetime.timedelta(0 , self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds))
 
             else :
-                self.label.config(text = round((self.emp.hours + temp.seconds) / 3600.0 , 2))
+                self.label.config(text =datetime.timedelta(0 , self.emp.hours + temp.seconds))
 
         self.after(300 , self.tick)
 
@@ -458,6 +500,42 @@ class LunchOverrideButton(MyLabel) :
             self.label.configure(bg = 'red' , relief = "ridge" , text = 'Manager Override')
             self.label.unbind('<1>')
             self.after(300 , self.tick)
+
+
+class AutoDestroyButton(MyLabel) :
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.label.configure(bg = 'blue' , relief = "groove")
+        self.after(60000 , self.master.destroy())
+
+
+class AlertListbox(Tk.Listbox):
+    def __init__(self , parent , *args , **kwargs) :
+        Tk.Listbox.__init__(self , parent , *args , **kwargs)
+        self.tick()
+
+    def tick(self):
+        self.listNodes.delete(0 , 'end')
+        for uid in employee.listEmployees():
+            emp = employee(uid[0])
+            if emp.name != 'admin':
+                if emp.clockedIn and (not emp.onLunch):
+                    if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,0,0,0,45,1).seconds):
+                        self.insert('end', emp.name + ' Needs To Take A Break')
+
+                    if (emp.Hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,4).seconds) and not emp.tookLunch:
+                        if (emp.Hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,6).seconds):
+                            self.insert('end' , emp.name + ' Is Working Illegaly')
+
+                        elif (emp.Hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,5).seconds):
+                            clockOutTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,6) - datetime.timedelta(0,emp.Hours + (datetime.datetime.now() - emp.lastTime).seconds)
+                            self.insert('end' , emp.name + ' Needs To Clock Out By ' + clockOutTime.hour + ':' + clockOutTime.minute)
+
+                        else:
+                            lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.Hours + (datetime.datetime.now() - emp.lastTime).seconds)
+                            self.insert('end' , emp.name + ' Needs A Lunch By ' + lunchTime.hour + ':' + lunchTime.minute)
+
+        self.after(1000 , tick)
 
 
 
