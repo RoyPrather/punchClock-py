@@ -506,7 +506,14 @@ class AutoDestroyButton(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
         self.label.configure(bg = 'blue' , relief = "groove")
-        self.after(60000 , self.master.destroy())
+        self.stime = datetime.datetime.now()
+        self.tick()
+
+    def tick(self):
+        if (datetime.datetime.now() - self.stime) > datetime.timedelta(0,60):
+            self.master.destroy()
+        else:
+            self.after(1000, self.tick)
 
 
 class AlertListbox(Tk.Listbox):
