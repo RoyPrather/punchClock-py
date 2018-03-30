@@ -128,7 +128,7 @@ class employee:
         dbi('UPDATE employees SET name = "' + self.name + '" ,  totalHours = ' + str(self.totalHours) +
             ' , overtime = ' + str(self.overtime) + ' , hours = ' + str(self.hours) + ' , onTen  = ' + str(self.onTen) +
             ', onLunch = ' + str(self.onLunch) + ', clockedIn = ' + str(self.clockedIn) + ' , lastTime = "' +
-             self.lastTime.strftime(self.format) + '"' + ', onSplit = ' + str(self.onSplit) + ', tookLunch = ' + str(elf.tookLunch) +
+             self.lastTime.strftime(self.format) + '"' + ', onSplit = ' + str(self.onSplit) + ', tookLunch = ' + str(self.tookLunch) +
             ', uid = "' + self.uid + '" WHERE id = ' + str(self.id) + ';')
         db.commit()
 
