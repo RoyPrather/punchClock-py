@@ -52,15 +52,14 @@ def clockInWin(uid):
     # configure widgets
     nameLabel.label.config(text = emp.name)
     hoursTitle.label.config(text = 'Regular Hours This Period')
-    hoursTotal.label.config(text = str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)))
     hoursTotal.emp = emp
     hoursTotal.tick()
     todayTitle.label.config(text = 'Hours Worked Today')
-    todayHours.label.config(text = datetime.timedelta(0,emp.hours))
     todayHours.emp = emp
     todayHours.tick()
     overTitle.label.config(text = 'Over Time This Period')
-    overHours.label.config(text = round(emp.overtime / 3600.0 , 2))
+    overHours.emp = emp
+    overHours.tick()
 
     clockInButton.label.configure(text = 'Clock In')
     clockInButton.emp = emp
