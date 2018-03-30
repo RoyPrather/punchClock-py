@@ -515,7 +515,7 @@ class AlertListbox(Tk.Listbox):
         self.tick()
 
     def tick(self):
-        self.listNodes.delete(0 , 'end')
+        self.delete(0 , 'end')
         for uid in employee.listEmployees():
             emp = employee(uid[0])
             if emp.name != 'admin':
