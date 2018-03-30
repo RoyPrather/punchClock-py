@@ -538,19 +538,19 @@ class AlertListbox(Tk.Listbox):
                    self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'Clocked In'))
 
                 if emp.clockedIn and (not emp.onLunch):
-                    if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,0,0,0,45,1).seconds):
+                    if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,15,0,0,0,0).seconds):
                         self.insert('end', emp.name + ' Needs To Take A Break')
 
-                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,4).seconds) and not emp.tookLunch:
-                        if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,6).seconds):
+                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,20,0,0,0,0).seconds) and not emp.tookLunch:
+                        if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,35,0,0,0,0).seconds):
                             self.insert('end' , emp.name + ' Is Working Illegaly')
 
-                        elif (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,5).seconds):
-                            clockOutTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,6) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
+                        elif (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,30,0,0,0,0).seconds):
+                            clockOutTime = datetime.datetime.now() + datetime.timedelta(0,35,0,0,0,0) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
                             self.insert('end' , emp.name + ' Needs To Clock Out By ' + clockOutTime.hour + ':' + clockOutTime.minute)
 
                         else:
-                            lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
+                            lunchTime = datetime.datetime.now() + datetime.timedelta(0,25,0,0,0,0) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
                             self.insert('end' , emp.name + ' Needs A Lunch By ' + lunchTime.hour + ':' + lunchTime.minute)
 
         self.after(3000 , self.tick)
