@@ -531,7 +531,7 @@ class AlertListbox(Tk.Listbox):
                     self.insert('end' , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
 
                 elif emp.onLunch:
-                    self.insert('end'' , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
+                    self.insert('end' , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
 
                 elif emp.clockedIn:
                    self.insert('end' , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
