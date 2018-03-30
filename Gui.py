@@ -527,7 +527,6 @@ class AlertListbox(Tk.Listbox):
         for uid in employee.listEmployees():
             emp = employee(uid[0])
             if emp.name != 'admin':
-                emps.insert(count , emp)
                 if emp.onTen:
                     nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
                     count += 1
