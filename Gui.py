@@ -514,7 +514,7 @@ class AlertListbox(Tk.Listbox):
         Tk.Listbox.__init__(self , parent , *args , **kwargs)
         self.tick()
 
-    def(self):
+    def tick(self):
         self.delete(0 , 'end')
         for uid in employee.listEmployees():
             emp = employee(uid[0])
