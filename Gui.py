@@ -71,7 +71,7 @@ class RunningHoursListbox(Tk.Listbox):
                                              'Hours: ' + str(round((emp.totalHours) / 3600.0 , 2)) ,
                                              'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
                 count += 1
-        self.after(1000 , tick)
+        self.after(1000 , self.tick)
 
 
 #TODO: figure out why the scanner freezes ... read Read.py in MFRC522 class folder
@@ -514,7 +514,7 @@ class AlertListbox(Tk.Listbox):
         Tk.Listbox.__init__(self , parent , *args , **kwargs)
         self.tick()
 
-    def tick(self):
+    def(self):
         self.delete(0 , 'end')
         for uid in employee.listEmployees():
             emp = employee(uid[0])
