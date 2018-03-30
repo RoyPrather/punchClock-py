@@ -528,15 +528,15 @@ class AlertListbox(Tk.Listbox):
             emp = employee(uid[0])
             if emp.name != 'admin':
                 if emp.onTen:
-                    nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
+                    self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
                     count += 1
 
                 elif emp.onLunch:
-                    nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
+                    self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
                     count += 1
 
                 elif emp.clockedIn:
-                    nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
+                   self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
                     count += 1
 
                 if emp.clockedIn and (not emp.onLunch):
