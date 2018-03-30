@@ -547,11 +547,11 @@ class AlertListbox(Tk.Listbox):
 
                         elif (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,30,0,0,0,0).seconds):
                             clockOutTime = datetime.datetime.now() + datetime.timedelta(0,35,0,0,0,0) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
-                            self.insert('end' , emp.name + ' Needs To Clock Out By ' + clockOutTime.hour + ':' + clockOutTime.minute)
+                            self.insert('end' , emp.name + ' Needs To Clock Out By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute))
 
                         else:
                             lunchTime = datetime.datetime.now() + datetime.timedelta(0,25,0,0,0,0) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
-                            self.insert('end' , emp.name + ' Needs A Lunch By ' + lunchTime.hour + ':' + lunchTime.minute)
+                            self.insert('end' , emp.name + ' Needs A Lunch By ' + str(lunchTime.hour) + ':' + str(lunchTime.minute))
 
         self.after(3000 , self.tick)
 
