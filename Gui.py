@@ -35,17 +35,18 @@ class MyScrollBar(Tk.Frame) :
 class RunningHoursListbox(Tk.Listbox):
     def __init__(self , parent , *args , **kwargs) :
         Tk.Listbox.__init__(self , parent , *args , **kwargs)
+        self.emps
         self.tick()
 
     def tick(self):
         count = 0
-        emps = []
+        self.emps = []
         self.delete(0,'end')
         for uid in employee.listEmployees():
             emp = employee(uid[0])
             if emp.name != 'admin':
                 if emp.clockedIn and (not emp.onLunch) and (not emp.onTen) :
-                    emps.insert(count , emp)
+                    self.emps.insert(count , emp)
                     self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
                                              'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).seconds) / 3600.0 , 2)) ,
                                              'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
@@ -55,24 +56,24 @@ class RunningHoursListbox(Tk.Listbox):
                     temp2 = datetime.datetime.now() - emp.lastTime
 
                     if temp2 <= temp :
-                        emps.insert(count , emp)
+                        self.emps.insert(count , emp)
                         self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
                                                  'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).seconds) / 3600.0, 2)),
                                                  'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
 
                     else :
-                        emps.insert(count , emp)
+                        self.emps.insert(count , emp)
                         self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
                                                  'Hours: ' + str(round((emp.totalHours + temp.seconds) / 3600.0 , 2)),
                                                  'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
 
                 else:
-                    emps.insert(count , emp)
+                    self.emps.insert(count , emp)
                     self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
                                              'Hours: ' + str(round((emp.totalHours) / 3600.0 , 2)) ,
                                              'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
                 count += 1
-        self.after(1000 , self.tick)
+        self.after(15000 , self.tick)
 
 
 #TODO: figure out why the scanner freezes ... read Read.py in MFRC522 class folder
