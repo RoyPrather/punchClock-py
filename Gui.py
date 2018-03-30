@@ -539,19 +539,19 @@ class AlertListbox(Tk.Listbox):
 
                 if emp.clockedIn and (not emp.onLunch):
                     if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,15,0,0,0,0).seconds):
-                        self.insert('end', emp.name + ' Needs To Take A Break')
+                        self.insert('end', 'Needs A Break')
 
                     if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,20,0,0,0,0).seconds) and not emp.tookLunch:
                         if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,35,0,0,0,0).seconds):
-                            self.insert('end' , emp.name + ' Is Working Illegaly')
+                            self.insert('end' , 'Working Illegaly')
 
                         elif (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,30,0,0,0,0).seconds):
                             clockOutTime = datetime.datetime.now() + datetime.timedelta(0,35,0,0,0,0) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
-                            self.insert('end' , emp.name + ' Needs To Clock Out By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute))
+                            self.insert('end' , 'Needs To Leave By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute))
 
                         else:
                             lunchTime = datetime.datetime.now() + datetime.timedelta(0,25,0,0,0,0) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
-                            self.insert('end' , emp.name + ' Needs A Lunch By ' + str(lunchTime.hour) + ':' + str(lunchTime.minute))
+                            self.insert('end' , 'Needs Lunch By ' + str(lunchTime.hour) + ':' + str(lunchTime.minute))
 
         self.after(3000 , self.tick)
 
