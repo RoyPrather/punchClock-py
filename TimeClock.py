@@ -356,7 +356,7 @@ def timeCardListWin() :
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: t.destroy())
-    submitButton.label.bind('<1>' , lambda x: (timeCardDayWin(emps[nameFrame.curselection()[0]]) , t.destroy()))
+    submitButton.label.bind('<1>' , lambda x: (timeCardDayWin(nameFrame.emps[nameFrame.curselection()[0]]) , t.destroy()))
 
 
 def timeCardDayWin(emp):
