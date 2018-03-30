@@ -40,6 +40,7 @@ class RunningHoursListbox(Tk.Listbox):
     def tick(self):
         count = 0
         emps = []
+        self.delete(0,'end')
         for uid in employee.listEmployees():
             emp = employee(uid[0])
             if emp.name != 'admin':
@@ -522,10 +523,23 @@ class AlertListbox(Tk.Listbox):
         self.tick()
 
     def tick(self):
-        self.delete(0 , 'end')
+        self.delete(0,'end')
         for uid in employee.listEmployees():
             emp = employee(uid[0])
             if emp.name != 'admin':
+                emps.insert(count , emp)
+                if emp.onTen:
+                    nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
+                    count += 1
+
+                elif emp.onLunch:
+                    nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
+                    count += 1
+
+                elif emp.clockedIn:
+                    nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
+                    count += 1
+
                 if emp.clockedIn and (not emp.onLunch):
                     if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,0,0,0,45,1).seconds):
                         self.insert('end', emp.name + ' Needs To Take A Break')
