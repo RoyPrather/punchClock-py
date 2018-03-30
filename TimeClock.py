@@ -38,16 +38,16 @@ def clockInWin(uid):
     overTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
     overHours = OverHoursLabel(t , width = setWidth(50) , height = setHeight(10))
 
-    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(18))
-    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(18))
-    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(18))
-    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(18))
-    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(18))
-    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(18))
+    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(20))
+    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(20))
+    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(20))
+    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(20))
+    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(20))
+    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(20))
 
-    sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
+    #sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
     timeCardButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
-    backButton = AutoDestroyButton(t , width = setWidth(30) , height = setHeight(10))
+    backButton = AutoDestroyButton(t , width = setWidth(30) , height = setHeight(20))
 
     # configure widgets
     nameLabel.label.config(text = emp.name)
@@ -81,7 +81,7 @@ def clockInWin(uid):
     lunchInButton.emp = emp
     lunchInButton.alertFunction = earlyLunchWin
     lunchInButton.tick()
-    sendMessageButton.label.configure(text = 'Send Message' , bg = 'red')
+    #sendMessageButton.label.configure(text = 'Send Message' , bg = 'red')
     backButton.label.configure(text = 'Done')
     timeCardButton.label.configure(text = 'Timecard')
 
@@ -93,9 +93,9 @@ def clockInWin(uid):
     todayHours.grid(column = 0 , row = 4)
     overTitle.grid(column = 0 , row = 5)
     overHours.grid(column = 0 , row = 6)
-    backButton.grid(column = 0 , row = 7)
-    sendMessageButton.grid(column = 0 , row = 8)
-    timeCardButton.grid(column = 0 , row = 9)
+    timeCardButton.grid(column = 0 , row = 7)
+    backButton.grid(column = 0 , row = 8 , rowspan = 2)
+    #sendMessageButton.grid(column = 0 , row = 8)
 
     clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
     tenMinOutButton.grid(column = 1 , row = 2 , rowspan = 2)
