@@ -56,7 +56,7 @@ def clockInWin(uid):
     hoursTotal.emp = emp
     hoursTotal.tick()
     todayTitle.label.config(text = 'Hours Worked Today')
-    todayHours.label.config(text = datetime.timedelta(0,emp.hours)
+    todayHours.label.config(text = datetime.timedelta(0,emp.hours))
     todayHours.emp = emp
     todayHours.tick()
     overTitle.label.config(text = 'Over Time')
