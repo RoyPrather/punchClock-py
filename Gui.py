@@ -528,13 +528,13 @@ class AlertListbox(Tk.Listbox):
             emp = employee(uid[0])
             if emp.name != 'admin':
                 if emp.onTen:
-                    self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
+                    self.insert(end , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Ten'))
 
                 elif emp.onLunch:
-                    self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
+                    self.insert(end , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
 
                 elif emp.clockedIn:
-                   self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
+                   self.insert(end , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
 
                 if emp.clockedIn and (not emp.onLunch):
                     if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,0,0,0,45,1).seconds):
@@ -552,7 +552,7 @@ class AlertListbox(Tk.Listbox):
                             lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
                             self.insert('end' , emp.name + ' Needs A Lunch By ' + lunchTime.hour + ':' + lunchTime.minute)
 
-        self.after(1000 , self.tick)
+        self.after(3000 , self.tick)
 
 
 
