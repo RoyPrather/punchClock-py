@@ -535,7 +535,7 @@ class AlertListbox(Tk.Listbox):
                             lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.Hours + (datetime.datetime.now() - emp.lastTime).seconds)
                             self.insert('end' , emp.name + ' Needs A Lunch By ' + lunchTime.hour + ':' + lunchTime.minute)
 
-        self.after(1000 , tick)
+        self.after(1000 , self.tick)
 
 
 
