@@ -35,7 +35,7 @@ class MyScrollBar(Tk.Frame) :
 class RunningHoursListbox(Tk.Listbox):
     def __init__(self , parent , *args , **kwargs) :
         Tk.Listbox.__init__(self , parent , *args , **kwargs)
-        self.emps
+        self.emps = []
         self.tick()
 
     def tick(self):
