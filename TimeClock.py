@@ -94,7 +94,7 @@ def clockInWin(uid):
     overTitle.grid(column = 0 , row = 5)
     overHours.grid(column = 0 , row = 6)
     timeCardButton.grid(column = 0 , row = 7)
-    backButton.grid(column = 0 , row = 9xx , rowspan = 2)
+    backButton.grid(column = 0 , row = 9 , rowspan = 2)
     #sendMessageButton.grid(column = 0 , row = 8)
 
     clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
