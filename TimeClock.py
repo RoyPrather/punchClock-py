@@ -1333,7 +1333,7 @@ scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
 scrollBar = MyScrollBar(mainLog , width = setWidth(10) , height = setHeight(100))
 alertList = AlertListbox(mainLog , width = setWidth(40) , height = setHeight(100) ,
                          yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font ,
-                         justify = 'right' , fg = 'red')
+                         justify = 'right' )
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
