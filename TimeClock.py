@@ -604,7 +604,7 @@ def employeeCheckInListWin():
                 nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
                 count += 1
 
-            else:
+            elif not emp.clockedIn:
                 nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked Out'))
                 count += 1
 
