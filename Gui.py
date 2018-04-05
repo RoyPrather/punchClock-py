@@ -48,7 +48,7 @@ class RunningHoursListbox(Tk.Listbox):
                 if emp.clockedIn and (not emp.onLunch) and (not emp.onTen) :
                     self.emps.insert(count , emp)
                     self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
-                                             'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).seconds) / 3600.0 , 2)) ,
+                                             'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).total_seconds() - emp.overtime) / 3600.0 , 2)) ,
                                              'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
 
                 elif emp.onTen :
@@ -58,25 +58,24 @@ class RunningHoursListbox(Tk.Listbox):
                     if temp2 <= temp :
                         self.emps.insert(count , emp)
                         self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
-                                                 'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).seconds) / 3600.0, 2)),
+                                                 'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).total_seconds() - emp.overtime)   / 3600.0, 2)),
                                                  'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
 
                     else :
                         self.emps.insert(count , emp)
                         self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
-                                                 'Hours: ' + str(round((emp.totalHours + temp.seconds) / 3600.0 , 2)),
+                                                 'Hours: ' + str(round((emp.totalHours + temp.total_seconds() - emp.overtime) / 3600.0 , 2)),
                                                  'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
 
                 else:
                     self.emps.insert(count , emp)
                     self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
-                                             'Hours: ' + str(round((emp.totalHours) / 3600.0 , 2)) ,
+                                             'Hours: ' + str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)) ,
                                              'Overtime: ' + str(round(emp.overtime / 3600.0 , 2))))
                 count += 1
         self.after(15000 , self.tick)
 
 
-#TODO: figure out why the scanner freezes ... read Read.py in MFRC522 class folder
 class ScanLabel(MyLabel) :
     def __init__(self , parent , *args , **kwargs) :
         MyLabel.__init__(self , parent , *args , **kwargs)
@@ -181,17 +180,17 @@ class HoursLabel(MyLabel) :
 
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = datetime.timedelta(0 ,self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds))
+            self.label.config(text = datetime.timedelta(0 ,self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).total_seconds()))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
 
             if temp2 <= temp :
-                self.label.config(text = datetime.timedelta(0 , self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).seconds))
+                self.label.config(text = datetime.timedelta(0 , self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).total_seconds()))
 
             else :
-                self.label.config(text =datetime.timedelta(0 , self.emp.hours + temp.seconds))
+                self.label.config(text =datetime.timedelta(0 , self.emp.hours + temp.total_seconds()))
 
         self.after(300 , self.tick)
 
@@ -205,16 +204,16 @@ class TotalHoursLabel(MyLabel) :
     def tick(self) :
         self.emp = employee(self.emp.uid)
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds - self.emp.overtime) / 3600.0 , 2))
+            self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).total_seconds() - self.emp.overtime) / 3600.0 , 2))
 
         elif self.emp.onTen :
             temp = datetime.timedelta(0 , 600)
             temp2 = datetime.datetime.now() - self.emp.lastTime
             if temp2 <= temp :
-                self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).seconds - self.emp.overtime) / 3600.0 , 2))
+                self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).total_seconds() - self.emp.overtime) / 3600.0 , 2))
 
             else :
-                self.label.config(text = round((self.emp.totalHours + temp.seconds - self.emp.overtime) / 3600.0 , 2))
+                self.label.config(text = round((self.emp.totalHours + temp.total_seconds() - self.emp.overtime) / 3600.0 , 2))
 
         else :
             self.label.configure(text = round((self.emp.totalHours - self.emp.overtime) / 3600.0 , 2))
@@ -230,11 +229,11 @@ class OverHoursLabel(MyLabel) :
 
     def tick(self) :
         if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
-            if self.emp.hours > self.emp.over.seconds :
-                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
+            if self.emp.hours > self.emp.over.total_seconds() :
+                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
-            elif self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
+            elif self.emp.totalHours > (self.emp.overweek.total_seconds() + self.emp.overtime) :
+                self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
             else:
                 self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
@@ -244,22 +243,22 @@ class OverHoursLabel(MyLabel) :
             temp2 = datetime.datetime.now() - self.emp.lastTime
             if temp2 <= temp :
 
-                if self.emp.hours > self.emp.over.seconds :
-                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
+                if self.emp.hours > self.emp.over.total_seconds() :
+                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
-                elif self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).seconds) / 3600.0 , 2))
+                elif self.emp.totalHours > (self.emp.overweek.total_seconds() + self.emp.overtime) :
+                    self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
                 else:
                     self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
 
 
             else :
-                if self.emp.hours > self.emp.over.seconds :
-                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 3600.0 , 2))
+                if self.emp.hours > self.emp.over.total_seconds() :
+                    self.label.config(text = round((self.emp.overtime + temp.total_seconds()) / 3600.0 , 2))
 
-                if self.emp.totalHours > (self.emp.overweek.seconds + self.emp.overtime) :
-                    self.label.config(text = round((self.emp.overtime + temp.seconds) / 3600.0 , 2))
+                if self.emp.totalHours > (self.emp.overweek.total_seconds() + self.emp.overtime) :
+                    self.label.config(text = round((self.emp.overtime + temp.total_seconds()) / 3600.0 , 2))
         else :
             self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
 
@@ -364,11 +363,11 @@ class EndLunchButton(MyLabel) :
 
     def tick(self) :
         now = datetime.datetime.now()
-        if self.emp.onLunch  and (now - self.emp.lastTime).seconds >= self.thirtyMin.seconds:
+        if self.emp.onLunch  and (now - self.emp.lastTime).total_seconds() >= self.thirtyMin.total_seconds():
             self.label.configure(bg = 'green' , relief = "groove")
             self.label.bind('<1>' , lambda x : self.emp.endLunch())
 
-        elif self.emp.onLunch  and (now - self.emp.lastTime).seconds < self.thirtyMin.seconds:
+        elif self.emp.onLunch  and (now - self.emp.lastTime).total_seconds() < self.thirtyMin.total_seconds():
             self.label.configure(bg = 'red' , relief = "ridge")
             self.label.bind('<1>' , lambda x : self.alertFunction(self.emp))
 
@@ -544,19 +543,19 @@ class AlertListbox(Tk.Listbox):
                    self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'Clocked In'))
 
                 if emp.clockedIn and (not emp.onLunch):
-                    if ((datetime.datetime.now() - emp.lastTime).seconds >= datetime.timedelta(0,0,0,0,50,1).seconds):
+                    if ((datetime.datetime.now() - emp.lastTime).total_seconds() >= datetime.timedelta(0,0,0,0,50,1).total_seconds()):
                         self.insert('end', 'Needs A Break Soon')
 
-                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,4).seconds) and not emp.tookLunch:
-                        if (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,6).seconds):
+                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,4).total_seconds()) and not emp.tookLunch:
+                        if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,6).total_seconds()):
                             self.insert('end' , 'Working Illegaly')
 
-                        elif (emp.hours + (datetime.datetime.now() - emp.lastTime).seconds > datetime.timedelta(0,0,0,0,0,5).seconds):
-                            clockOutTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,6) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
+                        elif (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,5).total_seconds()):
+                            clockOutTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,6) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
                             self.insert('end' , 'Needs To Leave By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute))
 
                         else:
-                            lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).seconds)
+                            lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
                             self.insert('end' , 'Needs Lunch By ' + str(lunchTime.hour) + ':' + str(lunchTime.minute))
 
         self.after(3000 , self.tick)

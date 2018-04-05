@@ -138,7 +138,7 @@ class employee:
             if datetime.datetime.now().day != self.lastTime.day:
                 self.hours = 0
                 self.onSplit =0
-            elif (self.hours < self.fiveHours.seconds) and ((datetime.datetime.now() - self.lastTime).seconds >= datetime.timedelta(0,0,0,0,0,2).seconds):
+            elif (self.hours < self.fiveHours.total_seconds()) and ((datetime.datetime.now() - self.lastTime).total_seconds() >= datetime.timedelta(0,0,0,0,0,2).total_seconds()):
                 self.onSplit = 1
             self.lastTime = datetime.datetime.now()
             Log.addEntry(1 , 0 , self.uid , self.lastTime)
@@ -151,7 +151,7 @@ class employee:
 
     def startTen(self):
         if (not self.onTen) and self.clockedIn and (not self.onLunch):
-            temp = (datetime.datetime.now() - self.lastTime).seconds
+            temp = (datetime.datetime.now() - self.lastTime).total_seconds()
             self.hours += temp
             self.totalHours += temp
             self.onTen = 1
@@ -166,20 +166,20 @@ class employee:
             temp2 = datetime.datetime.now() - self.lastTime
             self.lastTime = datetime.datetime.now()
             if temp2 <= temp:
-                self.hours += temp2.seconds
-                self.totalHours += temp2.seconds
-                Log.addEntry(3 , temp2.seconds , self.uid , self.lastTime)
+                self.hours += temp2.total_seconds()
+                self.totalHours += temp2.total_seconds()
+                Log.addEntry(3 , temp2.total_seconds() , self.uid , self.lastTime)
             else:
-                self.hours += temp.seconds
-                self.totalHours += temp.seconds
-                Log.addEntry(3 , temp.seconds , self.uid , self.lastTime)
+                self.hours += temp.total_seconds()
+                self.totalHours += temp.total_seconds()
+                Log.addEntry(3 , temp.total_seconds() , self.uid , self.lastTime)
             self.onTen = 0
             self.updateDB()
 
 
     def startLunch(self):
         if (not self.onTen) and self.clockedIn  and (not self.onLunch):
-            temp = (datetime.datetime.now() - self.lastTime).seconds
+            temp = (datetime.datetime.now() - self.lastTime).total_seconds()
             self.hours += temp
             self.totalHours += temp
             self.onLunch = 1
@@ -200,20 +200,20 @@ class employee:
     def clockOut(self):
         if self.clockedIn and (not self.onLunch) and (not self.onTen):
             temp = datetime.datetime.now() - self.lastTime
-            self.hours += temp.seconds
-            self.totalHours += temp.seconds
+            self.hours += temp.total_seconds()
+            self.totalHours += temp.total_seconds()
             self.lastTime = datetime.datetime.now()
-            Log.addEntry(6 , temp.seconds , self.uid , self.lastTime)
+            Log.addEntry(6 , temp.total_seconds() , self.uid , self.lastTime)
             if not self.onSplit:
-                if self.hours > self.over.seconds:
-                    self.overtime += self.hours - self.over.seconds
-                if self.totalHours > (self.overweek.seconds + self.overtime):
-                    self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
+                if self.hours > self.over.total_seconds():
+                    self.overtime += self.hours - self.over.total_seconds()
+                if self.totalHours > (self.overweek.total_seconds() + self.overtime):
+                    self.overtime += self.totalHours - (self.overweek.total_seconds() + self.overtime)
             else:
-                if self.hours > datetime.timedelta(0,0,0,0,0,10).seconds:
-                    self.overtime += self.hours - datetime.timedelta(0,0,0,0,0,10).seconds
-                if self.totalHours > (self.overweek.seconds + self.overtime):
-                    self.overtime += self.totalHours - (self.overweek.seconds + self.overtime)
+                if self.hours > datetime.timedelta(0,0,0,0,0,10).total_seconds():
+                    self.overtime += self.hours - datetime.timedelta(0,0,0,0,0,10).total_seconds()
+                if self.totalHours > (self.overweek.total_seconds() + self.overtime):
+                    self.overtime += self.totalHours - (self.overweek.total_seconds() + self.overtime)
 
             self.clockedIn = 0
             self.updateDB()

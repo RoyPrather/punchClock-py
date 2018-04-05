@@ -547,10 +547,10 @@ def editTimeCardWin(emp , year , month , day):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: (timeCardWin(emp , year , month , day) , t.destroy()))
-    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
-    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
-    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
-    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
+    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
+    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
+    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
+    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
 
 #TODO: change from hours to current checkin status
 def employeeCheckInListWin():
@@ -992,10 +992,10 @@ def reportEditTimeCardWin(emp , year , month , day):
 
     #bind widgets
     backButton.label.bind('<1>' , lambda x: (reportTimeCardWin(emp , year , month , day) , t.destroy()))
-    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
-    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
-    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
-    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).seconds , year , month , day))
+    addMinuteButton.label.bind('<1>' , lambda x: emp.addTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
+    subMinuteButton.label.bind('<1>' , lambda x: emp.subTime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
+    addOverButton.label.bind('<1>' , lambda x: emp.addOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
+    subOverButton.label.bind('<1>' , lambda x: emp.subOvertime(datetime.timedelta(0 ,0 ,0,0,60 - numSelectBox.curselection()[0]).total_seconds() , year , month , day))
 
 
 def newEmployeeWin():
@@ -1330,9 +1330,7 @@ tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
 mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(50))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
 scrollBar = MyScrollBar(mainLog , width = setWidth(10) , height = setHeight(100))
-alertList = AlertListbox(mainLog , width = setWidth(40) , height = setHeight(100) ,
-                         yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font ,
-                         justify = 'right' )
+alertList = AlertListbox(mainLog , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font , justify = 'right' )
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
