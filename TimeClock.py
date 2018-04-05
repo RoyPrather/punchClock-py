@@ -1326,11 +1326,11 @@ def deleteEmployeeWin(emp):
 
 # create widgets
 bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
-tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(50))
-mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(50))
-scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(50))
+tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(40))
+mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(60))
+scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(40))
 scrollBar = MyScrollBar(mainLog , width = setWidth(10) , height = setHeight(100))
-alertList = AlertListbox(mainLog , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font , justify = 'right' )
+alertList = AlertListbox(mainLog ,  width = setWidth(50) , height = setHeight(100) , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font , justify = 'right' )
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
