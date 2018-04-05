@@ -538,6 +538,8 @@ class AlertListbox(Tk.Listbox):
 
                 elif emp.onLunch:
                     self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'On Lunch'))
+                    temp = emp.lastTime + datetime.timedelta(0,0,0,0,30)
+                    self.insert('end' , 'Return Time  ' + str(temp.hour) + ':' + str(temp.minute))
 
                 elif emp.clockedIn:
                    self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'Clocked In'))
@@ -548,7 +550,7 @@ class AlertListbox(Tk.Listbox):
 
                     if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,4).total_seconds()) and not emp.tookLunch:
                         if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,6).total_seconds()):
-                            self.insert('end' , 'Working Illegaly')
+                            self.insert('end' , 'May Be Working Illegaly')
 
                         elif (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,5).total_seconds()):
                             clockOutTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,6) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
