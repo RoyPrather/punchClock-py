@@ -248,7 +248,6 @@ class employee:
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime:
-            print(seconds)
             self.totalHours += seconds
             if dtime.day == now.day and dtime.year == now.year:
                 self.hours += seconds
