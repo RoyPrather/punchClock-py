@@ -16,7 +16,8 @@ try:
 #if not create one
 except:
     dbi('CREATE TABLE employees (id integer NOT NULL PRIMARY KEY ,name varchar NOT NULL,'
-        'totalHours smallint NOT NULL DEFAULT 0,overtime smallint NOT NULL DEFAULT 0,hours smallint NOT NULL DEFAULT 0,'
+        'totalHours smallint NOT NULL DEFAULT 0, overtime1 smallint NOT NULL DEFAULT 0 ,'
+        'overtime2 smallint NOT NULL DEFAULT 0, hours smallint NOT NULL DEFAULT 0,'
         'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
         'lastTime varchar NOT NULL DEFAULT 0, onSplit boolean NOT NULL DEFAULT 0 , tookLunch boolean NOT NULL DEFAULT 0 ,'
         'uid varchar NOT NULL DEFAULT 0);')
@@ -100,7 +101,9 @@ class employee:
         self.id = (dbi('SELECT id FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.name = (dbi('SELECT name FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.totalHours = (dbi('SELECT totalHours FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
-        self.overtime = (dbi('SELECT overtime FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.overtime1 = (dbi('SELECT overtime1 FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.overtime2 = (dbi('SELECT overtime2 FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.overtime = self.overtime1 + self.overtime2
         self.hours = (dbi('SELECT hours FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.onTen = (dbi('SELECT onTen FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.onLunch = (dbi('SELECT onLunch FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
@@ -126,10 +129,11 @@ class employee:
 
     def updateDB(self):
         dbi('UPDATE employees SET name = "' + self.name + '" ,  totalHours = ' + str(self.totalHours) +
-            ' , overtime = ' + str(self.overtime) + ' , hours = ' + str(self.hours) + ' , onTen  = ' + str(self.onTen) +
+            ' , overtime1 = ' + str(self.overtime1) + ' , overtime2 = ' + str(self.overtime2) + ' , hours = ' + str(self.hours) + ' , onTen  = ' + str(self.onTen) +
             ', onLunch = ' + str(self.onLunch) + ', clockedIn = ' + str(self.clockedIn) + ' , lastTime = "' +
              self.lastTime.strftime(self.format) + '"' + ', onSplit = ' + str(self.onSplit) + ', tookLunch = ' + str(self.tookLunch) +
             ', uid = "' + self.uid + '" WHERE id = ' + str(self.id) + ';')
+        self.overtime = self.overtime1 + self.overtime2
         db.commit()
 
 
@@ -204,17 +208,30 @@ class employee:
             self.totalHours += temp.total_seconds()
             self.lastTime = datetime.datetime.now()
             Log.addEntry(6 , temp.total_seconds() , self.uid , self.lastTime)
-            if not self.onSplit:
-                if self.hours > self.over.total_seconds():
-                    self.overtime += self.hours - self.over.total_seconds()
-                if self.totalHours > (self.overweek.total_seconds() + self.overtime):
-                    self.overtime += self.totalHours - (self.overweek.total_seconds() + self.overtime)
+            pstart = Log(0)
+            pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
+            if (self.lastTime - pdate).days <= 6:
+                if not self.onSplit:
+                    if self.hours > self.over.total_seconds():
+                        self.overtime1 += self.hours - self.over.total_seconds()
+                    if self.totalHours > (self.overweek.total_seconds() + self.overtime1):
+                        self.overtime1 += self.totalHours - (self.overweek.total_seconds() + self.overtime1)
+                else:
+                    if self.hours > datetime.timedelta(0,0,0,0,0,10).total_seconds():
+                        self.overtime1 += self.hours - datetime.timedelta(0,0,0,0,0,10).total_seconds()
+                    if self.totalHours > (self.overweek.total_seconds() + self.overtime1):
+                        self.overtime1 += self.totalHours - (self.overweek.total_seconds() + self.overtime1)
             else:
-                if self.hours > datetime.timedelta(0,0,0,0,0,10).total_seconds():
-                    self.overtime += self.hours - datetime.timedelta(0,0,0,0,0,10).total_seconds()
-                if self.totalHours > (self.overweek.total_seconds() + self.overtime):
-                    self.overtime += self.totalHours - (self.overweek.total_seconds() + self.overtime)
-
+                if not self.onSplit :
+                    if self.hours > self.over.total_seconds() :
+                        self.overtime2 += self.hours - self.over.total_seconds()
+                    if self.totalHours > (self.overweek.total_seconds() + self.overtime2) :
+                        self.overtime2 += self.totalHours - (self.overweek.total_seconds() + self.overtime2)
+                else :
+                    if self.hours > datetime.timedelta(0 , 0 , 0 , 0 , 0 , 10).total_seconds() :
+                        self.overtime2 += self.hours - datetime.timedelta(0 , 0 , 0 , 0 , 0 , 10).total_seconds()
+                    if self.totalHours > (self.overweek.total_seconds() + self.overtime2) :
+                        self.overtime2 += self.totalHours - (self.overweek.total_seconds() + self.overtime2)
             self.clockedIn = 0
             self.updateDB()
 
@@ -257,9 +274,15 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
-            self.totalHours += seconds
-            self.overtime += seconds
-            self.updateDB()
+            if (self.lastTime - pdate).days <= 6:
+                self.totalHours += seconds
+                self.overtime1 += seconds
+                self.updateDB()
+
+            else:
+                self.totalHours += seconds
+                self.overtime2 += seconds
+                self.updateDB()
         Log.addEntry(9 , seconds , self.uid , self.lastTime)
 
 
