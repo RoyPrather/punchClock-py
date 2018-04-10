@@ -135,10 +135,7 @@ def employeeTimeCardDayWin(emp):
     periodStart = Log(0)
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
     dtime = datetime.datetime.now()
-    print(dtime)
-    print(stime)
     tdelta = (dtime - stime).days + 1
-    print(tdelta)
     days = []
     count = 0
     for day in range(tdelta):
@@ -382,10 +379,7 @@ def timeCardDayWin(emp):
     periodStart = Log(0)
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
     dtime = datetime.datetime.now()
-    print(dtime)
-    print(stime)
     tdelta = (dtime - stime).days + 1
-    print(tdelta)
     days = []
     count = 0
     for day in range(tdelta):
@@ -827,10 +821,7 @@ def reportTimeCardDayWin(emp):
     periodStart = Log(0)
     stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
     dtime = datetime.datetime.now()
-    print(dtime)
-    print(stime)
     tdelta = (dtime - stime).days + 1
-    print(tdelta)
     days = []
     count = 0
     for day in range(tdelta):

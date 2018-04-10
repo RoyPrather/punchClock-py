@@ -67,7 +67,7 @@ class Log:
             return dbi('SELECT * FROM log WHERE uid = "' + uid + '";')
 
         except:
-            print('error in getEmployee function, mabey empty table')
+            print('Error in getEmployee function')
 
 
     @classmethod
@@ -274,7 +274,7 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
-            if (self.lastTime - pdate).days <= 6:
+            if (self.lastTime - stime).days <= 6:
                 self.totalHours += seconds
                 self.overtime1 += seconds
                 self.updateDB()
@@ -291,8 +291,12 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
-            self.overtime -= seconds
-            self.updateDB()
+            if (self.lastTime - stime).days <= 6:
+                self.overtime1 -= seconds
+                self.updateDB()
+            else:
+                self.overtime2 -= seconds
+                self.updateDB()
         Log.addEntry(10 , seconds , self.uid , self.lastTime)
 
 
