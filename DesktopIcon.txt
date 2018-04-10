@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Punch Clock
+Comment=Punch Clock
+Icon=/home/pi/Documents/icon.png
+Exec=TimeClock.py
+Type=Application
+Encoding=UTF-8
+Terminal=false
+Categories=None;
