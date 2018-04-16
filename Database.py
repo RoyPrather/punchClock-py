@@ -292,9 +292,11 @@ class employee:
         if dtime >= stime :
             if (self.lastTime - stime).days <= 6:
                 self.overtime1 -= seconds
+                self.totalHours -= seconds
                 self.updateDB()
             else:
                 self.overtime2 -= seconds
+                self.totalHours -= seconds
                 self.updateDB()
         Log.addEntry(10 , seconds , self.uid , self.lastTime)
 
