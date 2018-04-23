@@ -523,7 +523,7 @@ def editTimeCardWin(emp , year , month , day):
     ListboxFrame.pack_propagate(0)
     scrollBar.scrollBar.config(command = numSelectBox.yview)
     for i in range(60):
-        numSelectBox.insert(i, 60 - i)
+        numSelectBox.insert(i, str(60 - i) + "   " + str((60 - i) / 60.0))
 
     #place widgets in window
     hoursTitleLabel.grid(row = 0 , column = 0 )
@@ -722,8 +722,10 @@ def endPeriod():
             file.write('{0:^30}{1:^15}{2:^15}\n\n\n'.format(emp.name , round((emp.totalHours - emp.overtime) / 3600.0 , 2)  , str(round(emp.overtime / 3600.00 , 2))))
             totalHours += emp.totalHours - emp.overtime
             totalOver += emp.overtime
-            emp.overtime = 0
-            emp.totalHours = 0
+            emp.overtime1 = 0
+            emp.overtime2 = 0
+            emp.totalHours1 = 0
+            emp.totalHours2 = 0
             emp.hours = 0
             emp.updateDB()
     file.write('\n Total Regular Hours Paid:   \t' + str(round(totalHours / 3600.00 , 2)) + '\n')
