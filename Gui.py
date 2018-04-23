@@ -559,7 +559,7 @@ class AlertListbox(Tk.Listbox):
                 elif emp.onLunch:
                     self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'On Lunch'))
                     temp = emp.lastTime + datetime.timedelta(0,0,0,0,30)
-                    self.insert('end' , 'Return Time  ' + str(temp.hour) + ':' + str(temp.minute))
+                    self.insert('end' , 'Return Time  ' + str(temp.hour) + ':' + str(temp.minute) + ':' + str(temp.second))
 
                 elif emp.clockedIn:
                    self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'Clocked In'))
@@ -580,6 +580,9 @@ class AlertListbox(Tk.Listbox):
                             lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
                             self.insert('end' , 'Needs Lunch By ' + str(lunchTime.hour) + ':' + str(lunchTime.minute))
 
+                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,30,7).total_seconds()):
+                        clockOutTime = datetime.datetime.now() + datetime.timedelta(0 , 0 , 0 , 0 , 0 , 8) - datetime.timedelta(0 , emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
+                        self.insert('end' , 'Needs To Leave By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute)+ ':' + str(clockOutTime.second) )
         self.after(3000 , self.tick)
 
 
