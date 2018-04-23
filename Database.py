@@ -302,9 +302,9 @@ class employee:
             pstart = Log(0)
             pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
             if (self.lastTime - pdate).days <= 6 :
-                self.totalHours1 += seconds
+                self.totalHours1 -= seconds
             else :
-                self.totalHours2 += seconds
+                self.totalHours2 -= seconds
             if dtime.day == now.day and dtime.year == now.year :
                 self.hours -= seconds
             self.updateDB()
