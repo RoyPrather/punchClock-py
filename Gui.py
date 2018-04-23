@@ -580,9 +580,13 @@ class AlertListbox(Tk.Listbox):
                             lunchTime = datetime.datetime.now() + datetime.timedelta(0,0,0,0,0,5) - datetime.timedelta(0,emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
                             self.insert('end' , 'Needs Lunch By ' + str(lunchTime.hour) + ':' + str(lunchTime.minute))
 
-                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,30,7).total_seconds()):
+                    if (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,7).total_seconds()) and not self.emp.onSplit:
                         clockOutTime = datetime.datetime.now() + datetime.timedelta(0 , 0 , 0 , 0 , 0 , 8) - datetime.timedelta(0 , emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
                         self.insert('end' , 'Needs To Leave By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute)+ ':' + str(clockOutTime.second) )
+
+                    elif (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,9).total_seconds()) and self.emp.onSplit:
+                        clockOutTime = datetime.datetime.now() + datetime.timedelta(0 , 0 , 0 , 0 , 0 , 10) - datetime.timedelta(0 , emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
+                        self.insert('end' , 'Needs To Leave By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute) + ':' + str(clockOutTime.second))
         self.after(3000 , self.tick)
 
 
