@@ -255,7 +255,7 @@ class OverHoursLabel(MyLabel) :
                 if self.emp.hours > self.emp.over.total_seconds() :
                     self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
-                if (self.emp.lastTiem - pdate).days <= 6 :
+                if (self.emp.lastTime - pdate).days <= 6 :
                     if self.emp.totalHours1 > (self.emp.overweek.total_seconds() + self.emp.overtime1) :
                         self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
@@ -272,7 +272,7 @@ class OverHoursLabel(MyLabel) :
                 if self.emp.hours > self.emp.over.total_seconds() :
                     self.label.config(text = round((self.emp.overtime + temp.total_seconds()) / 3600.0 , 2))
 
-                if (self.emp.lastTiem - pdate).days <= 6 :
+                if (self.emp.lastTime - pdate).days <= 6 :
                     if self.emp.totalHours1 > (self.emp.overweek.total_seconds() + self.emp.overtime1) :
                         self.label.config(text = round((self.emp.overtime + temp.total_seconds()) / 3600.0 , 2))
                     else :
