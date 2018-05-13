@@ -20,7 +20,7 @@ except:
         'overtime1 smallint NOT NULL DEFAULT 0 , overtime2 smallint NOT NULL DEFAULT 0, hours smallint NOT NULL DEFAULT 0, '
         'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
         'lastTime varchar NOT NULL DEFAULT 0, onSplit boolean NOT NULL DEFAULT 0 , tookLunch boolean NOT NULL DEFAULT 0 ,'
-        'uid varchar NOT NULL DEFAULT 0);')
+        'onBreak boolean NOT NULL DEFUALT 0 , uid varchar NOT NULL DEFAULT 0);')
 
 #make sure there is a log table
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log"')
@@ -110,6 +110,7 @@ class employee:
         self.hours = (dbi('SELECT hours FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.onTen = (dbi('SELECT onTen FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.onLunch = (dbi('SELECT onLunch FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
+        self.onBreak = (dbi('SELECT onBreak FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.clockedIn = (dbi('SELECT clockedIn FROM employees WHERE uid = ' + self.uid + ';')).fetchall()[0][0]
         self.format = '%Y-%m-%d %H:%M:%S'
         self.over = datetime.timedelta(0,0,0,0,0,8)
@@ -143,7 +144,7 @@ class employee:
 
     def clockIn(self):
         if not self.clockedIn:
-            if datetime.datetime.now().day != self.lastTime.day:
+            if (datetime.datetime.now() - self.lastTime).total_seconds() >= datetime.timedelta(0, 0, 0, 0, 0, 7).total_seconds():
                 self.hours = 0
                 self.onSplit =0
             elif (self.hours < self.fiveHours.total_seconds()) and ((datetime.datetime.now() - self.lastTime).total_seconds() >= datetime.timedelta(0,0,0,0,0,2).total_seconds()):
@@ -153,12 +154,13 @@ class employee:
             self.tookLunch = 0
             self.onTen = 0
             self.onLunch = 0
+            self.onBreak = 0
             self.clockedIn = 1
             self.updateDB()
 
 
     def startTen(self):
-        if (not self.onTen) and self.clockedIn and (not self.onLunch):
+        if (not self.onTen) and self.clockedIn and (not self.onLunch) and (not self.onBreak):
             temp = (datetime.datetime.now() - self.lastTime).total_seconds()
             self.hours += temp
 
@@ -203,7 +205,7 @@ class employee:
 
 
     def startLunch(self):
-        if (not self.onTen) and self.clockedIn  and (not self.onLunch):
+        if (not self.onTen) and self.clockedIn  and (not self.onLunch) and (not self.onBreak):
             temp = (datetime.datetime.now() - self.lastTime).total_seconds()
             self.hours += temp
 
@@ -228,8 +230,35 @@ class employee:
             self.updateDB()
 
 
+    def startBreak(self):
+        if (not self.onTen) and self.clockedIn  and (not self.onLunch) and (not self.onBreak):
+            temp = (datetime.datetime.now() - self.lastTime).total_seconds()
+            self.hours += temp
+
+            pstart = Log(0)
+            pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
+            if (self.lastTime - pdate).days <= 6 :
+                self.totalHours1 += temp
+
+            else :
+                self.totalHours2 += temp
+
+            self.onBreak = 1
+            self.lastTime = datetime.datetime.now()
+            Log.addEntry(11 , temp , self.uid , self.lastTime)
+            self.updateDB()
+
+
+    def endBreak(self):
+        if self.onBreak:
+            self.lastTime = datetime.datetime.now()
+            Log.addEntry(12 , 0 , self.uid , self.lastTime)
+            self.onBreak = 0
+            self.updateDB()
+
+
     def clockOut(self):
-        if self.clockedIn and (not self.onLunch) and (not self.onTen):
+        if self.clockedIn and (not self.onLunch) and (not self.onTen) and (not self.onBreak):
             temp = datetime.datetime.now() - self.lastTime
             self.hours += temp.total_seconds()
 
@@ -237,6 +266,7 @@ class employee:
             pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
             if (self.lastTime - pdate).days <= 6 :
                 self.totalHours1 += temp.total_seconds()
+
             else :
                 self.totalHours2 += temp.total_seconds()
 
@@ -249,22 +279,26 @@ class employee:
                         self.overtime1 += self.hours - self.over.total_seconds()
                     if self.totalHours1 > (self.overweek.total_seconds() + self.overtime1):
                         self.overtime1 += self.totalHours1 - (self.overweek.total_seconds() + self.overtime1)
+
                 else:
                     if self.hours > datetime.timedelta(0,0,0,0,0,10).total_seconds():
                         self.overtime1 += self.hours - datetime.timedelta(0,0,0,0,0,10).total_seconds()
                     if self.totalHours1 > (self.overweek.total_seconds() + self.overtime1):
                         self.overtime1 += self.totalHours1 - (self.overweek.total_seconds() + self.overtime1)
+
             else:
                 if not self.onSplit :
                     if self.hours > self.over.total_seconds() :
                         self.overtime2 += self.hours - self.over.total_seconds()
                     if self.totalHours2 > (self.overweek.total_seconds() + self.overtime2) :
                         self.overtime2 += self.totalHours2 - (self.overweek.total_seconds() + self.overtime2)
+
                 else :
                     if self.hours > datetime.timedelta(0 , 0 , 0 , 0 , 0 , 10).total_seconds() :
                         self.overtime2 += self.hours - datetime.timedelta(0 , 0 , 0 , 0 , 0 , 10).total_seconds()
                     if self.totalHours2 > (self.overweek.total_seconds() + self.overtime2) :
                         self.overtime2 += self.totalHours2 - (self.overweek.total_seconds() + self.overtime2)
+
             self.clockedIn = 0
             self.updateDB()
 
