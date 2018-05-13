@@ -45,7 +45,7 @@ class RunningHoursListbox(Tk.Listbox):
         for uid in employee.listEmployees():
             emp = employee(uid[0])
             if emp.name != 'admin':
-                if emp.clockedIn and (not emp.onLunch) and (not emp.onTen) :
+                if emp.clockedIn and (not emp.onLunch) and (not emp.onTen) and (not emp.onBreak) :
                     self.emps.insert(count , emp)
                     self.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name ,
                                              'Hours: ' + str(round((emp.totalHours + (datetime.datetime.now() - emp.lastTime).total_seconds() - emp.overtime) / 3600.0 , 2)) ,
@@ -179,7 +179,7 @@ class HoursLabel(MyLabel) :
 
 
     def tick(self) :
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
             self.label.config(text = datetime.timedelta(0 ,self.emp.hours + (datetime.datetime.now() - self.emp.lastTime).total_seconds()))
 
         elif self.emp.onTen :
@@ -203,7 +203,7 @@ class TotalHoursLabel(MyLabel) :
 
     def tick(self) :
         self.emp = employee(self.emp.uid)
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
             self.label.config(text = round((self.emp.totalHours + (datetime.datetime.now() - self.emp.lastTime).total_seconds() - self.emp.overtime) / 3600.0 , 2))
 
         elif self.emp.onTen :
@@ -231,7 +231,7 @@ class OverHoursLabel(MyLabel) :
         pstart = Log(0)
         pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
 
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
             if self.emp.hours > self.emp.over.total_seconds() :
                 self.label.config(text = round((self.emp.overtime + (datetime.datetime.now() - self.emp.lastTime).total_seconds()) / 3600.0 , 2))
 
@@ -309,7 +309,7 @@ class ClockOutButton(MyLabel) :
 
 
     def tick(self) :
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
             self.label.configure(bg = 'green' , relief = "groove")
             self.label.bind('<1>' , lambda x : self.emp.clockOut())
 
@@ -327,7 +327,7 @@ class TakeTenButton(MyLabel) :
 
 
     def tick(self) :
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
             self.label.configure(bg = 'green' , relief = "groove")
             self.label.bind('<1>' , lambda x : self.emp.startTen())
 
@@ -363,7 +363,7 @@ class TakeLunchButton(MyLabel) :
 
 
     def tick(self) :
-        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onTen) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
             self.label.configure(bg = 'green' , relief = "groove")
             self.label.bind('<1>' , lambda x : self.emp.startLunch())
 
@@ -390,6 +390,41 @@ class EndLunchButton(MyLabel) :
         elif self.emp.onLunch  and (now - self.emp.lastTime).total_seconds() < self.thirtyMin.total_seconds():
             self.label.configure(bg = 'red' , relief = "ridge")
             self.label.bind('<1>' , lambda x : self.alertFunction(self.emp))
+
+        else :
+            self.label.configure(bg = 'red' , relief = "ridge")
+            self.label.unbind('<1>')
+
+        self.after(300 , self.tick)
+
+
+class TakeBreakButton(MyLabel) :
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.emp = None
+
+
+    def tick(self) :
+        if self.emp.clockedIn and (not self.emp.onLunch) and (not self.emp.onBreak) and (not self.emp.onTen) :
+            self.label.configure(bg = 'green' , relief = "groove")
+            self.label.bind('<1>' , lambda x : self.emp.startBreak())
+
+        else :
+            self.label.configure(bg = 'red' , relief = "ridge")
+            self.label.unbind('<1>')
+
+        self.after(300 , self.tick)
+
+
+class EndBreakButton(MyLabel) :
+    def __init__(self , parent , *args , **kwargs) :
+        MyLabel.__init__(self , parent , *args , **kwargs)
+        self.emp = None
+
+    def tick(self) :
+        if self.emp.onBreak:
+            self.label.configure(bg = 'green' , relief = "groove")
+            self.label.bind('<1>' , lambda x : self.emp.endBreak())
 
         else :
             self.label.configure(bg = 'red' , relief = "ridge")
@@ -560,6 +595,9 @@ class AlertListbox(Tk.Listbox):
                     self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'On Lunch'))
                     temp = emp.lastTime + datetime.timedelta(0,0,0,0,30)
                     self.insert('end' , 'Return Time  ' + str(temp.hour) + ':' + str(temp.minute) + ':' + str(temp.second))
+
+                elif emp.onBreak:
+                    self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'On Unpaid Break'))
 
                 elif emp.clockedIn:
                    self.insert('end' , '{0:<20}{1:<15}'.format(emp.name , 'Clocked In'))
