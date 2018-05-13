@@ -44,7 +44,8 @@ def clockInWin(uid):
     tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(20))
     lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(20))
     lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(20))
-
+    breakInButton = TakeBreakButton(t , width = setWidth(30) , height = setHeight(10))
+    breakOutButton = EndBreakButton(t , width = setWidth(30) , height = setHeight(10))
     #sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
     timeCardButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
     backButton = AutoDestroyButton(t , width = setWidth(30) , height = setHeight(20))
@@ -76,10 +77,17 @@ def clockInWin(uid):
     lunchOutButton.label.configure(text = 'Take Lunch Break')
     lunchOutButton.emp = emp
     lunchOutButton.tick()
-    lunchInButton.label.configure(text = 'Return Lunch Break')
+    lunchInButton.label.configure(text = 'Return From Lunch Break')
     lunchInButton.emp = emp
     lunchInButton.alertFunction = earlyLunchWin
     lunchInButton.tick()
+    breakOutButton.label.configure(text='Take Unpaid Break')
+    breakOutButton.emp = emp
+    breakOutButton.tick()
+    breakInButton.label.configure(text='Return From Unpaid Break')
+    breakInButton.emp = emp
+    breakInButton.tick()
+
     #sendMessageButton.label.configure(text = 'Send Message' , bg = 'red')
     backButton.label.configure(text = 'Done')
     timeCardButton.label.configure(text = 'Timecard')
@@ -93,7 +101,9 @@ def clockInWin(uid):
     overTitle.grid(column = 0 , row = 5)
     overHours.grid(column = 0 , row = 6)
     timeCardButton.grid(column = 0 , row = 7)
-    backButton.grid(column = 0 , row = 9 , rowspan = 2)
+    breakOutButton.grid(column = 0, row = 8)
+    breakInButton.grid(column = 0, row = 9)
+    backButton.grid(column = 0 , row = 10 , rowspan = 2)
     #sendMessageButton.grid(column = 0 , row = 8)
 
     clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
@@ -232,6 +242,18 @@ def employeeTimeCardWin(emp , year , month , day):
         elif entry[8] == 10 :
             LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[7] / 3600.0 , 2)) + 'Overtime Hours')
             hours -= entry[7]
+
+        elif entry[8] == 11:
+            LogListbox.insert('end','Started A Unpaid Break:         ' + str(entry[4]).zfill(2) + ':' +
+                              str(entry[5]).zfill( 2) + ':' + str(entry[6]).zfill(2) +
+                              '.        Added ' + str(round(entry[7] / 3600.0, 2)) + ' Hours')
+            hours += entry[7]
+
+        elif entry[8] == 12:
+            LogListbox.insert('end','Returned From Unpaid Break At:' + str(entry[4]).zfill(2) + ':' +
+                              str(entry[5]).zfill(2) + ':' + str(entry[6]).zfill(2) +
+                              '.        Added ' + str(round(entry[7] / 3600.0, 2)) + ' Hours')
+            hours += entry[7]
 
     hoursLabel.label.configure(text ='Hours This Day  ' + str(round(hours / 3600.0 , 2)))
 
@@ -480,6 +502,16 @@ def timeCardWin(emp , year , month , day):
             LogListbox.insert('end' , 'Manual Change.                Removed: ' + str(round(entry[7] / 3600.0 , 2)) + ' Overtime Hours')
             hours -= entry[7]
 
+        elif entry[8] == 11 :
+            LogListbox.insert('end' , 'Started A Unpaid Break:         ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 3600.0 , 2)) + ' Hours')
+            hours += entry[7]
+
+        elif entry[8] == 12 :
+            LogListbox.insert('end' , 'Returned From Unpaid Break At:' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(2) + ':' + str(
+                entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 3600.0 , 2)) + ' Hours')
+            hours += entry[7]
+
     hoursLabel.label.configure(text ='Hours This Day  ' + str(round(hours / 3600.0 , 2)))
 
    #bind widgets
@@ -593,6 +625,10 @@ def employeeCheckInListWin():
                 nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Lunch'))
                 count += 1
 
+            elif emp.onBreak:
+                nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'On Unpaid'))
+                count += 1
+
             elif emp.clockedIn:
                 nameFrame.insert(count , '{0:>20}{1:>15}{2:>15}'.format(emp.name , ' ' , 'Clocked In'))
                 count += 1
@@ -608,90 +644,96 @@ def employeeCheckInListWin():
 
 # Bring up Clock in Screen
 def employeeClockInWin(uid):
-    # create window
     t = Tk.Toplevel(root)
-    t.attributes('-fullscreen' , True)
+    t.attributes('-fullscreen', True)
     t.lift()
 
     # create employee class instance
     emp = employee(uid)
 
     # create widgets
-    nameLabel = MyLabel(t ,  width = setWidth(50) , height = setHeight(10))
-    hoursTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
-    hoursTotal = TotalHoursLabel(t , width = setWidth(50) , height = setHeight(10))
-    todayTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
-    todayHours = HoursLabel(t , width = setWidth(50) , height = setHeight(10))
-    overTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
-    overHours = OverHoursLabel(t , width = setWidth(50) , height = setHeight(10))
+    nameLabel = MyLabel(t, width=setWidth(50), height=setHeight(10))
+    hoursTitle = MyLabel(t, width=setWidth(50), height=setHeight(10))
+    hoursTotal = TotalHoursLabel(t, width=setWidth(50), height=setHeight(10))
+    todayTitle = MyLabel(t, width=setWidth(50), height=setHeight(10))
+    todayHours = HoursLabel(t, width=setWidth(50), height=setHeight(10))
+    overTitle = MyLabel(t, width=setWidth(50), height=setHeight(10))
+    overHours = OverHoursLabel(t, width=setWidth(50), height=setHeight(10))
 
-    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(18))
-    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(18))
-    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(18))
-    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(18))
-    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(18))
-    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(18))
-
-    sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
-    timeCardButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
-    backButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
+    clockInButton = ClockInButton(t, width=setWidth(50), height=setHeight(20))
+    clockOutButton = ClockOutButton(t, width=setWidth(50), height=setHeight(20))
+    tenMinOutButton = TakeTenButton(t, width=setWidth(50), height=setHeight(20))
+    tenMinInButton = EndTenButton(t, width=setWidth(50), height=setHeight(20))
+    lunchOutButton = TakeLunchButton(t, width=setWidth(50), height=setHeight(20))
+    lunchInButton = EndLunchButton(t, width=setWidth(50), height=setHeight(20))
+    breakInButton = TakeBreakButton(t, width=setWidth(30), height=setHeight(10))
+    breakOutButton = EndBreakButton(t, width=setWidth(30), height=setHeight(10))
+    # sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
+    timeCardButton = MyButton(t, width=setWidth(30), height=setHeight(10))
+    backButton = AutoDestroyButton(t, width=setWidth(30), height=setHeight(20))
 
     # configure widgets
-    nameLabel.label.config(text = emp.name)
-    hoursTitle.label.config(text = 'Total Hours This Period')
-    hoursTotal.label.config(text = str(round((emp.totalHours - emp.overtime) / 3600.0 , 2)))
+    nameLabel.label.config(text=emp.name)
+    hoursTitle.label.config(text='Regular Hours This Period')
     hoursTotal.emp = emp
     hoursTotal.tick()
-    todayTitle.label.config(text = 'Hours Worked Today')
-    todayHours.label.config(text = round(emp.hours / 3600.0 , 2))
+    todayTitle.label.config(text='Hours Worked Today')
     todayHours.emp = emp
     todayHours.tick()
-    overTitle.label.config(text = 'Over Time')
-    overHours.label.config(text = round(emp.overtime / 3600.0 , 2))
+    overTitle.label.config(text='Over Time This Period')
+    overHours.emp = emp
+    overHours.tick()
 
-    clockInButton.label.configure(text = 'Clock In')
+    clockInButton.label.configure(text='Clock In')
     clockInButton.emp = emp
     clockInButton.tick()
-    clockOutButton.label.configure(text = 'Clock Out')
+    clockOutButton.label.configure(text='Clock Out')
     clockOutButton.emp = emp
     clockOutButton.tick()
-    tenMinOutButton.label.configure(text = 'Take 10 Minute Break')
+    tenMinOutButton.label.configure(text='Take 10 Minute Break')
     tenMinOutButton.emp = emp
     tenMinOutButton.tick()
-    tenMinInButton.label.configure(text = 'Return From 10 Minute Break')
+    tenMinInButton.label.configure(text='Return From 10 Minute Break')
     tenMinInButton.emp = emp
     tenMinInButton.tick()
-    lunchOutButton.label.configure(text = 'Take Lunch Break')
+    lunchOutButton.label.configure(text='Take Lunch Break')
     lunchOutButton.emp = emp
     lunchOutButton.tick()
-    lunchInButton.label.configure(text = 'Return Lunch Break')
+    lunchInButton.label.configure(text='Return From Lunch Break')
     lunchInButton.emp = emp
     lunchInButton.alertFunction = earlyLunchWin
     lunchInButton.tick()
-    sendMessageButton.label.configure(text = 'Send Message' , bg = 'red')
-    backButton.label.configure(text = 'Done')
-    timeCardButton.label.configure(text = 'Timecard')
+    breakOutButton.label.configure(text='Take Unpaid Break')
+    breakOutButton.emp = emp
+    breakOutButton.tick()
+    breakInButton.label.configure(text='Return From Unpaid Break')
+    breakInButton.emp = emp
+    breakInButton.tick()
+
+    # sendMessageButton.label.configure(text = 'Send Message' , bg = 'red')
+    backButton.label.configure(text='Done')
+    timeCardButton.label.configure(text='Timecard')
 
     # place widgets in window
-    nameLabel.grid(column = 0 , row = 0)
-    hoursTitle.grid(column = 0 , row = 1)
-    hoursTotal.grid(column = 0 , row = 2)
-    todayTitle.grid(column = 0 , row = 3)
-    todayHours.grid(column = 0 , row = 4)
-    overTitle.grid(column = 0 , row = 5)
-    overHours.grid(column = 0 , row = 6)
-    backButton.grid(column = 0 , row = 7)
-    sendMessageButton.grid(column = 0 , row = 8)
-    timeCardButton.grid(column = 0 , row = 9)
+    nameLabel.grid(column=0, row=0)
+    hoursTitle.grid(column=0, row=1)
+    hoursTotal.grid(column=0, row=2)
+    todayTitle.grid(column=0, row=3)
+    todayHours.grid(column=0, row=4)
+    overTitle.grid(column=0, row=5)
+    overHours.grid(column=0, row=6)
+    timeCardButton.grid(column=0, row=7)
+    breakOutButton.grid(column=0, row=8)
+    breakInButton.grid(column=0, row=9)
+    backButton.grid(column=0, row=10, rowspan=2)
+    # sendMessageButton.grid(column = 0 , row = 8)
 
-    clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
-    tenMinOutButton.grid(column = 1 , row = 2 , rowspan = 2)
-    tenMinInButton.grid(column = 1 , row = 4 , rowspan = 2)
-    lunchOutButton.grid(column = 1 , row = 6 , rowspan = 2)
-    lunchInButton.grid(column = 1 , row = 8 , rowspan = 2)
-    clockOutButton.grid(column = 1 , row = 10 , rowspan = 2)
-
-
+    clockInButton.grid(column=1, row=0, rowspan=2)
+    tenMinOutButton.grid(column=1, row=2, rowspan=2)
+    tenMinInButton.grid(column=1, row=4, rowspan=2)
+    lunchOutButton.grid(column=1, row=6, rowspan=2)
+    lunchInButton.grid(column=1, row=8, rowspan=2)
+    clockOutButton.grid(column=1, row=10, rowspan=2)
 
     # bind widgets
     #sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
@@ -715,6 +757,8 @@ def endPeriod():
                 emp.endTen()
             if emp.onLunch:
                 emp.endLunch()
+            if emp.onBreak:
+                emp.endBreak()
             if emp.clockedIn:
                 emp.clockOut()
             temp = ['Employee Name' , 'Regular Hours' , 'Overtime Hours']
@@ -923,6 +967,20 @@ def reportTimeCardWin(emp , year , month , day):
         elif entry[8] == 10 :
             LogListbox.insert('end' , 'Manual Change.                Removed ' + str(round(entry[7] / 3600.0 , 2)) + 'Overtime Hours')
             hours -= entry[7]
+
+        elif entry[8] == 11:
+            LogListbox.insert('end',
+                              'Started A Unpaid Break:         ' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(
+                                  2) + ':' + str(
+                                  entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 3600.0, 2)) + ' Hours')
+            hours += entry[7]
+
+        elif entry[8] == 12:
+            LogListbox.insert('end',
+                              'Returned From Unpaid Break At:' + str(entry[4]).zfill(2) + ':' + str(entry[5]).zfill(
+                                  2) + ':' + str(
+                                  entry[6]).zfill(2) + '.        Added ' + str(round(entry[7] / 3600.0, 2)) + ' Hours')
+            hours += entry[7]
 
     hoursLabel.label.configure(text ='Hours This Day  ' + str(round(hours / 3600.0 , 2)))
 
@@ -1313,9 +1371,6 @@ def deleteEmployeeWin(emp):
 ##################################
 ######## Root Window design #####
 #################################
-
-#TODO: listbox with days log entrys
-#TODO: alert to take lunch or log out
 
 # create widgets
 bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
