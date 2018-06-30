@@ -308,7 +308,7 @@ class employee:
             if dtime.day == now.day and dtime.year == now.year :
                 self.hours -= seconds
             self.updateDB()
-        Log.addEntry(8 , seconds , self.uid , self.lastTime)
+        Log.addEntry(8 , seconds , self.uid , dtime)
 
 
     def addOvertime(self, seconds , year , month , day):
