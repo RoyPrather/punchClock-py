@@ -342,7 +342,7 @@ class employee:
             if dtime.day == now.day and dtime.year == now.year :
                 self.hours -= seconds
             self.updateDB()
-        Log.addEntry(8 , seconds , self.uid , self.lastTime)
+        Log.addEntry(8 , seconds , self.uid , dtime)
 
 
     def addOvertime(self, seconds , year , month , day):
@@ -359,7 +359,7 @@ class employee:
                 self.totalHours2 += seconds
                 self.overtime2 += seconds
                 self.updateDB()
-        Log.addEntry(9 , seconds , self.uid , self.lastTime)
+        Log.addEntry(9 , seconds , self.uid ,dtime)
 
 
     def subOvertime(self, seconds , year , month , day):
@@ -376,7 +376,7 @@ class employee:
                 self.totalHours2 -= seconds
                 self.updateDB()
 
-        Log.addEntry(10 , seconds , self.uid , self.lastTime)
+        Log.addEntry(10 , seconds , self.uid , dtime)
 
 
     def replaceCard(self , uid):
