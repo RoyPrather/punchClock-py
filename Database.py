@@ -163,7 +163,6 @@ class employee:
         if (not self.onTen) and self.clockedIn and (not self.onLunch) and (not self.onBreak):
             temp = (datetime.datetime.now() - self.lastTime).total_seconds()
             self.hours += temp
-
             pstart = Log(0)
             pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
             if (self.lastTime - pdate).days <= 6 :
@@ -315,9 +314,7 @@ class employee:
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime:
-            pstart = Log(0)
-            pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
-            if (dtime - pdate).days <= 6 :
+            if (dtime - stime).days <= 6 :
                 self.totalHours1 += seconds
             else :
                 self.totalHours2 += seconds
@@ -333,9 +330,7 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
-            pstart = Log(0)
-            pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
-            if (dtime - pdate).days <= 6 :
+            if (dtime - stime).days <= 6 :
                 self.totalHours1 -= seconds
             else :
                 self.totalHours2 -= seconds
