@@ -317,7 +317,7 @@ class employee:
         if dtime >= stime:
             pstart = Log(0)
             pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
-            if (self.lastTime - pdate).days <= 6 :
+            if (dtime - pdate).days <= 6 :
                 self.totalHours1 += seconds
             else :
                 self.totalHours2 += seconds
@@ -335,7 +335,7 @@ class employee:
         if dtime >= stime :
             pstart = Log(0)
             pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
-            if (self.lastTime - pdate).days <= 6 :
+            if (dtime - pdate).days <= 6 :
                 self.totalHours1 -= seconds
             else :
                 self.totalHours2 -= seconds
@@ -350,7 +350,7 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
-            if (self.lastTime - stime).days <= 6:
+            if (dtime - stime).days <= 6:
                 self.totalHours1 += seconds
                 self.overtime1 += seconds
                 self.updateDB()
@@ -367,7 +367,7 @@ class employee:
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
         dtime = datetime.datetime(year , month , day)
         if dtime >= stime :
-            if (self.lastTime - stime).days <= 6:
+            if (dtime - stime).days <= 6:
                 self.overtime1 -= seconds
                 self.totalHours1 -= seconds
                 self.updateDB()
