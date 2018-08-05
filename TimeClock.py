@@ -98,7 +98,7 @@ def clockInWin(uid):
     hoursTotal.grid(column = 0 , row = 3 , rowspan = 2)
     todayTitle.grid(column = 0 , row = 5 , rowspan = 2)
     todayHours.grid(column = 0 , row = 7 , rowspan = 2)
-    overTitle.grid(column = 0 , row = 9 , rowpan = 2)
+    overTitle.grid(column = 0 , row = 9 , rowspan = 2)
     overHours.grid(column = 0 , row = 11 , rowspan= 2)
     timeCardButton.grid(column = 0 , row = 13)
     backButton.grid(column = 0 , row = 14 , rowspan = 2)
@@ -1400,7 +1400,7 @@ scrollBar.pack(fill = 'y' , side = 'right')
 alertList.pack(fill = 'both' , side = 'left')
 
 #bind widgets
-closeButton.label.bind('<1>' , lambda x: root.destroy())
+closeButton.label.bind('<1>' , lambda x: closeProgramWin())
 
 # start program
 root.mainloop()
