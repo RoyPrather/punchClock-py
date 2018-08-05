@@ -1393,9 +1393,9 @@ scrollBar.scrollBar.config(command = alertList.yview)
 
 #bName.grid(column = 1 , row = 0 )
 closeButton.grid(column = 0 , row = 0 )
-tLabel.grid(column = 1 , row = 1)
-mainLog.grid(column = 0 , row = 1, rowspan = 2)
-scanLabel.grid(column = 1 , row = 2)
+tLabel.grid(column = 2 , row = 1)
+mainLog.grid(column = 1 , row = 1, rowspan = 2)
+scanLabel.grid(column = 2 , row = 2)
 scrollBar.pack(fill = 'y' , side = 'right')
 alertList.pack(fill = 'both' , side = 'left')
 
