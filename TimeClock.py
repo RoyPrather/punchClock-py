@@ -114,7 +114,6 @@ def clockInWin(uid):
     clockOutButton.grid(column = 1 , row = 14 , rowspan = 2)
 
 
-
     # bind widgets
     #sendMessageButton.label.bind('<1>' , lambda x: sendMessageWin(emp.name))
     backButton.label.bind('<1>' , lambda x: (toggleOn(scanToggle) , t.destroy()))
@@ -1373,15 +1372,17 @@ def deleteEmployeeWin(emp):
 #################################
 
 # create widgets
-bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
+bName = MyLabel(root , height = setHeight(15), width = setWidth(95))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(40))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(40))
 mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(60))
 scrollBar = MyScrollBar(mainLog , width = setWidth(10) , height = setHeight(100))
 alertList = AlertListbox(mainLog ,  width = setWidth(50) , height = setHeight(100) , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font , justify = 'right' )
+closeButton = MyButton(root , height = setHeight(15) , width = setWidth(5))
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
+closeButton.configure(text = 'X' , font = 'verdana 35 bold' , bg = 'red')
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
 scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
@@ -1391,12 +1392,16 @@ mainLog.pack_propagate(0)
 scrollBar.scrollBar.config(command = alertList.yview)
 
 # place Widgets
-bName.grid(column = 0 , row = 0 , columnspan = 2)
+bName.grid(column = 1 , row = 0 )
+closeButton.gird(column = 0 , row = 0 )
 tLabel.grid(column = 1 , row = 1)
 mainLog.grid(column = 0 , row = 1, rowspan = 2)
 scanLabel.grid(column = 1 , row = 2)
 scrollBar.pack(fill = 'y' , side = 'right')
 alertList.pack(fill = 'both' , side = 'left')
+
+#bind widgets
+closeButton.bind('<1>' , lambda x: root.destroy())
 
 # start program
 root.mainloop()
