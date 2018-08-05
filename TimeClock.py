@@ -1372,7 +1372,7 @@ def deleteEmployeeWin(emp):
 #################################
 
 # create widgets
-bName = MyLabel(root , height = setHeight(15), width = setWidth(95))
+bName = MyLabel(root , height = setHeight(15), width = setWidth(40))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(40))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(40))
 mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(60))
