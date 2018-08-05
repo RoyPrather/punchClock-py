@@ -1393,7 +1393,7 @@ scrollBar.scrollBar.config(command = alertList.yview)
 
 # place Widgets
 bName.grid(column = 1 , row = 0 )
-closeButton.gird(column = 0 , row = 0 )
+closeButton.grid(column = 0 , row = 0 )
 tLabel.grid(column = 1 , row = 1)
 mainLog.grid(column = 0 , row = 1, rowspan = 2)
 scanLabel.grid(column = 1 , row = 2)
