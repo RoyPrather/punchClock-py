@@ -1382,7 +1382,7 @@ closeButton = MyButton(root , height = setHeight(15) , width = setWidth(5))
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
-closeButton.configure(text = 'X' , font = 'verdana 35 bold' , bg = 'red')
+closeButton.label.configure(text = 'X' , font = 'verdana 35 bold' , bg = 'red')
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
 scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
