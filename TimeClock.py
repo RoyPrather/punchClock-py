@@ -1372,7 +1372,7 @@ def deleteEmployeeWin(emp):
 #################################
 
 # create widgets
-bName = MyLabel(root , height = setHeight(15), width = setWidth(40))
+#bName = MyLabel(root , height = setHeight(15), width = setWidth(40))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(40))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(40))
 mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(60))
@@ -1381,7 +1381,7 @@ alertList = AlertListbox(mainLog ,  width = setWidth(50) , height = setHeight(10
 closeButton = MyButton(root , height = setHeight(15) , width = setWidth(5))
 
 #configure Widgets
-bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
+#bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
 closeButton.label.configure(text = 'X' , font = 'verdana 35 bold' , bg = 'red')
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
 scanLabel.function = clockInWin
@@ -1391,8 +1391,7 @@ tLabel.label.configure(font = 'verdana 30 bold')
 mainLog.pack_propagate(0)
 scrollBar.scrollBar.config(command = alertList.yview)
 
-# place Widgets
-bName.grid(column = 1 , row = 0 )
+#bName.grid(column = 1 , row = 0 )
 closeButton.grid(column = 0 , row = 0 )
 tLabel.grid(column = 1 , row = 1)
 mainLog.grid(column = 0 , row = 1, rowspan = 2)
@@ -1401,7 +1400,7 @@ scrollBar.pack(fill = 'y' , side = 'right')
 alertList.pack(fill = 'both' , side = 'left')
 
 #bind widgets
-closeButton.bind('<1>' , lambda x: root.destroy())
+closeButton.label.bind('<1>' , lambda x: root.destroy())
 
 # start program
 root.mainloop()
