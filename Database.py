@@ -20,7 +20,7 @@ except:
         'overtime1 smallint NOT NULL DEFAULT 0 , overtime2 smallint NOT NULL DEFAULT 0, hours smallint NOT NULL DEFAULT 0, '
         'onTen boolean NOT NULL DEFAULT 0,onLunch boolean NOT NULL DEFAULT 0,clockedIn boolean NOT NULL DEFAULT 0,'
         'lastTime varchar NOT NULL DEFAULT 0, onSplit boolean NOT NULL DEFAULT 0 , tookLunch boolean NOT NULL DEFAULT 0 ,'
-        'onBreak boolean NOT NULL DEFUALT 0 , uid varchar NOT NULL DEFAULT 0);')
+        'onBreak boolean NOT NULL DEFAULT 0 , uid varchar NOT NULL DEFAULT 0);')
 
 #make sure there is a log table
 temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log"')
