@@ -38,14 +38,14 @@ def clockInWin(uid):
     overTitle = MyLabel(t , width = setWidth(50) , height = setHeight(10))
     overHours = OverHoursLabel(t , width = setWidth(50) , height = setHeight(10))
 
-    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(20))
-    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(20))
-    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(20))
-    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(20))
-    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(20))
-    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(20))
-    breakInButton = TakeBreakButton(t , width = setWidth(30) , height = setHeight(10))
-    breakOutButton = EndBreakButton(t , width = setWidth(30) , height = setHeight(10))
+    clockInButton = ClockInButton(t , width = setWidth(50) , height = setHeight(15))
+    clockOutButton = ClockOutButton(t , width = setWidth(50) , height = setHeight(15))
+    tenMinOutButton = TakeTenButton(t , width = setWidth(50) , height = setHeight(15))
+    tenMinInButton = EndTenButton(t , width = setWidth(50) , height = setHeight(15))
+    lunchOutButton = TakeLunchButton(t , width = setWidth(50) , height = setHeight(15))
+    lunchInButton = EndLunchButton(t , width = setWidth(50) , height = setHeight(15))
+    breakOutButton = TakeBreakButton(t , width = setWidth(50) , height = setHeight(15))
+    breakInButton = EndBreakButton(t , width = setWidth(50) , height = setHeight(15))
     #sendMessageButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
     timeCardButton = MyButton(t , width = setWidth(30) , height = setHeight(10))
     backButton = AutoDestroyButton(t , width = setWidth(30) , height = setHeight(20))
@@ -94,16 +94,14 @@ def clockInWin(uid):
 
     # place widgets in window
     nameLabel.grid(column = 0 , row = 0)
-    hoursTitle.grid(column = 0 , row = 1)
-    hoursTotal.grid(column = 0 , row = 2)
-    todayTitle.grid(column = 0 , row = 3)
-    todayHours.grid(column = 0 , row = 4)
-    overTitle.grid(column = 0 , row = 5)
-    overHours.grid(column = 0 , row = 6)
-    timeCardButton.grid(column = 0 , row = 7)
-    breakOutButton.grid(column = 0, row = 8)
-    breakInButton.grid(column = 0, row = 9)
-    backButton.grid(column = 0 , row = 10 , rowspan = 2)
+    hoursTitle.grid(column = 0 , row = 1 , rowspan = 2)
+    hoursTotal.grid(column = 0 , row = 3 , rowspan = 2)
+    todayTitle.grid(column = 0 , row = 5 , rowspan = 2)
+    todayHours.grid(column = 0 , row = 7 , rowspan = 2)
+    overTitle.grid(column = 0 , row = 9 , rowspan = 2)
+    overHours.grid(column = 0 , row = 11 , rowspan= 2)
+    timeCardButton.grid(column = 0 , row = 13)
+    backButton.grid(column = 0 , row = 14 , rowspan = 2)
     #sendMessageButton.grid(column = 0 , row = 8)
 
     clockInButton.grid(column = 1 , row = 0 , rowspan = 2)
@@ -111,8 +109,9 @@ def clockInWin(uid):
     tenMinInButton.grid(column = 1 , row = 4 , rowspan = 2)
     lunchOutButton.grid(column = 1 , row = 6 , rowspan = 2)
     lunchInButton.grid(column = 1 , row = 8 , rowspan = 2)
-    clockOutButton.grid(column = 1 , row = 10 , rowspan = 2)
-
+    breakOutButton.grid(column = 1, row = 10 , rowspan = 2)
+    breakInButton.grid(column = 1, row = 12 , rowspan = 2)
+    clockOutButton.grid(column = 1 , row = 14 , rowspan = 2)
 
 
     # bind widgets
@@ -1373,15 +1372,17 @@ def deleteEmployeeWin(emp):
 #################################
 
 # create widgets
-bName = MyLabel(root , height = setHeight(15), width = setWidth(100))
+bName = MyLabel(root , height = setHeight(15), width = setWidth(95))
 tLabel = TimeLabel(root , height = setHeight(50) , width = setWidth(40))
 scanLabel = ScanLabel(root , height = setHeight(50) , width = setWidth(40))
 mainLog = Tk.Frame(root , height = setHeight(100) , width = setWidth(60))
 scrollBar = MyScrollBar(mainLog , width = setWidth(10) , height = setHeight(100))
 alertList = AlertListbox(mainLog ,  width = setWidth(50) , height = setHeight(100) , yscrollcommand = scrollBar.scrollBar.set , selectmode = 'single' , font = font , justify = 'right' )
+closeButton = MyButton(root , height = setHeight(15) , width = setWidth(5))
 
 #configure Widgets
 bName.label.configure(text = 'Firehouse Pizza' , font = 'verdana 35 bold')
+closeButton.label.configure(text = 'X' , font = 'verdana 35 bold' , bg = 'red')
 scanLabel.label.config(text = 'Please Scan Card' , bg = 'red')
 scanLabel.function = clockInWin
 scanLabel.adminfunc = adminWin
@@ -1390,13 +1391,16 @@ tLabel.label.configure(font = 'verdana 30 bold')
 mainLog.pack_propagate(0)
 scrollBar.scrollBar.config(command = alertList.yview)
 
-# place Widgets
-bName.grid(column = 0 , row = 0 , columnspan = 2)
-tLabel.grid(column = 1 , row = 1)
-mainLog.grid(column = 0 , row = 1, rowspan = 2)
-scanLabel.grid(column = 1 , row = 2)
+bName.grid(column = 1 , row = 0 , columnspan = 2)
+closeButton.grid(column = 0 , row = 0 )
+tLabel.grid(column = 2 , row = 1)
+mainLog.grid(column = 1 , row = 1 , rowspan = 2)
+scanLabel.grid(column = 2 , row = 2)
 scrollBar.pack(fill = 'y' , side = 'right')
 alertList.pack(fill = 'both' , side = 'left')
+
+#bind widgets
+closeButton.label.bind('<1>' , lambda x: closeProgramWin())
 
 # start program
 root.mainloop()
