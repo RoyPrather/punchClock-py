@@ -136,7 +136,7 @@ class employee:
             ' , overtime1 = ' + str(self.overtime1) + ' , overtime2 = ' + str(self.overtime2) + ' , hours = ' + str(self.hours) + ' , onTen  = ' + str(self.onTen) +
             ', onLunch = ' + str(self.onLunch) + ', clockedIn = ' + str(self.clockedIn) + ' , lastTime = "' +
              self.lastTime.strftime(self.format) + '"' + ', onSplit = ' + str(self.onSplit) + ', tookLunch = ' + str(self.tookLunch) +
-            ', uid = "' + self.uid + '" WHERE id = ' + str(self.id) + ';')
+            ', uid = "' + self.uid + '", onBreak = "' + str(self.onBreak) + '" WHERE id = ' + str(self.id) + ';')
         self.totalHours = self.totalHours1 + self.totalHours2
         self.overtime = self.overtime1 + self.overtime2
         db.commit()
@@ -238,7 +238,6 @@ class employee:
             pdate = datetime.datetime(pstart.year , pstart.month , pstart.day)
             if (self.lastTime - pdate).days <= 6 :
                 self.totalHours1 += temp
-
             else :
                 self.totalHours2 += temp
 
