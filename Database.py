@@ -9,7 +9,7 @@ dbi = db.execute
 
 
 #make sure there is an emoloyee table
-temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="employees"')
+temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="employees";')
 try:
     temp.fetchall()[0][0]
 
@@ -23,7 +23,7 @@ except:
         'onBreak boolean NOT NULL DEFAULT 0 , uid varchar NOT NULL DEFAULT 0);')
 
 #make sure there is a log table
-temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log"')
+temp = dbi('SELECT name FROM sqlite_master WHERE type="table" AND name="log" ;')
 try:
     temp.fetchall()[0][0]
 
@@ -73,7 +73,7 @@ class Log:
     @classmethod
     def getDay(cls ,year , month , day , uid):
         try:
-            return dbi('SELECT * FROM log WHERE uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ';')
+            return dbi('SELECT * FROM log WHERE (uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ' AND hour > 3) OR (uid = "' + str(uid) + '" AND day = ' + str(day + 1) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ' AND hour < 3);')
 
         except:
             print('error in getDay function, mabey empty table')
