@@ -76,7 +76,7 @@ class Log:
             return dbi('SELECT * FROM log WHERE (uid = "' + str(uid) + '" AND day = ' + str(day) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ' AND hour > 3) OR (uid = "' + str(uid) + '" AND day = ' + str(day + 1) + ' AND month = ' + str(month) + ' AND year = ' + str(year) + ' AND hour < 3);')
 
         except:
-            print('error in getDay function, mabey empty table')
+            print('error in getDay function, maybe empty table')
 
 
     @classmethod
@@ -311,7 +311,7 @@ class employee:
         periodStart = Log(0)
         now = datetime.datetime.now()
         stime = datetime.datetime(periodStart.year, periodStart.month, periodStart.day)
-        dtime = datetime.datetime(year , month , day)
+        dtime = datetime.datetime(year , month , day ,now.hour)
         if dtime >= stime:
             if (dtime - stime).days <= 6 :
                 self.totalHours1 += seconds
