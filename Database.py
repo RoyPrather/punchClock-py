@@ -327,7 +327,7 @@ class employee:
         periodStart = Log(0)
         now = datetime.datetime.now()
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
-        dtime = datetime.datetime(year , month , day)
+        dtime = datetime.datetime(year , month , day ,now.hour)
         if dtime >= stime :
             if (dtime - stime).days <= 6 :
                 self.totalHours1 -= seconds
@@ -341,8 +341,9 @@ class employee:
 
     def addOvertime(self, seconds , year , month , day):
         periodStart = Log(0)
+        now = datetime.datetime.now()
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
-        dtime = datetime.datetime(year , month , day)
+        dtime = datetime.datetime(year , month , day ,now.hour)
         if dtime >= stime :
             if (dtime - stime).days <= 6:
                 self.totalHours1 += seconds
@@ -358,8 +359,9 @@ class employee:
 
     def subOvertime(self, seconds , year , month , day):
         periodStart = Log(0)
+        now = datetime.datetime.now()
         stime = datetime.datetime(periodStart.year , periodStart.month , periodStart.day)
-        dtime = datetime.datetime(year , month , day)
+        dtime = datetime.datetime(year , month , day ,now.hour)
         if dtime >= stime :
             if (dtime - stime).days <= 6:
                 self.overtime1 -= seconds
