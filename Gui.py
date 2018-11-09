@@ -282,6 +282,8 @@ class OverHoursLabel(MyLabel) :
                         self.label.config(text = round((self.emp.overtime + temp.total_seconds()) / 3600.0 , 2))
                     else :
                         self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
+        if !(self.emp.clockedIn):
+            self.label.configure(text = round(self.emp.overtime / 3600.0 , 2))
         self.after(300 , self.tick)
 
 
@@ -641,6 +643,3 @@ class AlertListbox(Tk.Listbox):
             #from subprocess import call
             #call('sudo shutdown now', shell = False)
         self.after(3600 , self.tick)
-
-
-
