@@ -625,7 +625,22 @@ class AlertListbox(Tk.Listbox):
                     elif (emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds() > datetime.timedelta(0,0,0,0,0,9).total_seconds()) and emp.onSplit:
                         clockOutTime = datetime.datetime.now() + datetime.timedelta(0 , 0 , 0 , 0 , 0 , 10) - datetime.timedelta(0 , emp.hours + (datetime.datetime.now() - emp.lastTime).total_seconds())
                         self.insert('end' , 'Needs To Leave By ' + str(clockOutTime.hour) + ':' + str(clockOutTime.minute) + ':' + str(clockOutTime.second))
-        self.after(3000 , self.tick)
+        now = datetime.datetime.now()
+        if (now.hour == 2 and now.minute < 55 ):
+            for uid in employee.listEmployees() :
+                emp = employee(uid[0])
+                if emp.name != 'admin' :
+                    if emp.onTen :
+                        emp.endTen()
+                    if emp.onLunch :
+                        emp.endLunch()
+                    if emp.onBreak :
+                        emp.endBreak()
+                    if emp.clockedIn :
+                        emp.clockOut()
+            #from subprocess import call
+            #call('sudo shutdown now', shell = False)
+        self.after(3600 , self.tick)
 
 
 
