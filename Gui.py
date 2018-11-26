@@ -120,11 +120,11 @@ class ScanLabel(MyLabel) :
             # Scan for cards
             (status , TagType) = reader.MFRC522_Request(reader.PICC_REQIDL)
             # If a card is found
-            if status :
+            if status == reader.MI_OK:
                 # Get the UID of the card
                 (status , uid) = reader.MFRC522_Anticoll()
                 # If we have the UID, continue
-                if uid :
+                if status == reader.MI_OK:
                     self.uid = str(uid[0])+str(uid[1])+str(uid[2])+str(uid[3])
                     try:
                         emp = employee(self.uid)
