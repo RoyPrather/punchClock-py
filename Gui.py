@@ -86,11 +86,11 @@ class ScanLabel(MyLabel) :
 
     def startUp(self):
         temp = dbi('SELECT uid FROM employees WHERE name = "admin"')
-        #try :
+        try :
             temp.fetchall()[0][0]
             self.tick()
-        #except :
-        #    self.createAdmin()
+        except :
+            self.createAdmin()
 
 
     def createAdmin(self) :
